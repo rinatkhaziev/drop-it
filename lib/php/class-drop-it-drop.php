@@ -1,7 +1,10 @@
 <?php
+/**
+ * Base class that should be extended on a per drop basis
+ */
 class DropIt_Drop {
 	public $id,
-		   $label, 
+		   $label,
 		   $template,
 		   $options;
 
@@ -9,8 +12,12 @@ class DropIt_Drop {
 		$this->id = $id;
 		$this->label = $label;
 		$this->template = $template;
+		$this->options = $options;
 	}
 
 	function render() {
+	}
+
+	abstract function datasource() {
 	}
 }

@@ -39,7 +39,6 @@ class DropIt {
 
 	function __construct( $drops = array() ) {
 		add_action( 'after_setup_theme', 'action_init' );
-		$this->register_drops( $drops );
 	}
 
 	function register_drops() {
@@ -60,6 +59,8 @@ class DropIt {
 				'menu_position' => null,
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 			) );
+		// Must register drops after we register our post type
+		$this->register_drops( apply_filters( 'di_available_Drops', $drops ) );
 	}
 
 	function save() {
