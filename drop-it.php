@@ -40,6 +40,7 @@ class DropIt {
 	function __construct( $drops = array() ) {
 		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
+		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 	}
 
 	function register_drops() {
@@ -72,6 +73,7 @@ class DropIt {
 	 * @return [type] [description]
 	 */
 	function activation() {
+		// Make sure our post type rewrite is registered
 		flush_rewrite_rules();
 	}
 
@@ -101,7 +103,7 @@ class DropIt {
 	/**
 	 * Just a convenience wrapper that returns array of reference to the instance and a method
 	 * Used for registering hooks
-	 * 
+	 *
 	 * @param  [type] $method [description]
 	 * @return [type]         [description]
 	 */
