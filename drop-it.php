@@ -38,7 +38,8 @@ class DropIt {
 	public $drops;
 
 	function __construct( $drops = array() ) {
-		add_action( 'after_setup_theme', 'action_init' );
+		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
+		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
 	}
 
 	function register_drops() {
@@ -60,11 +61,26 @@ class DropIt {
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 			) );
 		// Must register drops after we register our post type
-		$this->register_drops( apply_filters( 'di_available_Drops', $drops ) );
+		$this->register_drops( apply_filters( 'di_available_drops', $drops ) );
 	}
 
 	function save() {
+	}
 
+	/**
+	 * Do activation specific stuff
+	 * @return [type] [description]
+	 */
+	function activation() {
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Clean after ourselves
+	 * @return [type] [description]
+	 */
+	function deactivation() {
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -79,6 +95,18 @@ class DropIt {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_ROOT . '/lib/js/drop-it.js', array( 'jquery' ) );
+	}
+
+	/**
+	 * Just a convenience wrapper that returns array of reference to the instance and a method
+	 * Used for registering hooks
+	 * 
+	 * @param  [type] $method [description]
+	 * @return [type]         [description]
+	 */
+	private function _a( $method ) {
+		return array( $this, $method );
 
 	}
 }
