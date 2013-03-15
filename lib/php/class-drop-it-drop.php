@@ -5,11 +5,12 @@ class DropIt_Drop {
 		   $template,
 		   $options;
 
-	function __construct() {
+	function __construct( $id, $label, $template, $options = array() ) {
+		$this->id = $id;
+		$this->label = $label;
+		$this->template = $template;
 	}
 
 	function render() {
 	}
-
-		   
 }

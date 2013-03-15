@@ -2,7 +2,7 @@
 /*
 Plugin Name: Drop It
 Plugin URI: http://digitallyconscious.com
-Description: Free drag and drop layout management for WordPress
+Description: Easy drag and drop layout management for WordPress
 Author: Rinat Khaziev
 Version: 0.1
 Author URI: http://doejo.com
@@ -37,8 +37,12 @@ class DropIt {
 
 	public $drops;
 
-	function __construct() {
-		add_action( 'init', 'action_init' );
+	function __construct( $drops = array() ) {
+		add_action( 'after_setup_theme', 'action_init' );
+		$this->register_drops( $drops );
+	}
+
+	function register_drops() {
 	}
 
 	function action_init() {
@@ -49,7 +53,7 @@ class DropIt {
 				'show_ui' => true,
 				'show_in_menu' => true,
 				'query_var' => true,
-				'rewrite' => array( 'slug' => _x( 'drop', 'Drop slug', 'drop-it' ) ),
+				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
 				'capability_type' => 'post',
 				'has_archive' => true,
 				'hierarchical' => false,
@@ -62,9 +66,20 @@ class DropIt {
 
 	}
 
+	/**
+	 * Preview a drop
+	 * @return [type] [description]
+	 */
 	function preview() {
+	}
+
+	/**
+	 * Register Admin scripts and styles
+	 * @return [type] [description]
+	 */
+	function admin_enqueue_scripts() {
 
 	}
 }
 
-$dropit = new DropIt;
+$drop_it = new DropIt();
