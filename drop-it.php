@@ -70,7 +70,7 @@ class Drop_It {
 	}
 
 	function action_admin_menu() {
-		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key, $this->_a( 'admin_page' ), '', 11 );
+		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key, $this->_a( 'admin_page' ), DROP_IT_URL .'lib/css/img/drop-it-icon.png', 11 );
 		add_submenu_page( $this->key, __( 'Drops', 'dropit' ), __( 'Drops', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
 		add_submenu_page( $this->key, __( 'Layouts', 'dropit' ), __( 'Layouts', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
