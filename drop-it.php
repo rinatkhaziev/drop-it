@@ -33,7 +33,7 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 // Bootstrap
 require_once DROP_IT_ROOT . '/lib/php/class-drop-it-drop.php';
 
-class DropIt {
+class Drop_It {
 
 	public $drops;
 	public $key = 'drop-it';
@@ -54,7 +54,7 @@ class DropIt {
 				'public' => true,
 				'publicly_queryable' => true,
 				'show_ui' => true,
-				'show_in_menu' => true,
+				'show_in_menu' => false,
 				'query_var' => true,
 				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
 				'capability_type' => 'post',
@@ -124,4 +124,4 @@ class DropIt {
 	}
 }
 
-$dropit = new DropIt;
+$dropit = new Drop_It;
