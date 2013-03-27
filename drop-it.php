@@ -36,10 +36,12 @@ require_once DROP_IT_ROOT . '/lib/php/class-drop-it-drop.php';
 class DropIt {
 
 	public $drops;
+	public $key = 'drop-it';
 
 	function __construct( $drops = array() ) {
 		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
+		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 	}
 
@@ -61,8 +63,14 @@ class DropIt {
 				'menu_position' => null,
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 			) );
+		register_post_type( 'di-layout', array(
+			) );
 		// Must register drops after we register our post type
 		$this->register_drops( apply_filters( 'di_available_drops', $drops ) );
+	}
+
+	function action_admin_menu() {
+		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key, $this->_a( 'admin_page' ), '', 11 );
 	}
 
 	function save() {
@@ -92,6 +100,9 @@ class DropIt {
 	function preview() {
 	}
 
+	function admin_page() {
+
+	}
 	/**
 	 * Register Admin scripts and styles
 	 * @return [type] [description]
