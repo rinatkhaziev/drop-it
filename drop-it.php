@@ -2,7 +2,7 @@
 /*
 Plugin Name: Drop It
 Plugin URI: http://digitallyconscious.com
-Description: Free drag and drop layout management for WordPress
+Description: Easy drag and drop layout management for WordPress
 Author: Rinat Khaziev
 Version: 0.1
 Author URI: http://doejo.com
@@ -37,8 +37,13 @@ class DropIt {
 
 	public $drops;
 
-	function __construct() {
-		add_action( 'init', 'action_init' );
+	function __construct( $drops = array() ) {
+		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
+		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
+		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
+	}
+
+	function register_drops() {
 	}
 
 	function action_init() {
@@ -49,20 +54,61 @@ class DropIt {
 				'show_ui' => true,
 				'show_in_menu' => true,
 				'query_var' => true,
-				'rewrite' => array( 'slug' => _x( 'drop', 'Drop slug', 'drop-it' ) ),
+				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
 				'capability_type' => 'post',
 				'has_archive' => true,
 				'hierarchical' => false,
 				'menu_position' => null,
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 			) );
+		// Must register drops after we register our post type
+		$this->register_drops( apply_filters( 'di_available_drops', $drops ) );
 	}
 
 	function save() {
-
 	}
 
+	/**
+	 * Do activation specific stuff
+	 * @return [type] [description]
+	 */
+	function activation() {
+		// Make sure our post type rewrite is registered
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Clean after ourselves
+	 * @return [type] [description]
+	 */
+	function deactivation() {
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Preview a drop
+	 * @return [type] [description]
+	 */
 	function preview() {
+	}
+
+	/**
+	 * Register Admin scripts and styles
+	 * @return [type] [description]
+	 */
+	function admin_enqueue_scripts() {
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_ROOT . '/lib/js/drop-it.js', array( 'jquery' ) );
+	}
+
+	/**
+	 * Just a convenience wrapper that returns array of reference to the instance and a method
+	 * Used for registering hooks
+	 *
+	 * @param  [type] $method [description]
+	 * @return [type]         [description]
+	 */
+	private function _a( $method ) {
+		return array( $this, $method );
 
 	}
 }
