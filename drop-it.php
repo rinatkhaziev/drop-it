@@ -37,12 +37,15 @@ class Drop_It {
 
 	public $drops;
 	public $key = 'drop-it';
+	public $manage_cap;
 
 	function __construct( $drops = array() ) {
 		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
+		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
+		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 	}
 
 	function register_drops() {
@@ -70,9 +73,29 @@ class Drop_It {
 	}
 
 	function action_admin_menu() {
-		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key, $this->_a( 'admin_page' ), DROP_IT_URL .'lib/css/img/drop-it-icon.png', 11 );
-		add_submenu_page( $this->key, __( 'Drops', 'dropit' ), __( 'Drops', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-		add_submenu_page( $this->key, __( 'Layouts', 'dropit' ), __( 'Layouts', 'dropit' ), apply_filters( 'di_manage_cap', 'edit_others_posts' ), $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
+		add_submenu_page( $this->key, __( 'Drops', 'dropit' ), __( 'Drops', 'dropit' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
+		add_submenu_page( $this->key, __( 'Layouts', 'dropit' ), __( 'Layouts', 'dropit' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+	}
+
+	/**
+	 * Some custom icon css handling
+	 *
+	 */
+	function action_admin_head() {
+		ob_start();
+		?>
+<style>
+.toplevel_page_drop-it .wp-menu-image {
+	background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon.png");
+	background-position: center center;
+}
+.toplevel_page_drop-it.wp-has-current-submenu .wp-menu-image {
+	background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon-active.png");
+}
+</style>
+	<?php
+	echo ob_get_clean();
 	}
 
 	function save() {
@@ -132,7 +155,8 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_ROOT . '/lib/js/drop-it.js', array( 'jquery' ) );
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery' ) );
+		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 	}
 
 	/**
