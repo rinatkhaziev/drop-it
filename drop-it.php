@@ -32,12 +32,15 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 
 // Bootstrap
 require_once DROP_IT_ROOT . '/lib/php/class-drop-it-drop.php';
+require_once DROP_IT_ROOT . '/lib/php/wp-settings-api/class.settings-api.php';
+require_once DROP_IT_ROOT . '/lib/php/drop-it-settings.php';
 
 class Drop_It {
 
 	public $drops;
 	public $key = 'drop-it';
 	public $manage_cap;
+	private $settings;
 
 	function __construct( $drops = array() ) {
 		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
@@ -46,6 +49,7 @@ class Drop_It {
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
+		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
 	}
 
 	function register_drops( $drops = array() ) {
@@ -84,9 +88,9 @@ class Drop_It {
 	}
 
 	function action_admin_menu() {
-		add_menu_page( __( 'Drop It!', 'dropit' ), __( 'Drop It!', 'dropit' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
-		add_submenu_page( $this->key, __( 'Drops', 'dropit' ), __( 'Drops', 'dropit' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-		add_submenu_page( $this->key, __( 'Layouts', 'dropit' ), __( 'Layouts', 'dropit' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+		add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
+		add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
+		add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
 
 	/**
