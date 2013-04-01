@@ -42,7 +42,10 @@ class Drop_It {
 	public $manage_cap;
 	private $settings;
 
-	function __construct( $drops = array() ) {
+	/**
+	 * Instantiate the plugin, hook the filters and actions
+	 */
+	function __construct() {
 		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
@@ -52,6 +55,11 @@ class Drop_It {
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
 	}
 
+	/**
+	 * Registering available drios
+	 * @param  array  $drops [description]
+	 * @return [type]        [description]
+	 */
 	function register_drops( $drops = array() ) {
 		$path = DROP_IT_ROOT . '/lib/php/drops/';
 		foreach ( (array) scandir( $path ) as $drop ) {
@@ -66,6 +74,10 @@ class Drop_It {
 		}
 	}
 
+	/**
+	 * Register drop and layout post types
+	 * @return [type] [description]
+	 */
 	function action_init() {
 		register_post_type( 'di-drop', array(
 				'labels' => array( 'name' => _x( 'Drops', 'post type general name', 'drop-it' ) ),
@@ -87,18 +99,17 @@ class Drop_It {
 		$this->register_drops( apply_filters( 'di_available_drops', array() ) );
 	}
 
+	/**
+	 * Add menu items
+	 * @return [type] [description]
+	 */
 	function action_admin_menu() {
 		add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
 		add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
 		add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
 
-	/**
-	 * Some custom icon css handling
-	 *
-	 */
 	function action_admin_head() {
-
 	}
 
 	function save() {
