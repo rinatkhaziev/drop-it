@@ -2,7 +2,7 @@
 /**
  * Base class that should be extended on a per drop basis
  */
-abstract class DropIt_Drop {
+class Drop_It_Drop implements Drop_It_Droppable {
 	public $id,
 		   $label,
 		   $template,
@@ -18,5 +18,25 @@ abstract class DropIt_Drop {
 	function render() {
 	}
 
-	abstract function datasource();
+	function datasource() {
+
+	}
+
+	function preview() {
+
+	}
+
+	function save() {
+
+	}
+}
+
+interface Drop_It_Droppable {
+	function datasource();
+
+	function render();
+
+	function preview();
+
+	function save();
 }

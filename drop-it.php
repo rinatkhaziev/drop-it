@@ -48,12 +48,23 @@ class Drop_It {
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 	}
 
-	function register_drops() {
+	function register_drops( $drops = array() ) {
+		$path = DROP_IT_ROOT . '/lib/php/drops/';
+		foreach ( (array) scandir( $path ) as $drop ) {
+			if ( in_array( $drop, array( '.', '..' ) ) )
+				continue;
+			require_once $path . $drop;
+		}
+		foreach( get_declared_classes() as $class ) {
+			if ( ! is_subclass_of( $class, 'Drop_It_Drop' ) )
+				continue;
+			$this->drops[ sanitize_title_with_dashes( $class ) ] = new $class;
+		}
 	}
 
 	function action_init() {
 		register_post_type( 'di-drop', array(
-				'labels' => array( name => _x( 'Drops', 'post type general name', 'drop-it' ) ),
+				'labels' => array( 'name' => _x( 'Drops', 'post type general name', 'drop-it' ) ),
 				'public' => true,
 				'publicly_queryable' => true,
 				'show_ui' => true,
@@ -69,7 +80,7 @@ class Drop_It {
 		register_post_type( 'di-layout', array(
 			) );
 		// Must register drops after we register our post type
-		$this->register_drops( apply_filters( 'di_available_drops', $drops ) );
+		$this->register_drops( apply_filters( 'di_available_drops', array() ) );
 	}
 
 	function action_admin_menu() {
@@ -85,17 +96,17 @@ class Drop_It {
 	function action_admin_head() {
 		ob_start();
 		?>
-<style>
-.toplevel_page_drop-it .wp-menu-image {
-	background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon.png");
-	background-position: center center;
-}
-.toplevel_page_drop-it.wp-has-current-submenu .wp-menu-image {
-	background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon-active.png");
-}
-</style>
-	<?php
-	echo ob_get_clean();
+		<style>
+		.toplevel_page_drop-it .wp-menu-image {
+			background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon.png");
+			background-position: center center;
+		}
+		.toplevel_page_drop-it.wp-has-current-submenu .wp-menu-image {
+			background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon-active.png");
+		}
+		</style>
+		<?php
+		echo ob_get_clean();
 	}
 
 	function save() {
