@@ -6,7 +6,7 @@
 
 class Drop_It_Settings {
 
-	private $settings_api, $slug, $caps;
+	private $settings_api, $slug, $caps, $settings_suffix = 'di_settings';
 
 	function __construct( $slug, $caps ) {
 		$this->settings_api = new WeDevs_Settings_API;
@@ -26,18 +26,16 @@ class Drop_It_Settings {
 	 */
 	function action_current_screen() {
 		$screen = get_current_screen();
-		//if ( in_array( $screen->base, array( 'settings_page_fu_settings', 'options' ) ) ) {
-			$this->settings_api->set_sections( $this->get_settings_sections() );
-			$this->settings_api->set_fields( $this->get_settings_fields() );
-			//initialize settings
-			$this->settings_api->admin_init();
-		//}
-		//set the settings
+		if ( ! in_array( $screen->base, array( "{$this->slug}_page_{$this->settings_suffix}", 'options' ) ) ) 
+			return;
+		$this->settings_api->set_sections( $this->get_settings_sections() );
+		$this->settings_api->set_fields( $this->get_settings_fields() );
+		$this->settings_api->admin_init();
 	}
 
 
 	function action_admin_menu() {
-		add_submenu_page( $this->slug, __( 'Settings', 'drop-it' ) , __('Settings', 'drop-it' ), $this->caps, 'di-settings', array( $this, 'plugin_page' ) );
+		add_submenu_page( $this->slug, __( 'Settings', 'drop-it' ) , __('Settings', 'drop-it' ), $this->caps, $this->settings_suffix, array( $this, 'plugin_page' ) );
 	}
 
 	function get_settings_sections() {
@@ -54,7 +52,7 @@ class Drop_It_Settings {
 	 *
 	 * @return array settings fields
 	 */
-	function get_settings_fields() {;
+	function get_settings_fields() {
 		$settings_fields = array(
 			'drop_it_settings' => array(
 				array(
@@ -84,22 +82,4 @@ class Drop_It_Settings {
 
 		echo '</div>';
 	}
-
-	/**
-	 * Get all the pages
-	 *
-	 * @return array page names with key value pairs
-	 */
-	function get_pages() {
-		$pages = get_pages();
-		$pages_options = array();
-		if ( $pages ) {
-			foreach ( $pages as $page ) {
-				$pages_options[$page->ID] = $page->post_title;
-			}
-		}
-
-		return $pages_options;
-	}
-
 }

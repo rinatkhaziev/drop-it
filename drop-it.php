@@ -145,7 +145,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_page() {
-
+		$this->_render( 'index' );
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_page_drops() {
-
+		$this->_render( 'drops' );
 	}
 
 	/**
@@ -161,9 +161,21 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_page_layouts() {
-
+		$this->_render( 'layouts' );
 	}
 
+	/**
+	 * Render a view
+	 * @param  string $view_slug
+	 * @return [type]            [description]
+	 */
+	function _render( $view_slug = '' ) {
+		ob_start();
+		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug .'.tpl.php';
+		if ( file_exists( $file ) )
+			require $file;
+		echo '<div class="wrap"> ' .ob_get_clean() . '</div>';
+	}
 
 	/**
 	 * Register Admin scripts and styles
@@ -187,4 +199,4 @@ class Drop_It {
 	}
 }
 
-$dropit = new Drop_It;
+$drop_it = new Drop_It;
