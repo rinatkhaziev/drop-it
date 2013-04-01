@@ -98,19 +98,7 @@ class Drop_It {
 	 *
 	 */
 	function action_admin_head() {
-		ob_start();
-		?>
-		<style>
-		.toplevel_page_drop-it .wp-menu-image {
-			background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon.png");
-			background-position: center center;
-		}
-		.toplevel_page_drop-it.wp-has-current-submenu .wp-menu-image {
-			background-image: url("<?php echo DROP_IT_URL ?>lib/css/img/drop-it-icon-active.png");
-		}
-		</style>
-		<?php
-		echo ob_get_clean();
+
 	}
 
 	function save() {
