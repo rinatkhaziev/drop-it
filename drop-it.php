@@ -46,7 +46,7 @@ class Drop_It {
 	 * Instantiate the plugin, hook the filters and actions
 	 */
 	function __construct() {
-		add_action( 'after_setup_theme', $this->_a( 'action_init' ) );
+		add_action( 'init', $this->_a( 'action_init' ) );
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
@@ -79,6 +79,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function action_init() {
+		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/lib/languages/' );
 		register_post_type( 'di-drop', array(
 				'labels' => array( 'name' => _x( 'Drops', 'post type general name', 'drop-it' ) ),
 				'public' => true,
