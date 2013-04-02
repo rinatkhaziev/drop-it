@@ -57,35 +57,72 @@ class Drop_It {
 
 	/**
 	 * Registering available drios
-	 * @param  array  $drops [description]
+	 *
+	 * @param array   $drops [description]
 	 * @return [type]        [description]
 	 */
-	function register_drops( $drops = array() ) {
+	function register_drops() {
 		$path = DROP_IT_ROOT . '/lib/php/drops/';
-		foreach ( (array) scandir( $path ) as $drop ) {
-			if ( in_array( $drop, array( '.', '..' ) ) )
+		$class_files = $class_names = array();
+
+		// Scan drops folder for bundled drops
+		// Use this filter to add custom drops in
+		$class_files = apply_filters( 'di_drops_to_register', scandir( $path ) );
+		foreach ( $class_files as $drop ) {
+			$class_file = $path . $drop;
+			if ( in_array( $drop, array( '.', '..' ) ) || !file_exists( $class_file ) )
 				continue;
-			require_once $path . $drop;
+			// @todo try to prevent file inclusion if class does not comply to interface
+			require_once $class_file;
+			$class_names = array_merge( $class_names, $this->file_get_php_classes( $class_file ) );
 		}
-		foreach( get_declared_classes() as $class ) {
-			if ( ! is_subclass_of( $class, 'Drop_It_Drop' ) )
-				continue;
-			$this->drops[ sanitize_title_with_dashes( $class ) ] = new $class;
+
+		$this->if_initialize_classes( $class_names );
+	}
+
+	function if_initialize_classes( $class_names = array() ) {
+		foreach( $class_names as $class_name ) {
+			$reflection = new ReflectionClass( $class_name );
+			if ( $reflection->isSubclassOf( 'Drop_It_Drop' ) )
+				$this->drops[ sanitize_title_with_dashes( $class_name ) ] = new $class_name;
 		}
+	}
+
+	function file_get_php_classes( $filepath ) {
+		$php_code = file_get_contents( $filepath );
+		$classes = $this->get_php_classes( $php_code );
+		return $classes;
+	}
+
+	function get_php_classes( $php_code ) {
+		$classes = array();
+		$tokens = token_get_all( $php_code );
+		$count = count( $tokens );
+		for ( $i = 2; $i < $count; $i++ ) {
+			if ( $tokens[$i - 2][0] == T_CLASS
+				&& $tokens[$i - 1][0] == T_WHITESPACE
+				&& $tokens[$i][0] == T_STRING ) {
+
+				$class_name = $tokens[$i][1];
+				$classes[] = $class_name;
+			}
+		}
+		return $classes;
 	}
 
 	/**
 	 * Register drop and layout post types
+	 *
 	 * @return [type] [description]
 	 */
 	function action_init() {
 		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/lib/languages/' );
 		register_post_type( 'di-drop', array(
-				'labels' => array( 'name' => _x( 'Drops', 'post type general name', 'drop-it' ) ),
+				'labels' => array( 'name' => _x( 'Drop It Drops', 'Drop post type plural name', 'drop-it' ) ),
 				'public' => true,
 				'publicly_queryable' => true,
 				'show_ui' => true,
-				'show_in_menu' => false,
+				'show_in_menu' => true,
 				'query_var' => true,
 				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
 				'capability_type' => 'post',
@@ -95,6 +132,18 @@ class Drop_It {
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 			) );
 		register_post_type( 'di-layout', array(
+				'labels' => array( 'name' => _x( 'Drop It Layouts', 'Drop layout post type plural name', 'drop-it' ) ),
+				'public' => true,
+				'publicly_queryable' => true,
+				'show_ui' => true,
+				'show_in_menu' => true,
+				'query_var' => true,
+				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
+				'capability_type' => 'post',
+				'has_archive' => true,
+				'hierarchical' => false,
+				'menu_position' => null,
+				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
 			) );
 		// Must register drops after we register our post type
 		$this->register_drops( apply_filters( 'di_available_drops', array() ) );
@@ -102,6 +151,7 @@ class Drop_It {
 
 	/**
 	 * Add menu items
+	 *
 	 * @return [type] [description]
 	 */
 	function action_admin_menu() {
@@ -118,6 +168,7 @@ class Drop_It {
 
 	/**
 	 * Do activation specific stuff
+	 *
 	 * @return [type] [description]
 	 */
 	function activation() {
@@ -127,6 +178,7 @@ class Drop_It {
 
 	/**
 	 * Clean after ourselves
+	 *
 	 * @return [type] [description]
 	 */
 	function deactivation() {
@@ -135,6 +187,7 @@ class Drop_It {
 
 	/**
 	 * Preview a drop
+	 *
 	 * @return [type] [description]
 	 */
 	function preview() {
@@ -142,6 +195,7 @@ class Drop_It {
 
 	/**
 	 * View for index admin page
+	 *
 	 * @return [type] [description]
 	 */
 	function admin_page() {
@@ -150,6 +204,7 @@ class Drop_It {
 
 	/**
 	 * View for drops management page
+	 *
 	 * @return [type] [description]
 	 */
 	function admin_page_drops() {
@@ -158,6 +213,7 @@ class Drop_It {
 
 	/**
 	 * View for layouts management page
+	 *
 	 * @return [type] [description]
 	 */
 	function admin_page_layouts() {
@@ -166,7 +222,8 @@ class Drop_It {
 
 	/**
 	 * Render a view
-	 * @param  string $view_slug
+	 *
+	 * @param string  $view_slug
 	 * @return [type]            [description]
 	 */
 	function _render( $view_slug = '' ) {
@@ -179,6 +236,7 @@ class Drop_It {
 
 	/**
 	 * Register Admin scripts and styles
+	 *
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
@@ -190,7 +248,7 @@ class Drop_It {
 	 * Just a convenience wrapper that returns array of reference to the instance and a method
 	 * Used for registering hooks
 	 *
-	 * @param  [type] $method [description]
+	 * @param [type]  $method [description]
 	 * @return [type]         [description]
 	 */
 	private function _a( $method ) {
