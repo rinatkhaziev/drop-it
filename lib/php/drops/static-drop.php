@@ -4,7 +4,4 @@ class Static_Drop extends Drop_It_Drop {
 		parent::__construct( $id, $label, $template, $options );
 	}
 
-	function datasource( stdClass $args ) {
-
-	}
 }
