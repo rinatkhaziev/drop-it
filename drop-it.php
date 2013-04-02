@@ -50,6 +50,7 @@ class Drop_It {
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
+		add_action( 'add_meta_boxes', $this->_a( 'action_add_meta_boxes' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
@@ -129,7 +130,7 @@ class Drop_It {
 				'has_archive' => true,
 				'hierarchical' => false,
 				'menu_position' => null,
-				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields' )
 			) );
 		register_post_type( 'di-layout', array(
 				'labels' => array( 'name' => _x( 'Drop It Layouts', 'Drop layout post type plural name', 'drop-it' ) ),
@@ -138,17 +139,36 @@ class Drop_It {
 				'show_ui' => true,
 				'show_in_menu' => true,
 				'query_var' => true,
-				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
+				'rewrite' => array( 'slug' => _x( 'di-layout', 'Drop layout slug', 'drop-it' ) ),
 				'capability_type' => 'post',
 				'has_archive' => true,
 				'hierarchical' => false,
 				'menu_position' => null,
-				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields' ),
 			) );
 		// Must register drops after we register our post type
-		$this->register_drops( apply_filters( 'di_available_drops', array() ) );
+		$this->register_drops();
 	}
 
+	function action_add_meta_boxes() {
+		$slugs = array( 'di-drop', 'di-layout' );
+		//foreach( $slugs as $slug ) {
+			add_meta_box(
+				'drop_it_layout_droppable',
+				__( 'Drop It Here!', 'drop-it' ),
+				$this->_a( '_metabox' ),
+				'di-layout',
+				'normal',
+				'default',
+				array( 'view' => 'droppable' )
+			);
+		//}
+	}
+
+	function _metabox( $post_id, $metabox ) {
+		extract( $metabox['args'] );
+		$this->_render( 'metaboxes/' . $view );
+	}
 	/**
 	 * Add menu items
 	 *
@@ -226,12 +246,12 @@ class Drop_It {
 	 * @param string  $view_slug
 	 * @return [type]            [description]
 	 */
-	function _render( $view_slug = '' ) {
+	function _render( $view_slug = '', $pre = '<div class="wrap">', $after = '</div>' ) {
 		ob_start();
 		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug .'.tpl.php';
 		if ( file_exists( $file ) )
 			require $file;
-		echo '<div class="wrap"> ' .ob_get_clean() . '</div>';
+		echo $pre  . ob_get_clean() . $after;
 	}
 
 	/**
@@ -240,7 +260,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery' ) );
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable' ) );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 	}
 
