@@ -7,7 +7,11 @@
 	background-image: url("./img/drop-it-icon-active.png");
 }
 
-.di-drop {
+.di-droppable-area {
+	float: left;
+}
+
+.di-droppable-area > div {
 	width: 200px;
 	height: 200px;
 	border: 1px black dashed;
