@@ -260,7 +260,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable' ), false, true );
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 	}
 
