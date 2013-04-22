@@ -4,6 +4,12 @@
     <button disabled="true">Save</button>
 </script>
 
+<script type="text/template" id="dropTemplate">
+    <label for="<%= drop_id %>"><%= index %>:</label>
+    <select></select>
+    <button disabled="true">Add Drop</button>
+</script>
+
 <p>Enter the Answers below</p>
 <div id="answerInputs"></div>
 <div id="answerSelect">
