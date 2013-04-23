@@ -40,7 +40,7 @@ class Drop_It {
 	public $drops;
 	public $key = 'drop-it';
 	public $manage_cap;
-	private $settings;
+	public $settings;
 
 	/**
 	 * Instantiate the plugin, hook the filters and actions

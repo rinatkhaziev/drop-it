@@ -7,7 +7,7 @@
 // Define plugin's root
 define( 'DROP_IT_ROOT' , dirname( dirname( __FILE__ ) ) );
 
-require_once DROP_IT_ROOT . 'drop-it.php';
+require_once DROP_IT_ROOT . '/drop-it.php';
 class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	public $di;
 
@@ -16,8 +16,8 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	 * @return [type] [description]
 	 */
 	function setup() {
-		global $drop_it;
-		$this->di = $drop_it;
+		$this->di = new Drop_It;
+		$this->di->register_drops();
 		parent::setup();
 	}
 
@@ -30,7 +30,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function test_available_drops() {
-
+		$this->assertNotEmpty( $this->di->drops );
 	}
 
 	// Check if errors are handled properly
