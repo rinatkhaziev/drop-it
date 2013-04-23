@@ -2,10 +2,11 @@
 /**
  * Base class that should be extended on a per drop basis
  *
+ * Since it's abstract you have to make sure that all the abstract methods are implemented. Otherwise it'll produce Fatal.
+ *
  * @since 0.1
- * @uses Drop_It_Droppable
  */
-class Drop_It_Drop implements Drop_It_Droppable {
+abstract class Drop_It_Drop  {
 	public $id,
 		   $label,
 		   $template,
@@ -18,33 +19,14 @@ class Drop_It_Drop implements Drop_It_Droppable {
 		$this->options = $options;
 	}
 
-	function render() {
-	}
+	abstract function view();
 
-	function datasource( $args = array() ) {
-
-	}
+	abstract function model( $args = array() );
 
 	function preview() {
-
 	}
 
 	function save() {
-
 	}
 }
 
-/**
- * All Drops have to implement methods of this interface
- *
- * @since 0.1
- */
-interface Drop_It_Droppable {
-	function datasource( $args = array() );
-
-	function render();
-
-	function preview();
-
-	function save();
-}
