@@ -8,7 +8,7 @@ class Static_Drop extends Drop_It_Drop {
 
 	}
 
-	function model() {
+	function model( $args = array() ) {
 
 	}
 }
