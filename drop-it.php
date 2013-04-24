@@ -260,6 +260,10 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
+		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-bb-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
 		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 	}

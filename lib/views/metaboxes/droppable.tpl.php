@@ -1,25 +1,23 @@
-<script type="text/template" id="testTemplate">
-    <label for="<%= answer_id %>"><%= index %>:</label>
-    <input id="<%= answer_id %>" class="answers" size="30" type="text" name="<%= answer_id %>" value="<%= answer %>" placeholder="Answer for Question <%= index %> Here">
-    <button disabled="true">Save</button>
-</script>
-
 <script type="text/template" id="dropTemplate">
-    <label for="<%= drop_id %>"><%= index %>:</label>
-    <select></select>
-    <button disabled="true">Add Drop</button>
+    <label for="<%= drop_id %>">Widget type:</label><br/>
+    <select>
+	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
+    </select>
 </script>
 
-<p>Enter the Answers below</p>
-<div id="answerInputs"></div>
-<div id="answerSelect">
-    <span>Correct Answer:</span>
-    <select></select>
-</div>
-<p>
-    <input name="save" type="submit" class="button button-primary button-small" value="Save all">
-</p>
+<script type="text/template" id="dropProtoTemplate">
+	<form>
+    <label for="">Widget type:</label><br/>
+    <select>
+	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
+    </select>
+    <textarea>dsdasd</textarea>
+    </form>
+</script>
 
+<div id="create-drop"></div>
+
+<div id="drops"></div>
 
 <div class="di-droppable-wrapper">
 	<div class="di-droppable-area">
