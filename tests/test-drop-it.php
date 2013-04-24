@@ -4,10 +4,6 @@
  * Test case for Drop It
  *
  */
-// Define plugin's root
-define( 'DROP_IT_ROOT' , dirname( dirname( __FILE__ ) ) );
-
-require_once DROP_IT_ROOT . '/drop-it.php';
 class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	public $di;
 
