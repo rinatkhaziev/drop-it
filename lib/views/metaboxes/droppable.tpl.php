@@ -8,6 +8,9 @@
 <script type="text/template" id="static-dropTemplate">
 	<strong>Awesome</strong>
 </script>
+<script type="text/template" id="loop-dropTemplate">
+	<strong>Awesome2</strong>
+</script>
 
 <script type="text/template" id="dropProtoTemplate">
 	<form>
