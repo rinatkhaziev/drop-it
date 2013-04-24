@@ -34,7 +34,4 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	}
 
-	function test_is_setup() {
-		$this->assertInstanceOf( 'Drop_It', 'test' );
-	}
 }
