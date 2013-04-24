@@ -19,8 +19,16 @@
 	margin: 3px 3px 3px 0; padding: 1px;
 }
 
-#create-drop label, #create-drop textarea {
+#create-drop label, #create-drop textarea, #create-drop select {
+	margin: 2px 0;
 	display: block;
+	width: 20%;
+}
+
+#create-drop textarea {
+	width: 400px;
+	min-height: 300px;
+	margin-bottom: 10px;
 }
 
 #create-drop, #drops {

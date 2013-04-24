@@ -176,8 +176,8 @@ class Drop_It {
 	 */
 	function action_admin_menu() {
 		add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
-		add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-		add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+	//	add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
+	//	add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
 
 	function action_admin_head() {

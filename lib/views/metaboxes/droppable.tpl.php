@@ -6,20 +6,32 @@
 </script>
 
 <script type="text/template" id="static-dropTemplate">
-	<strong>Awesome</strong>
 </script>
 <script type="text/template" id="loop-dropTemplate">
 	<strong>Awesome2</strong>
 </script>
 
 <script type="text/template" id="dropProtoTemplate">
-	<form>
-    <label for="">Widget type:</label>
-    <select name="type">
+    <label for="id">Widget type:</label>
+    <select id="dropSelectTemplate" name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
     </select>
-    <textarea name="content">dsdasd</textarea>
-    </form>
+
+    <div id="varyOptionsForProto"></div>
+</script>
+
+<script type="text/template" id="static_html-createDropTemplate">
+	<textarea name="content" placeholder="Enter Your HTML content"></textarea>
+	<button class="button button-primary drop-add">Add It</button>
+</script>
+
+<script type="text/template" id="single-createDropTemplate">
+	<input type="text" name="post_id" placeholder="Enter post id" />
+	<button class="button button-primary drop-add">Add It</button>
+</script>
+
+<script type="text/template" id="loop-createDropTemplate">
+	Im loop
 </script>
 
 <div id="create-drop"></div>
