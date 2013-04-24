@@ -9,6 +9,7 @@ env:
 before_script:
     - wget https://raw.github.com/benbalter/wordpress-plugin-tests/setup/setup.sh
     - source setup.sh
+    - cd ..
 
 script: phpunit
 
