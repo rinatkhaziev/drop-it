@@ -18,3 +18,12 @@
 	float: left;
 	margin: 3px 3px 3px 0; padding: 1px;
 }
+
+#create-drop label, #create-drop textarea {
+	display: block;
+}
+
+#create-drop, #drops {
+	padding: 10px;
+	margin-bottom: 20px;
+}

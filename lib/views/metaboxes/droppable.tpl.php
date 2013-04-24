@@ -1,17 +1,21 @@
 <script type="text/template" id="dropTemplate">
-    <label for="<%= drop_id %>">Widget type:</label><br/>
-    <select>
+    <label for="<%= drop_id %>">Widget type:</label>
+    <select name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
     </select>
 </script>
 
+<script type="text/template" id="static-dropTemplate">
+	<strong>Awesome</strong>
+</script>
+
 <script type="text/template" id="dropProtoTemplate">
 	<form>
-    <label for="">Widget type:</label><br/>
-    <select>
+    <label for="">Widget type:</label>
+    <select name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
     </select>
-    <textarea>dsdasd</textarea>
+    <textarea name="content">dsdasd</textarea>
     </form>
 </script>
 
