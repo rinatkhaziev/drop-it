@@ -7,8 +7,8 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-        <testsuite name="Drop It Test Suite">
-            <directory suffix=".php">./tests/</directory>
+        <testsuite>
+            <directory prefix="test-" suffix=".php">./tests/</directory>
         </testsuite>
 	</testsuites>
 </phpunit>
