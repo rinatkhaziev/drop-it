@@ -1,5 +1,6 @@
 DropIt
 ======
+![Build Status](https://magnum-ci.com/status/834724296817537285abf7da3a3c62e9.png)
 
 ## Description
 Drag and drop layout management framework for WordPress. Comes with a set of widgets aka "drops".
