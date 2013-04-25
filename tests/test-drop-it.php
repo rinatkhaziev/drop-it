@@ -34,4 +34,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	}
 
+	function test_save_drop() {
+		//$this->assertNotEmpty( $this->di->save_drop() );
+	}
 }

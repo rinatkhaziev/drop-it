@@ -54,8 +54,12 @@ class Drop_It {
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
+		$this->_ajax_actions();
 	}
 
+	function _ajax_actions() {
+		add_action( 'wp_ajax_save_drop', $this->_a( 'save_drop' ) );
+	}
 	/**
 	 * Registering available drios
 	 *
@@ -81,6 +85,11 @@ class Drop_It {
 		$this->if_initialize_classes( $class_names );
 	}
 
+	/**
+	 * Check if available class definitions subclasses of Drop_It_Drop
+	 * @param  array  $class_names [description]
+	 * @return [type]              [description]
+	 */
 	function if_initialize_classes( $class_names = array() ) {
 		foreach( $class_names as $class_name ) {
 			$reflection = new ReflectionClass( $class_name );
@@ -151,6 +160,7 @@ class Drop_It {
 	}
 
 	function action_add_meta_boxes() {
+		// The post is not saved, so display a note that the post should be saved
 		if ( !isset( $_GET['post'] ) ) {
 			add_meta_box(
 				'drop_it_layout_droppable_new_post',
@@ -163,18 +173,16 @@ class Drop_It {
 			);
 			return;
 		}
-		$slugs = array( 'di-drop', 'di-layout' );
-		//foreach( $slugs as $slug ) {
-			add_meta_box(
-				'drop_it_layout_droppable',
-				__( 'Drop It Here!', 'drop-it' ),
-				$this->_a( '_metabox' ),
-				'di-layout',
-				'normal',
-				'default',
-				array( 'view' => 'droppable' )
-			);
-		//}
+		add_meta_box(
+			'drop_it_layout_droppable',
+			__( 'Drop It Here!', 'drop-it' ),
+			$this->_a( '_metabox' ),
+			'di-layout',
+			'normal',
+			'default',
+			array( 'view' => 'droppable' )
+		);
+
 	}
 
 	function _metabox( $post_id, $metabox ) {
@@ -195,7 +203,9 @@ class Drop_It {
 	function action_admin_head() {
 	}
 
-	function save() {
+	function save_drop() {
+		$r = $_GET;
+		return $r;
 	}
 
 	/**
