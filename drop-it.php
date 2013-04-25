@@ -151,6 +151,18 @@ class Drop_It {
 	}
 
 	function action_add_meta_boxes() {
+		if ( !isset( $_GET['post'] ) ) {
+			add_meta_box(
+				'drop_it_layout_droppable_new_post',
+				__( 'Drop It Here!', 'drop-it' ),
+				$this->_a( '_metabox' ),
+				'di-layout',
+				'normal',
+				'default',
+				array( 'view' => 'droppable_new_post' )
+			);
+			return;
+		}
 		$slugs = array( 'di-drop', 'di-layout' );
 		//foreach( $slugs as $slug ) {
 			add_meta_box(

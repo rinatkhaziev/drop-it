@@ -1,4 +1,5 @@
 <script type="text/template" id="dropTemplate">
+	<input type="hidden" name="action" value="save_drop" />
     <label for="<%= drop_id %>">Widget type:</label>
     <select name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
