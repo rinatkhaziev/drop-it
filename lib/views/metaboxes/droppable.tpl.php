@@ -1,7 +1,4 @@
 <script type="text/template" id="dropTemplate">
-	<input type="hidden" name="action" value="save_drop" />
-	<?php if ( isset( $_GET['post'] ) ): ?>
-	<input type="hidden" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
     <label for="<%= drop_id %>">Widget type:</label>
     <select name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
@@ -19,7 +16,10 @@
     <select id="dropSelectTemplate" name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
     </select>
-
+	<input type="hidden" name="action" value="save_drop" />
+	<?php if ( isset( $_GET['post'] ) ): ?>
+	<input type="hidden" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
+	<?php endif; ?>
     <div id="varyOptionsForProto"></div>
 </script>
 

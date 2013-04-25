@@ -51,15 +51,19 @@ class Drop_It {
 		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
 		add_action( 'add_meta_boxes', $this->_a( 'action_add_meta_boxes' ) );
+		add_action( 'admin_init', $this->_a( '_route_ajax_actions' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
-		$this->_ajax_actions();
+
+
 	}
 
-	function _ajax_actions() {
+	function _route_ajax_actions( $req ) {
 		add_action( 'wp_ajax_save_drop', $this->_a( 'save_drop' ) );
 	}
+
+
 	/**
 	 * Registering available drios
 	 *
@@ -204,8 +208,10 @@ class Drop_It {
 	}
 
 	function save_drop() {
-		$r = $_GET;
-		return $r;
+		// Retrieving json payload fro m php input stream
+		$payload = json_decode( file_get_contents('php://input') );
+		var_dump( $payload );
+		exit;
 	}
 
 	/**
