@@ -76,12 +76,14 @@ class Drop_It {
 
 		// Scan drops folder for bundled drops
 		// Use this filter to add custom drops in
-		$class_files = apply_filters( 'di_drops_to_register', scandir( $path ) );
+		$class_files = apply_filters( 'di_drops_to_register', array_diff( scandir( $path ), array( '..', '.' ) ) );
 		foreach ( $class_files as $drop ) {
 			$class_file = $path . $drop;
-			if ( in_array( $drop, array( '.', '..' ) ) || !file_exists( $class_file ) )
+
+			// Just a safety check for a filter
+			if ( !file_exists( $class_file ) )
 				continue;
-			// @todo try to prevent file inclusion if class does not comply to interface
+			// @todo try to prevent file inclusion if the class isn't a subclass of Drop_It_Drop
 			require_once $class_file;
 			$class_names = array_merge( $class_names, $this->file_get_php_classes( $class_file ) );
 		}
@@ -108,6 +110,12 @@ class Drop_It {
 		return $classes;
 	}
 
+	/**
+	 * Parse PHP tokens to grab see what classes are defined in the file
+	 * Normally, there should be only one, paranoid check
+	 * @param  string $php_code PHP Code of the file
+	 * @return array            [description]
+	 */
 	function get_php_classes( $php_code ) {
 		$classes = array();
 		$tokens = token_get_all( $php_code );
