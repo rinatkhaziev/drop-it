@@ -311,4 +311,5 @@ class Drop_It {
 	}
 }
 
+global $drop_it;
 $drop_it = new Drop_It;
