@@ -12,10 +12,9 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	 * @return [type] [description]
 	 */
 	function setup() {
+		parent::setup();
 		global $drop_it;
 		$this->di = $drop_it;
-		$this->di->register_drops();
-		parent::setup();
 	}
 
 	function teardown() {
