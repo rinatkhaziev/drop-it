@@ -213,15 +213,25 @@ class Drop_It {
 	}
 
 	function action_admin_head() {
+		$screen = get_current_screen();
+		if ( $screen->base == 'post' && $screen->post_type == 'di-layout' ) {
+			$meta = json_encode( get_post_meta( $_GET['post'], '_drop' ) );
+?>
+<script type="text/javascript">
+	window.drops = <?php echo $meta ?>;
+</script>
+<?php
+		}
 	}
 
 	function save_drop() {
 		// Retrieving json payload fro m php input stream
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 		if ( (int) $payload->post_id != 0 ) {
+			$drop = array( 'type' => $payload->type, 'content' => $payload->content );
 			switch ( $payload->type ) {
 				case 'static_html':
-					add_post_meta( (int) $payload->post_id, '_drop', $payload->content  );
+					add_post_meta( (int) $payload->post_id, '_drop', $drop );
 				break;
 				default:
 			}

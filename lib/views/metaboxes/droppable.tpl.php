@@ -5,7 +5,8 @@
     </select>
 </script>
 
-<script type="text/template" id="static-dropTemplate">
+<script type="text/template" id="static_html-dropTemplate">
+	<%= content %>
 </script>
 <script type="text/template" id="loop-dropTemplate">
 	<strong>Awesome2</strong>
