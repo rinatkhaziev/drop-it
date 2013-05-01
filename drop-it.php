@@ -217,8 +217,17 @@ class Drop_It {
 
 	function save_drop() {
 		// Retrieving json payload fro m php input stream
-		$payload = json_decode( file_get_contents('php://input') );
-		var_dump( $payload );
+		$payload = json_decode( file_get_contents( 'php://input' ) );
+		if ( (int) $payload->post_id != 0 ) {
+			switch ( $payload->type ) {
+				case 'static_html':
+					add_post_meta( (int) $payload->post_id, '_drop', $payload->content  );
+				break;
+				default:
+			}
+			// Mock
+			echo true;
+		}
 		exit;
 	}
 
@@ -315,7 +324,6 @@ class Drop_It {
 	 */
 	private function _a( $method ) {
 		return array( $this, $method );
-
 	}
 }
 
