@@ -56,12 +56,19 @@ class Drop_It {
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
-
+		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
 
 	}
+	/**
+	 * Route AJAX actions to CRUD methods`
+	 * @return [type] [description]
+	 */
+	function _route_ajax_actions() {
+		$payload = json_decode( file_get_contents( 'php://input' ) );
+		if ( !empty( $payload ) ) {
+			//@todo route CRUD
+		}
 
-	function _route_ajax_actions( $req ) {
-		add_action( 'wp_ajax_save_drop', $this->_a( 'save_drop' ) );
 	}
 
 
@@ -134,7 +141,7 @@ class Drop_It {
 	}
 
 	function action_enable_tiny() {
-		wp_editor( '', 'staticcontent' );
+		//wp_editor( '', 'staticcontent' );
 	}
 	/**
 	 * Register drop and layout post types
