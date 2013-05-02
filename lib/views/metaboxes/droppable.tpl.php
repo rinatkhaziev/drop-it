@@ -6,14 +6,17 @@
 </script>
 
 <script type="text/template" id="static_html-dropTemplate">
+ <div class="di-drop di-drop-collapsed">
 	<%= content %>
+ </div>
+ <button class="button button-primary drop-expand">Expand</button>
 </script>
 <script type="text/template" id="loop-dropTemplate">
 	<strong>Awesome2</strong>
 </script>
 
 <script type="text/template" id="dropProtoTemplate">
-    <label for="id">Widget type:</label>
+    <label for="id">Drop type:</label>
     <select id="dropSelectTemplate" name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
     </select>
@@ -25,7 +28,7 @@
 </script>
 
 <script type="text/template" id="static_html-createDropTemplate">
-	<textarea name="content" placeholder="Enter Your HTML content"></textarea>
+	<textarea name="content" id="staticcontent" placeholder="Enter Your HTML content"></textarea>
 	<button class="button button-primary drop-add">Add It</button>
 </script>
 
@@ -40,25 +43,8 @@
 
 <div id="create-drop"></div>
 
-<div id="drops"></div>
+<div id="drops">
 
-<div class="di-droppable-wrapper">
-	<div class="di-droppable-area">
-<!-- 		<div class="di-drop">2</div>
-		<div class="di-drop">3</div>
-		<div class="di-drop">4</div>
-
-		<div class="di-drop"></div>
-		<div class="di-drop"></div>
-		<div class="di-drop"></div>
-
-		<div class="di-drop"></div>
-		<div class="di-drop"></div>
-		<div class="di-drop"></div>
-
-		<div class="di-drop"></div>
-		<div class="di-drop"></div>
-		<div class="di-drop"></div> -->
-	</div>
-	<div class="clear"></div>
+<div class="clear"></div>
 </div>
+<div class="clear"></div>

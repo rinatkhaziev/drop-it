@@ -52,6 +52,7 @@ class Drop_It {
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
 		add_action( 'add_meta_boxes', $this->_a( 'action_add_meta_boxes' ) );
 		add_action( 'admin_init', $this->_a( '_route_ajax_actions' ) );
+		add_action( 'edit_form_advanced', $this->_a( 'action_enable_tiny' ) );
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
@@ -132,6 +133,9 @@ class Drop_It {
 		return $classes;
 	}
 
+	function action_enable_tiny() {
+		wp_editor( '', 'staticcontent' );
+	}
 	/**
 	 * Register drop and layout post types
 	 *

@@ -7,16 +7,15 @@
 	background-image: url("./img/drop-it-icon-active.png");
 }
 
-.di-droppable-area {
-	float: left;
-}
-
-.di-droppable-area > div {
+.drop-item {
 	width: 200px;
 	height: 200px;
 	border: 1px black dashed;
 	float: left;
 	margin: 3px 3px 3px 0; padding: 1px;
+}
+.di-drop-collapsed {
+	display: none;
 }
 
 #create-drop label, #create-drop textarea, #create-drop select {
@@ -34,4 +33,7 @@
 #create-drop, #drops {
 	padding: 10px;
 	margin-bottom: 20px;
+}
+#drops:after {
+	clear:both;
 }
