@@ -104,7 +104,7 @@ class Drop_It {
 			// Just a safety check for a filter
 			if ( !file_exists( $class_file ) )
 				continue;
-			// @todo try to prevent file inclusion if the class isn't a subclass of Drop_It_Drop
+
 			require_once $class_file;
 			$class_names = array_merge( $class_names, $this->file_get_php_classes( $class_file ) );
 		}
@@ -265,6 +265,7 @@ class Drop_It {
 					return (int) $meta_id;
 				break;
 				default:
+					return false;
 			}
 			// Mock
 			return true;
