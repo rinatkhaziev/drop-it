@@ -150,7 +150,7 @@ class Drop_It {
 	 */
 	function action_init() {
 		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/lib/languages/' );
-		register_post_type( 'di-drop', array(
+/*		register_post_type( 'di-drop', array(
 				'labels' => array( 'name' => _x( 'Drop It Drops', 'Drop post type plural name', 'drop-it' ) ),
 				'public' => true,
 				'publicly_queryable' => true,
@@ -163,7 +163,7 @@ class Drop_It {
 				'hierarchical' => false,
 				'menu_position' => null,
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields' )
-			) );
+			) );*/
 		register_post_type( 'di-layout', array(
 				'labels' => array( 'name' => _x( 'Drop It Layouts', 'Drop layout post type plural name', 'drop-it' ) ),
 				'public' => true,
