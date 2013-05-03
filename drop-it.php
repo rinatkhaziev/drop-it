@@ -327,6 +327,11 @@ class Drop_It {
 	 */
 	function admin_enqueue_scripts() {
 		// Bust cache for dev
+		$screen = get_current_screen();
+		// Bail if we're somewhere else besides layout editor
+		if ( $screen->base != 'post' || $screen->post_type != 'di-layout' )
+			return;
+
 		$rnd = mt_rand( 100, 10000 );
 		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
 		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
