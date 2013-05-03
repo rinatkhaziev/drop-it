@@ -66,9 +66,22 @@ class Drop_It {
 	function _route_ajax_actions() {
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 		if ( !empty( $payload ) ) {
-			//@todo route CRUD
+			switch( $payload->action ) {
+				case 'create_drop':
+						echo $this->create_drop( $payload );
+					break;
+				case 'get_drop':
+						echo $this->create_drop( $payload );
+					break;
+				case 'update_drop':
+						echo $this->create_drop( $payload );
+					break;
+				case 'delete_drop':
+						echo $this->create_drop( $payload );
+					break;
+			}
+		exit;
 		}
-
 	}
 
 
@@ -235,21 +248,40 @@ class Drop_It {
 		}
 	}
 
-	function save_drop() {
-		// Retrieving json payload fro m php input stream
-		$payload = json_decode( file_get_contents( 'php://input' ) );
+	/**
+	 * Create a new drop
+	 * @param  object $payload Decoded JSON payload
+	 * @return [type]          [description]
+	 */
+	function create_drop( $payload ) {
+		global $wpdb;
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array( 'type' => $payload->type, 'content' => $payload->content );
 			switch ( $payload->type ) {
 				case 'static_html':
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
+					$meta_id = $wpdb->get_var(
+						$wpdb->prepare( "select meta_id from wp_2_postmeta where post_id=%s and meta_key='_drop' ORDER By meta_id DESC Limit 1", $payload->post_id ) );
+					return $meta_id;
 				break;
 				default:
 			}
 			// Mock
-			echo true;
+			return true;
 		}
 		exit;
+	}
+
+	function get_drop( $payload ) {
+
+	}
+
+	function update_drop( $payload ) {
+
+	}
+
+	function delete_drop( $payload ) {
+
 	}
 
 	/**
