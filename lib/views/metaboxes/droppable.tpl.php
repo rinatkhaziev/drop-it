@@ -13,15 +13,15 @@
 <script type="text/template" id="dropProtoTemplate">
     <label for="dropSelectTemplate">Drop type:</label>
     <select id="dropSelectTemplate" name="type">
-	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
+	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 
     <label for="dropWidthTemplate">Columns</label>
     <select id="dropWidthTemplate" name="width">
-	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %> 
+	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 
-	<input type="hidden" name="action" value="save_drop" />
+	<input type="hidden" name="action" value="create_drop" />
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>

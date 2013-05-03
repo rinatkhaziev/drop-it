@@ -68,16 +68,21 @@ class Drop_It {
 		if ( !empty( $payload ) ) {
 			switch( $payload->action ) {
 				case 'create_drop':
-						echo $this->create_drop( $payload );
+						$result = $this->create_drop( $payload );
+						if ( ! $result ) {
+							status_header( 701 );
+							$result = "The drop you're trying to save is invalid";
+						}
+						echo $result;
 					break;
 				case 'get_drop':
-						echo $this->create_drop( $payload );
+						echo $this->get_drop( $payload );
 					break;
 				case 'update_drop':
-						echo $this->create_drop( $payload );
+						echo $this->update_drop( $payload );
 					break;
 				case 'delete_drop':
-						echo $this->create_drop( $payload );
+						echo $this->delete_drop( $payload );
 					break;
 			}
 		exit;
@@ -256,7 +261,7 @@ class Drop_It {
 	function create_drop( $payload ) {
 		global $wpdb;
 		if ( (int) $payload->post_id != 0 ) {
-			$drop = array( 'type' => $payload->type, 'content' => $payload->content );
+			$drop = array( 'type' => $payload->type, 'content' => wp_filter_post_kses( $payload->content ) );
 			switch ( $payload->type ) {
 				case 'static_html':
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
