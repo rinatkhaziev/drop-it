@@ -29,13 +29,15 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 		$this->assertNotEmpty( $this->di->drops );
 	}
 
+	function test_create_drop() {
+		$post_id = $this->factory->post->create( array( 'post_type' => 'di-layout' ) );
+		$payload = (object) array( 'type' => 'static_html', 'content' => 'test', 'post_id' => $post_id );
+		$this->assertInternalType( 'int', $this->di->create_drop( $payload ) );
+	}
+
 	// Check if errors are handled properly
 	function test_error_handling() {
 
-	}
-
-	function test_save_drop() {
-		//$this->assertNotEmpty( $this->di->save_drop() );
 	}
 }
 

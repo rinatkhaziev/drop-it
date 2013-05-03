@@ -261,8 +261,8 @@ class Drop_It {
 				case 'static_html':
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
 					$meta_id = $wpdb->get_var(
-						$wpdb->prepare( "select meta_id from wp_2_postmeta where post_id=%s and meta_key='_drop' ORDER By meta_id DESC Limit 1", $payload->post_id ) );
-					return $meta_id;
+						$wpdb->prepare( "select meta_id from $wpdb->postmeta where post_id=%s and meta_key='_drop' ORDER By meta_id DESC Limit 1", $payload->post_id ) );
+					return (int) $meta_id;
 				break;
 				default:
 			}
