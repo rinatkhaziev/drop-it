@@ -82,7 +82,7 @@ class Drop_It {
 						echo $this->update_drop( $payload );
 					break;
 				case 'delete_drop':
-						echo $this->delete_drop( $payload );
+						echo $this->delete_drop( $payload->drop_id, $payload->post_id );
 					break;
 			}
 		exit;
@@ -243,14 +243,33 @@ class Drop_It {
 
 	function action_admin_head() {
 		$screen = get_current_screen();
-		if ( $screen->base == 'post' && $screen->post_type == 'di-layout' ) {
-			$meta = json_encode( get_post_meta( $_GET['post'], '_drop' ) );
+		if ( $screen->base != 'post' && $screen->post_type != 'di-layout' )
+			return;
+
+		$meta = json_encode( $this->get_drops_for_layout( $_GET['post'] ) );
 ?>
 <script type="text/javascript">
 	window.drops = <?php echo $meta ?>;
+	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
 </script>
 <?php
-		}
+	}
+
+	/**
+	 * Construct and return array of drops as expected by Backbone.js model
+	 * @param  [type] $post_id [description]
+	 * @return [type]          [description]
+	 */
+	function get_drops_for_layout( $post_id ) {
+		global $wpdb;
+		//@todo need to sort out the sorting
+		$drops = $wpdb->get_results( $wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id ) );
+		$prepared = array();
+
+		foreach( (array) $drops as $drop )
+			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), (array) unserialize( $drop->meta_value ) );
+
+		return $prepared;
 	}
 
 	/**
@@ -261,12 +280,12 @@ class Drop_It {
 	function create_drop( $payload ) {
 		global $wpdb;
 		if ( (int) $payload->post_id != 0 ) {
-			$drop = array( 'type' => $payload->type, 'content' => wp_filter_post_kses( $payload->content ) );
+			$drop = array( 'type' => $payload->type, 'content' => wp_filter_post_kses( $payload->content ), 'width' => $payload->width );
 			switch ( $payload->type ) {
 				case 'static_html':
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
 					$meta_id = $wpdb->get_var(
-						$wpdb->prepare( "select meta_id from $wpdb->postmeta where post_id=%s and meta_key='_drop' ORDER By meta_id DESC Limit 1", $payload->post_id ) );
+						$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER By meta_id DESC LIMIT 1", $payload->post_id ) );
 					return (int) $meta_id;
 				break;
 				default:
@@ -286,8 +305,19 @@ class Drop_It {
 
 	}
 
-	function delete_drop( $payload ) {
-
+	/**
+	 * Remove the drop and clear the cache
+	 * @param  int $drop_id meta_id
+	 * @param  int $post_id [description]
+	 * @return bool result
+	 */
+	function delete_drop( $drop_id, $post_id ) {
+		global $wpdb;
+		$result = (bool) $wpdb->delete( "$wpdb->postmeta", array( 'meta_id' => (int) $drop_id ) );
+		if ( $result ) {
+			wp_cache_delete( $post_id, 'post_meta' );
+		}
+		return $result;
 	}
 
 	/**

@@ -15,7 +15,7 @@
 	margin: 3px 3px 3px 0; padding: 1px;
 }
 .di-drop-collapsed {
-	display: none;
+	/*display: none;*/
 }
 
 #create-drop label, #create-drop textarea, #create-drop select {
