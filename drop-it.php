@@ -57,7 +57,26 @@ class Drop_It {
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
+		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
 
+	}
+
+	function _ajax_search() {
+		if ( !isset( $_GET['term'] ) || empty( $_GET['term'] ) )
+			exit;
+
+		$term = sanitize_text_field( $_GET['term'] );
+		$posts = get_posts( array(
+			's' => $term,
+			'posts_per_page' => 20
+		) );
+
+		$return = array();
+		foreach( $posts as $post ) {
+			$return[] = (object) array( 'post_id' => $post->ID, 'post_title' => $post->post_title, 'post_date' => $post->post_date );
+		}
+		echo json_encode( $return );
+		exit;
 	}
 	/**
 	 * Route AJAX actions to CRUD methods`
@@ -403,7 +422,7 @@ class Drop_It {
 		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
 		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
 		wp_enqueue_script( 'di-bb-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable', 'backbone', 'jquery-ui-autocomplete' ), $rnd, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 	}
 

@@ -18,7 +18,7 @@
 	/*display: none;*/
 }
 
-#create-drop label, #create-drop textarea, #create-drop select {
+#create-drop label, #create-drop textarea, #create-drop select, #create-drop input  {
 	margin: 2px 0;
 	display: block;
 	width: 20%;

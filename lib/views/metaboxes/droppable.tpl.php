@@ -34,6 +34,8 @@
 </script>
 
 <script type="text/template" id="single-createDropTemplate">
+	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
+	<label>OR</label>
 	<input type="text" name="post_id" placeholder="Enter post id" />
 	<button class="button button-primary drop-add">Add It</button>
 </script>
