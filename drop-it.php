@@ -243,7 +243,7 @@ class Drop_It {
 
 	function action_admin_head() {
 		$screen = get_current_screen();
-		if ( $screen->base != 'post' && $screen->post_type != 'di-layout' )
+		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-layout' )
 			return;
 
 		$meta = json_encode( $this->get_drops_for_layout( $_GET['post'] ) );
@@ -275,7 +275,7 @@ class Drop_It {
 	/**
 	 * Create a new drop
 	 * @param  object $payload Decoded JSON payload
-	 * @return [type]          [description]
+	 * @return mixed  int of freshly created drop on success or false on failure
 	 */
 	function create_drop( $payload ) {
 		global $wpdb;
@@ -291,10 +291,8 @@ class Drop_It {
 				default:
 					return false;
 			}
-			// Mock
-			return true;
 		}
-		exit;
+		return false;
 	}
 
 	function get_drop( $payload ) {
