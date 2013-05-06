@@ -44,6 +44,12 @@
 	Im loop
 </script>
 
+<script type="text/template" id="autocompleteDropTemplate">
+	<a><%= post_title %></a>
+</script>
+
+
+
 <div id="create-drop"></div>
 
 <div id="drops">
