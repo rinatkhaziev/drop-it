@@ -2,8 +2,20 @@
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
  	<ul>
-	 	<li>Drop type: <%= type %></li>
+	 	<li>Drop type: 
+		<% switch( type ) {
+			case 'static_html':
+			%> Static HTML <%
+			break;
+			case 'single':
+			%> Single Post <%
+			break;
+		}
+		%>
+
+	 	</li>
 		<li>Parameters: <%= content %></li>
+
 	</ul>
  </div>
  <button class="button button-primary drop-expand">Edit</button>
