@@ -1,7 +1,10 @@
 <script type="text/template" id="static_html-dropTemplate">
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
-	<%= content %>
+ 	<ul>
+	 	<li>Drop type: <%= type %></li>
+		<li>Parameters: <%= content %></li>
+	</ul>
  </div>
  <button class="button button-primary drop-expand">Edit</button>
  <button class="button button-secondary right drop-delete">Delete</button>
