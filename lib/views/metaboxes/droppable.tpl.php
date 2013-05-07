@@ -35,8 +35,10 @@
 
 <script type="text/template" id="single-createDropTemplate">
 	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
-	<label>OR</label>
-	<input type="text" name="post_id" placeholder="Enter post id" />
+
+	<label class="di-found-post"></label>
+	<input type="hidden" name="content" class="di-found-content" />
+
 	<button class="button button-primary drop-add">Add It</button>
 </script>
 
@@ -46,6 +48,7 @@
 
 <script type="text/template" id="autocompleteDropTemplate">
 	<a><%= post_title %></a>
+	<input type="hidden" value="<%= post_id %>" name="content" />
 </script>
 
 
