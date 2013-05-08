@@ -437,6 +437,31 @@ class Drop_It {
 	private function _a( $method ) {
 		return array( $this, $method );
 	}
+
+	/**
+	 * Get drops meta data, format it, and return
+	 * @param  int $zone_id Drop It Zone post_id
+	 * @return array
+	 */
+	function get_drops_for_zone( $zone_id ) {
+		// Bail if $zone_id is malformed
+		if ( (int) $zone_id === 0 )
+			return false;
+
+		$drops = get_post_meta( $zone_id, '_drop' );
+
+		return $drops;
+	}
+}
+
+/**
+ * Just a convinience wrapper
+ * @param  [type] $zone_id [description]
+ * @return [type]          [description]
+ */
+function di_get_drops_for_zone( $zone_id ) {
+	global $drop_it;
+	$drops = $drop_it->get_drops_for_zone( $zone_id );
 }
 
 global $drop_it;
