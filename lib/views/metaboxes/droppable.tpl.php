@@ -2,7 +2,7 @@
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
  	<ul>
-	 	<li>Drop type: 
+	 	<li><strong>Drop type</strong>: 
 		<% switch( type ) {
 			case 'static_html':
 			%> Static HTML <%
@@ -14,7 +14,10 @@
 		%>
 
 	 	</li>
-		<li>Parameters: <%= content %></li>
+	 	<li><strong>Columns</strong>: <%= width %></li>
+	 	<li></li>
+	 	<li></li>
+		<li><strong>Parameters</strong>: <%= content %></li>
 
 	</ul>
  </div>
