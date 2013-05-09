@@ -47,7 +47,19 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	// Check if errors are handled properly
 	function test_error_handling() {
+	}
+	/**
+	 * [test_ajax_search description]
+	 * @return [type] [description]
+	 */
+	function test_ajax_search() {
+		// Successful search
+		$titles = array( 'test', 'rest', 'blast', 'fast' );
+		$post_id = $this->factory->post->create_many( '20',  array( 'post_type' => 'di-layout', 'post_title' => array_rand( $titles ) ) );
+		$_GET['term'] = 'test';
+		$_GET['exclude'] = '1,2,3,4,5,6,7';
 
+		$this->assertNotEmpty( $this->di->_ajax_search() );
 	}
 }
 
