@@ -2,7 +2,7 @@
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
  	<ul>
-	 	<li><strong>Drop type</strong>: 
+	 	<li><strong>Drop type</strong>:
 		<% switch( type ) {
 			case 'static_html':
 			%> Static HTML <%
@@ -24,7 +24,7 @@
  <button class="button button-primary drop-expand">Edit</button>
  <button class="button button-secondary right drop-delete">Delete</button>
 </script>
-<script type="text/template" id="loop-dropTemplate">
+<script type="text/template" id="query-dropTemplate">
 	<strong>Awesome2</strong>
 </script>
 
@@ -60,7 +60,7 @@
 	<button class="button button-primary drop-add">Add It</button>
 </script>
 
-<script type="text/template" id="loop-createDropTemplate">
+<script type="text/template" id="query-createDropTemplate">
 	Im loop
 </script>
 
