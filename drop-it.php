@@ -66,9 +66,11 @@ class Drop_It {
 			exit;
 
 		$term = sanitize_text_field( $_GET['term'] );
+		$exclude = isset( $_GET['exclude'] ) ? explode( ',' $_GET['exclude'] ) : array();
 		$posts = get_posts( array(
 			's' => $term,
-			'posts_per_page' => 20
+			'posts_per_page' => 10,
+			'exclude' => $exclude
 		) );
 
 		$return = array();
