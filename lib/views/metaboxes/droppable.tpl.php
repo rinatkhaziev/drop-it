@@ -17,7 +17,18 @@
 	 	<li><strong>Columns</strong>: <%= width %></li>
 	 	<li></li>
 	 	<li></li>
-		<li><strong>Parameters</strong>: <%= content %></li>
+	 	<li><strong>Parameters</strong>:<br/>
+	 	<% switch( type ) {
+			case 'static_html':
+			%> <%= content %> <%
+			break;
+			case 'single':
+			%> Post title: <%= post_title %> <br/> <%
+			%> Post ID: <%= content %> <%
+			break;
+		}
+		%>
+		</li>
 
 	</ul>
  </div>

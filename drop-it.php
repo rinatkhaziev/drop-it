@@ -297,8 +297,21 @@ class Drop_It {
 		$drops = $wpdb->get_results( $wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id ) );
 		$prepared = array();
 
-		foreach( (array) $drops as $drop )
-			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), (array) unserialize( $drop->meta_value ) );
+		foreach( (array) $drops as $drop ) {
+			$meta  = (array) unserialize( $drop->meta_value );
+			// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
+			if ( $meta['type'] == 'single' ) {
+				$post = (array) get_post( $meta['content'], 'ARRAY_A' );
+
+				if ( !empty($post ) )
+					$meta = array_merge( $meta,
+						array(
+							'post_title' =>  $post['post_title'],
+							'post_excerpt' => $post['post_excerpt'],
+						) );
+			}
+			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), $meta );
+		}
 
 		return $prepared;
 	}
