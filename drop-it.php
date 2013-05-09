@@ -65,8 +65,9 @@ class Drop_It {
 		if ( !isset( $_GET['term'] ) || empty( $_GET['term'] ) )
 			exit;
 
+		// Sanitize term and make sure that exclude is array
 		$term = sanitize_text_field( $_GET['term'] );
-		$exclude = isset( $_GET['exclude'] ) ? explode( ',', $_GET['exclude'] ) : array();
+		$exclude = isset( $_GET['exclude'] ) && is_array( $_GET['exclude'] ) ? $_GET['exclude'] : array();
 		$posts = get_posts( array(
 			's' => $term,
 			'posts_per_page' => 10,
@@ -85,6 +86,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function _route_ajax_actions() {
+		// Read and decode JSON payload fro
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 		if ( !empty( $payload ) ) {
 			switch( $payload->action ) {
@@ -266,12 +268,20 @@ class Drop_It {
 		$screen = get_current_screen();
 		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-layout' )
 			return;
+		$drops = $this->get_drops_for_layout( $_GET['post'] );
+		$exclude = array();
+		$meta = json_encode( $drops );
+		foreach( $drops as $drop ) {
+			if ( $drop['type'] == 'single' ) {
+				$exclude[] = (int) $drop['content'];
+			}
+		}
+		$exclude = json_encode( $exclude ); ?>
 
-		$meta = json_encode( $this->get_drops_for_layout( $_GET['post'] ) );
-?>
 <script type="text/javascript">
 	window.drops = <?php echo $meta ?>;
 	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
+	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>
 </script>
 <?php
 	}
