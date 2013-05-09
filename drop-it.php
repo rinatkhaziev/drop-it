@@ -444,12 +444,14 @@ class Drop_It {
 			return;
 
 		$rnd = mt_rand( 100, 10000 );
-		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
-		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
-		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
-		wp_enqueue_script( 'di-bb-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery', 'jquery-ui-sortable', 'backbone' ), $rnd, true );
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery', 'jquery-ui-sortable', 'backbone', 'jquery-ui-autocomplete' ), $rnd, true );
+		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), $rnd, true );
+		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), $rnd, true );
+		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), $rnd, true );
+		wp_enqueue_script( 'di-bb-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), $rnd, true );
+		wp_enqueue_script( 'drop-gridster', DROP_IT_URL . 'lib/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), $rnd, true );
+		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), $rnd, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
+		wp_enqueue_style( 'drop-it-gridster-style', DROP_IT_URL . 'lib/vendor/gridster/jquery.gridster.min.css' );
 	}
 
 	/**
