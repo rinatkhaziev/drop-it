@@ -323,6 +323,8 @@ class Drop_It {
 	 */
 	function create_drop( $payload ) {
 		global $wpdb;
+		// Array to hold additional per drop properties 
+		$extra = array();
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array( 'type' => $payload->type, 'content' => wp_filter_post_kses( $payload->content ), 'width' => $payload->width );
 			switch ( $payload->type ) {
@@ -331,7 +333,13 @@ class Drop_It {
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
 					$meta_id = $wpdb->get_var(
 						$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER By meta_id DESC LIMIT 1", $payload->post_id ) );
-					return (int) $meta_id;
+
+					if ( $payload->type == 'single' ) {
+						$post = get_post( $payload->post_id, 'ARRAY_A' );
+						$extra['post_title'] = $post['post_title'];
+					}
+
+					return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
 				break;
 				default:
 					return false;

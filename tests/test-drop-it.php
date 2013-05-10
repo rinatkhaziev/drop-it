@@ -33,13 +33,12 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function test_create_drop() {
-		// Test successful creation
+		// Test successful creation of static drop
 		$post_id = $this->factory->post->create( array( 'post_type' => 'di-layout' ) );
 		$payload = (object) array( 'type' => 'static_html', 'content' => 'test', 'post_id' => $post_id );
-		$drop_result = $this->di->create_drop( $payload );
-		$this->assertInternalType( 'int', $drop_result );
-		$this->assertGreaterThan( 0, $drop_result );
-
+		$drop_result = json_decode( $this->di->create_drop( $payload ) );
+		$this->assertInternalType( 'object', $drop_result );
+		$this->assertGreaterThan( 0, $drop_result->meta_id );
 		// Test unexpected drop type
 		$payload->type = 'unexpected';
 		$this->assertFalse( $this->di->create_drop( $payload ) );
