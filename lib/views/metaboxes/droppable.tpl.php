@@ -84,8 +84,8 @@
 
 <div id="create-drop"></div>
 
-<div id="drops">
+<div id="drops" class="gridster">
 
-<div class="clear"></div>
+<!-- <div class="clear"></div> -->
 </div>
 <div class="clear"></div>
