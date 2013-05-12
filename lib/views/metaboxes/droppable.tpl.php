@@ -50,10 +50,10 @@
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 
-	<input type="hidden" name="action" value="create_drop" />
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
+
     <div id="varyOptionsForProto"></div>
 </script>
 

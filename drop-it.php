@@ -445,6 +445,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function admin_enqueue_scripts() {
+		global $wp_version;
 		// Bust cache for dev
 		$screen = get_current_screen();
 		// Bail if we're somewhere else besides layout editor
@@ -452,8 +453,12 @@ class Drop_It {
 			return;
 
 		$rnd = mt_rand( 100, 10000 );
-		wp_deregister_script( 'backbone' );
-		wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), $rnd, true );
+
+		// @todo Test $wp_version < 3.6
+		if ( version_compare( floatval( $wp_version ), '3.6' ) == -1  ) {
+			wp_deregister_script( 'backbone' );
+			wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), $rnd, true );
+		}
 		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), $rnd, true );
 		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), $rnd, true );
 		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), $rnd, true );
