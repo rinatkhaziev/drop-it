@@ -1,6 +1,8 @@
 <script type="text/template" id="static_html-dropTemplate">
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
+ 	<input type="hidden" name="column" value="<%= column %>" />
+ 	<input type="hidden" name="row" value="<%= row %>" />
  	<ul>
 	 	<li><strong>Drop type</strong>:
 		<% switch( type ) {

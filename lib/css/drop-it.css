@@ -11,9 +11,12 @@
 	width: 140px;
 	height: 140px;
 	overflow: hidden;
-/*	border: 1px black dashed;
+	border: 1px black dashed;
+
+	/*
 	float: left;
-	margin: 3px 3px 3px 0; padding: 1px;*/
+	margin: 3px 3px 3px 0; padding: 1px;
+	*/
 }
 .di-drop-collapsed {
 	/*display: none;*/
