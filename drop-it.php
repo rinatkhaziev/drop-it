@@ -323,10 +323,16 @@ class Drop_It {
 	 */
 	function create_drop( $payload ) {
 		global $wpdb;
-		// Array to hold additional per drop properties 
+		// Array to hold additional per drop properties
 		$extra = array();
 		if ( (int) $payload->post_id != 0 ) {
-			$drop = array( 'type' => $payload->type, 'content' => wp_filter_post_kses( $payload->content ), 'width' => $payload->width );
+			$drop = array(
+				'type' => $payload->type,
+				'content' => wp_filter_post_kses( $payload->content ),
+				'width' => (int) $payload->width,
+				'column' => (int) $payload->column,
+				'row' => (int) $payload->row
+			);
 			switch ( $payload->type ) {
 				case 'static_html':
 				case 'single':

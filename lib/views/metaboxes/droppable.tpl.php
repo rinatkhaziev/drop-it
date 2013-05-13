@@ -45,8 +45,18 @@
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 
-    <label for="dropWidthTemplate">Columns</label>
+    <label for="dropWidthTemplate">Columns Span</label>
     <select id="dropWidthTemplate" name="width">
+	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
+    </select>
+
+    <label for="dropColumnTemplate">Column</label>
+    <select id="dropColumnTemplate" name="column">
+	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
+    </select>
+
+    <label for="dropRowTemplate">Row</label>
+    <select id="dropRowTemplate" name="row">
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 
