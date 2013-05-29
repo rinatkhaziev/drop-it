@@ -63,7 +63,7 @@
     </select>
 
 	<?php if ( isset( $_GET['post'] ) ): ?>
-	<input type="hidden" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
+	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
 
     <div id="varyOptionsForProto"></div>

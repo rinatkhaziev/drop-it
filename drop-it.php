@@ -88,7 +88,7 @@ class Drop_It {
 	function _route_ajax_actions() {
 		// Read and decode JSON payload fro
 		$payload = json_decode( file_get_contents( 'php://input' ) );
-		if ( !empty( $payload ) ) {
+		if ( !empty( $payload ) && isset( $payload->action ) ) {
 			switch( $payload->action ) {
 				case 'create_drop':
 						$result = $this->create_drop( $payload );
@@ -109,6 +109,18 @@ class Drop_It {
 					break;
 			}
 		exit;
+		}
+
+		/**
+		 * Prototype of handling CRUD actions for collections
+		 */
+		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
+			switch( $_REQUEST['mode'] ) {
+				case 'update_collection':
+					$this->update_collection( $payload );
+				break;
+			}
+			exit;
 		}
 	}
 
@@ -338,7 +350,7 @@ class Drop_It {
 				case 'single':
 					add_post_meta( (int) $payload->post_id, '_drop', $drop );
 					$meta_id = $wpdb->get_var(
-						$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER By meta_id DESC LIMIT 1", $payload->post_id ) );
+						$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
 					if ( $payload->type == 'single' ) {
 						$post = get_post( $payload->post_id, 'ARRAY_A' );
@@ -358,8 +370,28 @@ class Drop_It {
 
 	}
 
+	/**
+	 * Prototype of updating a drop
+	 *
+	 * @todo Add all the kinds of checks
+	 * @param  [type] $payload [description]
+	 * @return [type]          [description]
+	 */
 	function update_drop( $payload ) {
+		$drop = array(
+			'type' => $payload->type,
+			'content' => wp_filter_post_kses( $payload->content ),
+			'width' => (int) $payload->width,
+			'column' => (int) $payload->column,
+			'row' => (int) $payload->row
+		);
+		update_metadata_by_mid( 'post', $payload->drop_id, $drop, $meta_key = false );
+	}
 
+	function update_collection( $drops = array() ) {
+		foreach( $drops as $drop ) {
+			$this->update_drop( $drop );
+		}
 	}
 
 	/**
