@@ -58,6 +58,7 @@ class Drop_It {
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
 		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
+		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
 
 	}
 
@@ -531,6 +532,25 @@ class Drop_It {
 		$drops = get_post_meta( $zone_id, '_drop' );
 
 		return $drops;
+	}
+
+	/**
+	 * @param zone
+	 * @param  [type] $atts [description]
+	 * @return [type]       [description]
+	 */
+	function _render_shortcode( $atts ) {
+		extract( shortcode_atts( array(
+			// zone slug
+			'zone' => '',
+		), $atts ) );
+
+		// Bail if no zone is set
+		if ( empty( $zone ) )
+			return;
+
+		$zone_drops = $this->get_drops_for_zone( $zone );
+
 	}
 }
 
