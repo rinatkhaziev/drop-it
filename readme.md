@@ -8,9 +8,6 @@ Drag and drop layout management framework for WordPress. Comes with a set of wid
 
 ## Implementation thoughts not to forget:
 
-For backbone.js model grab all the registered drops, parse their properties and serve as a collection.
-Iterate through collection to set available options for a single droppable block ( @todo terminology? ).
-
 Possible options:
 + name: A name of the instance ( may be not)
 + type: One of the registered types (e.g. static, post, or a loop (pretty much anything wp_query can do ) ) (extendable with filters or by naming convention)
