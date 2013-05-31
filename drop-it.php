@@ -534,6 +534,19 @@ class Drop_It {
 		return $drops;
 	}
 
+	function get_zone_id_by_slug( $slug ) {
+		$zone = get_posts( array(
+			'post_name' => $slug,
+			'post_type' => 'di-layout',
+			'posts_per_page' => 1,
+		) );
+
+		if ( !isset( $zone[0] ) )
+			return false;
+
+		return $zone[0]->ID;
+	}
+
 	/**
 	 * @param zone
 	 * @param  [type] $atts [description]
@@ -549,7 +562,22 @@ class Drop_It {
 		if ( empty( $zone ) )
 			return;
 
-		$zone_drops = $this->get_drops_for_zone( $zone );
+		$zone_id = $this->get_zone_id_by_slug( $zone );
+
+		// Bail if there's no drop it zone
+		if ( ! $zone_id )
+			return;
+
+		$zone_drops = $this->get_drops_for_zone( $zone_id );
+
+		// Bail if there's no drops for the zone
+		if ( empty( $zone_drops ) )
+			return;
+
+		$this->_render_drops( $zone_drops );
+	}
+
+	function _render_drops( $drops = array() ) {
 
 	}
 }
