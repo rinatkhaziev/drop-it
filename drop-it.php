@@ -574,11 +574,24 @@ class Drop_It {
 		if ( empty( $zone_drops ) )
 			return;
 
-		$this->_render_drops( $zone_drops );
+		return $this->_render_drops( $zone_drops );
 	}
 
-	function _render_drops( $drops = array() ) {
 
+	/**
+	 * Parse and return template for each drop
+	 * @param  array  $drops Drops to render
+	 * @return string Processed HTML
+	 */
+	function _render_drops( $drops = array() ) {
+		ob_start();
+		foreach( $drops as $drop ) {
+			if ( !isset( $this->drops[ $drop['type'] ] ) )
+				continue;
+
+			echo $this->drops[ $drop['type'] ]->render( $drop );
+		}
+		return ob_get_clean();
 	}
 }
 

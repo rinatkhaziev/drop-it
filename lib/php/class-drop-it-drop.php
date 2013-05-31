@@ -19,14 +19,14 @@ abstract class Drop_It_Drop  {
 		$this->options = $options;
 	}
 
-	abstract function view();
-
-	abstract function model( $args = array() );
-
 	function preview() {
 	}
 
 	function save() {
+	}
+
+	function render( $drop ) {
+		return apply_filters( "{$this->id}_drop_template", '<p>mock</p>' );
 	}
 }
 
