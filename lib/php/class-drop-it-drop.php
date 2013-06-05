@@ -10,13 +10,20 @@ abstract class Drop_It_Drop  {
 	public $id,
 		   $label,
 		   $template,
-		   $options;
+		   $options,
+		   $allowed_tokens;
 
 	function __construct( $id, $label, $template, $options = array() ) {
 		$this->id = $id;
 		$this->label = $label;
 		$this->template = $template;
 		$this->options = $options;
+		$this->allowed_tokens = apply_filters( "di_allowed_tokens", array(
+			'the_title',
+			'the_content',
+			'the_excerpt',
+			'the_date',
+		) );
 	}
 
 	function preview() {
@@ -25,8 +32,9 @@ abstract class Drop_It_Drop  {
 	function save() {
 	}
 
+	// Each drop type should implement it's own render logic
 	function render( $drop ) {
-		return apply_filters( "{$this->id}_drop_template", '<p>mock</p>' );
+		return apply_filters( "{$this->id}_drop_template", '' );
 	}
 }
 

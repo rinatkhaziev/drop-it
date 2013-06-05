@@ -539,6 +539,7 @@ class Drop_It {
 			'post_name' => $slug,
 			'post_type' => 'di-layout',
 			'posts_per_page' => 1,
+			'post_status' => 'any,'
 		) );
 
 		if ( !isset( $zone[0] ) )
