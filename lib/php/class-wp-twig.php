@@ -42,6 +42,9 @@ class WP_Twig {
 			return;
 		}
 
-		echo $this->e->render( $template, $data );
+		$cached_tmpl = $this->e->render( $template, $data );
+		wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig' );
+
+		echo $cached_tmpl;
 	}
 }

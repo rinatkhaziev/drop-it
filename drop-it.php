@@ -34,6 +34,7 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 require_once DROP_IT_ROOT . '/lib/php/class-drop-it-drop.php';
 require_once DROP_IT_ROOT . '/lib/php/wp-settings-api/class.settings-api.php';
 require_once DROP_IT_ROOT . '/lib/php/drop-it-settings.php';
+require_once DROP_IT_ROOT . '/lib/php/class-wp-twig.php';
 
 class Drop_It {
 
@@ -41,6 +42,7 @@ class Drop_It {
 	public $key = 'drop-it';
 	public $manage_cap;
 	public $settings;
+	public $twig;
 
 	/**
 	 * Instantiate the plugin, hook the filters and actions
@@ -60,6 +62,7 @@ class Drop_It {
 		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
 		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
 
+		$this->twig = new WP_Twig( DROP_IT_ROOT . '/lib/views/twig-templates/', false );
 	}
 
 	function _ajax_search() {
