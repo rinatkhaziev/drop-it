@@ -593,7 +593,9 @@ class Drop_It {
 			if ( !isset( $this->drops[ $drop['type'] ] ) )
 				continue;
 
-			echo $this->drops[ $drop['type'] ]->render( $drop );
+			$drop_instance = $this->drops[ $drop['type'] ];
+
+			$this->twig->render( $drop_instance->template, $drop );
 		}
 		return ob_get_clean();
 	}

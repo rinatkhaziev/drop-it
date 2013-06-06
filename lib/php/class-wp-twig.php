@@ -5,8 +5,10 @@
  */
 require_once __DIR__ . "/twig/lib/Twig/Autoloader.php";
 class WP_Twig {
+
 	public $loader,
 	$e;
+
 	function __construct( $templates_dir_path = '', $env_cache = false ) {
 		if ( !file_exists( $templates_dir_path ) )
 			return;
@@ -42,8 +44,11 @@ class WP_Twig {
 			return;
 		}
 
-		$cached_tmpl = $this->e->render( $template, $data );
-		wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig' );
+		$cached_tmpl = $this->e->render( $template . '.tpl', $data );
+
+		// Do not cache while developing/debugging
+		if ( !WP_DEBUG )
+			wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig' );
 
 		echo $cached_tmpl;
 	}
