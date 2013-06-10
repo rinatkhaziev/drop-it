@@ -135,24 +135,34 @@ class Drop_It {
 	 * @return [type]        [description]
 	 */
 	function register_drops() {
-		$path = DROP_IT_ROOT . '/includes/drops/';
-		$class_files = $class_names = array();
+		$default_path =  DROP_IT_ROOT . '/includes/drops/';
+		$paths = apply_filters( 'di_drops_folders', array( $default_path ) );
+		$file_info = new finfo( FILEINFO_MIME );
+		// test
+		if ( empty( $paths ) )
+			$paths[] = $default_path;
 
+		$class_files = array();
+
+		foreach( $paths as $path ) {
+			$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
+		}
 		// Scan drops folder for bundled drops
 		// Use this filter to add custom drops in
-		$class_files = apply_filters( 'di_drops_to_register', array_diff( scandir( $path ), array( '..', '.' ) ) );
 		foreach ( $class_files as $drop ) {
+			foreach ( $paths as $path ) {
 			$class_file = $path . $drop;
 
 			// Just a safety check for a filter
-			if ( !file_exists( $class_file ) )
+			if ( !file_exists( $class_file ) || is_dir( $class_file ) )
 				continue;
 
 			require_once $class_file;
+			}
 
 		}
 
-		$this->if_initialize_classes( $class_names );
+		$this->if_initialize_classes();
 	}
 
 	/**
@@ -572,6 +582,9 @@ function di_get_drops_for_zone( $zone_id ) {
 	global $drop_it;
 	$drops = $drop_it->get_drops_for_zone( $zone_id );
 }
+
+// just a test filter
+//add_filter( 'di_drops_folders', function( $paths ) { $paths[] = DROP_IT_ROOT . '/lib/'; return $paths; } );
 
 global $drop_it;
 $drop_it = new Drop_It;
