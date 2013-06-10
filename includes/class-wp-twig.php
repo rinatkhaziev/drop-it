@@ -3,7 +3,7 @@
  * Simple Wrapper class for Twig template engine
  *
  */
-require_once __DIR__ . "/twig/lib/Twig/Autoloader.php";
+require_once __DIR__ . "/vendor/twig/lib/Twig/Autoloader.php";
 class WP_Twig {
 
 	public $loader,

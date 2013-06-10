@@ -1,9 +1,7 @@
 <?php
 /**
- *
+ * Settings for Drop It
  */
-
-
 class Drop_It_Settings {
 
 	private $settings_api, $slug, $caps, $settings_suffix = 'di_settings';

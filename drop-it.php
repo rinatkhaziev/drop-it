@@ -31,10 +31,10 @@ define( 'DROP_IT_FILE_PATH' , DROP_IT_ROOT . '/' . basename( __FILE__ ) );
 define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 
 // Bootstrap
-require_once DROP_IT_ROOT . '/lib/php/class-drop-it-drop.php';
-require_once DROP_IT_ROOT . '/lib/php/wp-settings-api/class.settings-api.php';
-require_once DROP_IT_ROOT . '/lib/php/drop-it-settings.php';
-require_once DROP_IT_ROOT . '/lib/php/class-wp-twig.php';
+require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
+require_once DROP_IT_ROOT . '/includes/vendor/wp-settings-api/class.settings-api.php';
+require_once DROP_IT_ROOT . '/includes/drop-it-settings.php';
+require_once DROP_IT_ROOT . '/includes/class-wp-twig.php';
 
 class Drop_It {
 
@@ -136,7 +136,7 @@ class Drop_It {
 	 * @return [type]        [description]
 	 */
 	function register_drops() {
-		$path = DROP_IT_ROOT . '/lib/php/drops/';
+		$path = DROP_IT_ROOT . '/includes/drops/';
 		$class_files = $class_names = array();
 
 		// Scan drops folder for bundled drops
