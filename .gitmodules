@@ -1,6 +1,6 @@
-[submodule "lib/php/wp-settings-api"]
-	path = lib/php/wp-settings-api
+[submodule "includes/vendor/wp-settings-api"]
+	path = includes/vendor/wp-settings-api
 	url = git://github.com/rinatkhaziev/wordpress-settings-api-class.git
-[submodule "lib/php/twig"]
-	path = lib/php/twig
+[submodule "includes/vendor/twig"]
+	path = includes/vendor/twig
 	url = git://github.com/fabpot/Twig.git
