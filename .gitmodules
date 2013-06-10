@@ -1,6 +1,0 @@
-[submodule "includes/vendor/wp-settings-api"]
-	path = includes/vendor/wp-settings-api
-	url = git://github.com/rinatkhaziev/wordpress-settings-api-class.git
-[submodule "includes/vendor/twig"]
-	path = includes/vendor/twig
-	url = git://github.com/fabpot/Twig.git
