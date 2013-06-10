@@ -65,7 +65,14 @@ class Drop_It {
 		$this->twig = new WP_Twig( DROP_IT_ROOT . '/lib/views/twig-templates/', false );
 	}
 
+	/**
+	 * AJAX Autocomplete callback
+	 *
+	 * @return json encoded array of found posts
+	 */
 	function _ajax_search() {
+
+		// Bail if search term is empty
 		if ( !isset( $_GET['term'] ) || empty( $_GET['term'] ) )
 			exit;
 
@@ -86,7 +93,7 @@ class Drop_It {
 		exit;
 	}
 	/**
-	 * Route AJAX actions to CRUD methods`
+	 * Route AJAX actions to CRUD methods
 	 * @return [type] [description]
 	 */
 	function _route_ajax_actions() {
@@ -136,18 +143,24 @@ class Drop_It {
 	 */
 	function register_drops() {
 		$default_path =  DROP_IT_ROOT . '/includes/drops/';
+
+		/**
+		 * Configuration filter: di_drops_folders
+		 * By default, we look into
+		 * @var [type]
+		 */
 		$paths = apply_filters( 'di_drops_folders', array( $default_path ) );
-		$file_info = new finfo( FILEINFO_MIME );
 		// test
 		if ( empty( $paths ) )
 			$paths[] = $default_path;
 
 		$class_files = array();
 
-		foreach( $paths as $path ) {
-			$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
-		}
 		// Scan drops folder for bundled drops
+		foreach( $paths as $path )
+			if ( file_exists( $path ) )
+				$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
+
 		// Use this filter to add custom drops in
 		foreach ( $class_files as $drop ) {
 			foreach ( $paths as $path ) {
@@ -157,7 +170,11 @@ class Drop_It {
 			if ( !file_exists( $class_file ) || is_dir( $class_file ) )
 				continue;
 
-			require_once $class_file;
+			// Prevent inclusion of any other files than php
+			$check = wp_check_filetype( $class_file, array( 'php' => 'php' ) );
+
+			if ( $check['ext'] && $check['type'] )
+				require_once $class_file;
 			}
 
 		}
@@ -269,6 +286,7 @@ class Drop_It {
 		$exclude = array();
 		$meta = json_encode( $drops );
 		foreach( $drops as $drop ) {
+			// Add the post id to array of posts that should be excluded in autocomplete search
 			if ( $drop['type'] == 'single' ) {
 				$exclude[] = (int) $drop['content'];
 			}
@@ -582,9 +600,6 @@ function di_get_drops_for_zone( $zone_id ) {
 	global $drop_it;
 	$drops = $drop_it->get_drops_for_zone( $zone_id );
 }
-
-// just a test filter
-//add_filter( 'di_drops_folders', function( $paths ) { $paths[] = DROP_IT_ROOT . '/lib/'; return $paths; } );
 
 global $drop_it;
 $drop_it = new Drop_It;
