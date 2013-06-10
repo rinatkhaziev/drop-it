@@ -128,9 +128,8 @@ class Drop_It {
 		}
 	}
 
-
 	/**
-	 * Registering available drios
+	 * Registering available drops
 	 *
 	 * @param array   $drops [description]
 	 * @return [type]        [description]
@@ -150,51 +149,23 @@ class Drop_It {
 				continue;
 
 			require_once $class_file;
-			$class_names = array_merge( $class_names, $this->file_get_php_classes( $class_file ) );
+
 		}
 
 		$this->if_initialize_classes( $class_names );
 	}
 
 	/**
-	 * Check if available class definitions subclasses of Drop_It_Drop
+	 * Check if available class definitions are subclasses of Drop_It_Drop
+	 * And init if they are
 	 * @param  array  $class_names [description]
 	 * @return [type]              [description]
 	 */
-	function if_initialize_classes( $class_names = array() ) {
-		foreach( $class_names as $class_name ) {
-			$reflection = new ReflectionClass( $class_name );
-			if ( $reflection->isSubclassOf( 'Drop_It_Drop' ) )
+	function if_initialize_classes() {
+		$class_names = get_declared_classes();
+		foreach( $class_names as $class_name )
+			if ( is_subclass_of( $class_name, 'Drop_It_Drop' ) )
 				$this->drops[ sanitize_title_with_dashes( $class_name ) ] = new $class_name;
-		}
-	}
-
-	function file_get_php_classes( $filepath ) {
-		$php_code = file_get_contents( $filepath );
-		$classes = $this->get_php_classes( $php_code );
-		return $classes;
-	}
-
-	/**
-	 * Parse PHP tokens to grab see what classes are defined in the file
-	 * Normally, there should be only one, paranoid check
-	 * @param  string $php_code PHP Code of the file
-	 * @return array            [description]
-	 */
-	function get_php_classes( $php_code ) {
-		$classes = array();
-		$tokens = token_get_all( $php_code );
-		$count = count( $tokens );
-		for ( $i = 2; $i < $count; $i++ ) {
-			if ( $tokens[$i - 2][0] == T_CLASS
-				&& $tokens[$i - 1][0] == T_WHITESPACE
-				&& $tokens[$i][0] == T_STRING ) {
-
-				$class_name = $tokens[$i][1];
-				$classes[] = $class_name;
-			}
-		}
-		return $classes;
 	}
 
 	function action_enable_tiny() {
