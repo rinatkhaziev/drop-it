@@ -7,24 +7,40 @@ require_once __DIR__ . "/vendor/twig/lib/Twig/Autoloader.php";
 class WP_Twig {
 
 	public $loader,
-	$e;
+	$e,
+	$twig_error;
 
 	function __construct( $templates_dir_path = '', $env_cache = false ) {
-		if ( !file_exists( $templates_dir_path ) )
-			return;
+/*		if ( !file_exists( $templates_dir_path ) )
+			return;*/
 		if ( $env_cache && !file_exists( $env_cache ) )
 			$env_cache = false;
 
-		Twig_Autoloader::register();
+		// Catch basic exception thrown
+		try {
+			Twig_Autoloader::register();
+		} catch( Exception $e ) {
+			$this->process_exception( $e );
+		}
 
-		// Define template directory location
-		$this->loader = new Twig_Loader_Filesystem( $templates_dir_path );
+		try {
+			// Define template directory location
+			$this->loader = new Twig_Loader_Filesystem( $templates_dir_path );
+		} catch( Exception $e ) {
+			$this->process_exception( $e );
+		}
 
-		// Initialize Twig environment
-		$this->e = new Twig_Environment( $this->loader, array(
-				'cache'       => $env_cache,
-				'auto_reload' => true
-		) );
+		try {
+			// Initialize Twig environment
+			$this->e = new Twig_Environment( $this->loader, array(
+					'cache'       => $env_cache,
+					'auto_reload' => true,
+					'autoescape' => true
+			) );
+
+		} catch( Exception $e ) {
+			$this->process_exception( $e );
+		}
 	}
 
 	/**
@@ -43,13 +59,35 @@ class WP_Twig {
 			echo $cached_tmpl;
 			return;
 		}
-
-		$cached_tmpl = $this->e->render( $template . '.tpl', $data );
+		try {
+			$cached_tmpl = $this->e->render( $template . '.tpl', $data );
+		} catch( Exception $e ) {
+			$this->process_exception( $e );
+		}
 
 		// Do not cache while developing/debugging
 		if ( !WP_DEBUG )
 			wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig' );
 
 		echo $cached_tmpl;
+	}
+
+	function process_exception( $e ) {
+		$this->twig_error = $e;
+		if ( is_admin() ) {
+			add_action( 'admin_notices', array( $this, 'admin_exception' ) );
+		} else {
+			return $this->twig_error->getMessage();
+		}
+
+	}
+
+	function admin_exception() {
+    ?>
+    <div class="error">
+        <p><?php echo $this->twig_error->getMessage(); ?></p>
+        <p>Trace:<pre> <?php echo $this->twig_error->getTraceAsString(); ?></pre></p>
+    </div>
+    <?php
 	}
 }

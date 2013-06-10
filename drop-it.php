@@ -206,7 +206,7 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function action_init() {
-		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/lib/languages/' );
+		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 /*		register_post_type( 'di-drop', array(
 				'labels' => array( 'name' => _x( 'Drop It Drops', 'Drop post type plural name', 'drop-it' ) ),
 				'public' => true,
@@ -456,15 +456,6 @@ class Drop_It {
 	 */
 	function admin_page_drops() {
 		$this->_render( 'drops' );
-	}
-
-	/**
-	 * View for layouts management page
-	 *
-	 * @return [type] [description]
-	 */
-	function admin_page_layouts() {
-		$this->_render( 'layouts' );
 	}
 
 	/**
