@@ -27,6 +27,9 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	function test_available_drops() {
 		$this->assertNotEmpty( $this->di->drops );
+	}
+
+	function test_is_subclass() {
 		foreach( $this->di->drops as $drop_slug => $drop_instance ) {
 			$this->assertInstanceOf( 'Drop_It_Drop', $drop_instance );
 		}
@@ -39,8 +42,12 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 		$drop_result = json_decode( $this->di->create_drop( $payload ) );
 		$this->assertInternalType( 'object', $drop_result );
 		$this->assertGreaterThan( 0, $drop_result->meta_id );
-		// Test unexpected drop type
-		$payload->type = 'unexpected';
+	}
+
+	function test_create_drop_failure() {
+		// Test failed creation of static drop
+		$post_id = $this->factory->post->create( array( 'post_type' => 'di-zone' ) );
+		$payload = (object) array( 'type' => 'unexpected', 'content' => 'test', 'post_id' => $post_id );
 		$this->assertFalse( $this->di->create_drop( $payload ) );
 	}
 
