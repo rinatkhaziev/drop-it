@@ -528,10 +528,10 @@ class Drop_It {
 
 	function get_zone_id_by_slug( $slug ) {
 		$zone = get_posts( array(
-			'post_name' => $slug,
+			'name' => $slug,
 			'post_type' => 'di-layout',
 			'posts_per_page' => 1,
-			'post_status' => 'any,'
+			'post_status' => 'any'
 		) );
 
 		if ( !isset( $zone[0] ) )
