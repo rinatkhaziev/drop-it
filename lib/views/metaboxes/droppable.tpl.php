@@ -22,11 +22,11 @@
 	 	<li><strong>Parameters</strong>:<br/>
 	 	<% switch( type ) {
 			case 'static_html':
-			%> <%= content %> <%
+			%> <%= data %> <%
 			break;
 			case 'single':
 			%> Post title: <%= post_title %> <br/> <%
-			%> Post ID: <%= content %> <%
+			%> Post ID: <%= data %> <%
 			break;
 		}
 		%>
@@ -70,7 +70,7 @@
 </script>
 
 <script type="text/template" id="static_html-createDropTemplate">
-	<textarea name="content" id="content" placeholder="Enter Your HTML content"></textarea>
+	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 	<button class="button button-primary drop-add">Add It</button>
 </script>
 
@@ -78,7 +78,7 @@
 	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
 
 	<label class="di-found-post"></label>
-	<input type="hidden" name="content" class="di-found-content" />
+	<input type="hidden" name="data" class="di-found-data" />
 
 	<button class="button button-primary drop-add">Add It</button>
 </script>
@@ -89,7 +89,7 @@
 
 <script type="text/template" id="autocompleteDropTemplate">
 	<a><%= post_title %></a>
-	<input type="hidden" value="<%= post_id %>" name="content" />
+	<input type="hidden" value="<%= post_id %>" name="data" />
 </script>
 
 

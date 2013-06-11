@@ -12,7 +12,15 @@ abstract class Drop_It_Drop  {
 		   $label,
 		   $template,
 		   $options;
-
+	/**
+	 * Constructor
+	 * @todo may be get rid of constructor at all
+	 *
+	 * @param [type] $id       [description]
+	 * @param [type] $label    [description]
+	 * @param [type] $template [description]
+	 * @param array  $options  [description]
+	 */
 	function __construct( $id, $label, $template, $options = array() ) {
 		$this->label = $label;
 		$this->template = apply_filters( $id .'_drop_template', $template );

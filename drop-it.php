@@ -288,7 +288,7 @@ class Drop_It {
 		foreach( $drops as $drop ) {
 			// Add the post id to array of posts that should be excluded in autocomplete search
 			if ( $drop['type'] == 'single' ) {
-				$exclude[] = (int) $drop['content'];
+				$exclude[] = (int) $drop['data'];
 			}
 		}
 		$exclude = json_encode( $exclude ); ?>
@@ -317,7 +317,7 @@ class Drop_It {
 			$meta  = (array) unserialize( $drop->meta_value );
 			// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
 			if ( $meta['type'] == 'single' ) {
-				$post = (array) get_post( $meta['content'], 'ARRAY_A' );
+				$post = (array) get_post( $meta['data'], 'ARRAY_A' );
 
 				if ( !empty($post ) )
 					$meta = array_merge( $meta,
@@ -344,7 +344,7 @@ class Drop_It {
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array(
 				'type' => $payload->type,
-				'content' => wp_filter_post_kses( $payload->content ),
+				'data' => wp_filter_post_kses( $payload->data ),
 				'width' => (int) $payload->width,
 				'column' => (int) $payload->column,
 				'row' => (int) $payload->row
@@ -384,7 +384,7 @@ class Drop_It {
 	function update_drop( $payload ) {
 		$drop = array(
 			'type' => $payload->type,
-			'content' => wp_filter_post_kses( $payload->content ),
+			'data' => wp_filter_post_kses( $payload->data ),
 			'width' => (int) $payload->width,
 			'column' => (int) $payload->column,
 			'row' => (int) $payload->row
