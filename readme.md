@@ -24,3 +24,10 @@ Current implementation is ~~half-assed~~ under heavy development.
 
 ## Feedback
 Pull requests, bug reports, and feature requests are welcome.
+
+## Submodules Init and Update
+
+1. Pull as usual
+2. Do `git submodule -q foreach git pull -q origin master` to update submodules
+3. ...
+4. Profit
