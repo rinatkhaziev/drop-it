@@ -1,25 +1,20 @@
-DropIt
+Drop It
 ======
 ![Build Status](https://magnum-ci.com/status/834724296817537285abf7da3a3c62e9.png)
 
 ## Description
-Drag and drop layout management framework for WordPress. Comes with a set of widgets aka "drops".
+TL;DR: Drag and drop layout management framework for WordPress. Comes with a set of widgets aka "drops".
 
+## Extended Description
+The goal was to build a powerful and extensible, yet easy to use layout management plugin.
 
-## Implementation thoughts not to forget:
+Essentially, the plugin gives userd an ability to create grid of a certain size (Drop Zone) and populate it with widgets (Drops) that might represent different content (static html, single post, custom query, whatever-you-want-to-display). You can shuffle drops around the grid as you want.
 
-Possible options:
-+ name: A name of the instance ( may be not)
-+ type: One of the registered types (e.g. static, post, or a loop (pretty much anything wp_query can do ) ) (extendable with filters or by naming convention)
-+ arguments: for post, it's post id, for loop( any valid wp_query argument that could be easily mapped to UI. Filters for others )
-+ content (if static). Probably WYSIWYG editor to put some basic stuff.
+## Implementation Details
+Each drop is represented by Drop_It_Drop child class. Think of it as an MVC wannabe. Backend UI uses ![Backbone.js](http://backbonejs.org/) (min 1.0). ![Underscore.js](http://underscorejs.org) for templating, frontend uses ![Twig](http://twig.sensiolabs.org/). I know, I know, PHP is a templating engine itself. The idea behind using templating engine is that, users will be able to create multiple templates for each registered drop right from the admin (yet to be implemented).
 
-Frontend:
-+ A set of default templates for default drops. Not sure if it's reasonable to include any CSS.
-+ Ability to set your own templates per drop.
+## Disclaimer
+Current implementation is ~~half-assed~~ under heavy development.
 
-Backend Workflow:
-
-Some use cases:
-+ User wants to add Drop It Zone on some taxonomy archive (add conditionals where should the zone be displayed ( e.g. is_category( 'Pancakes' ) ). UI/filters for it.
-+ User is in the post edit screen, and wants to add a zone( UI that drops shortcode, pretty much like Media UI )
+## Feedback
+Pull requests, bug reports, and feature requests are welcome.

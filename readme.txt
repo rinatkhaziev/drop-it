@@ -1,8 +1,8 @@
-=== DropIt ===
+=== Drop It ===
 Contributors: rinatkhaziev
 Tags: drag and drop layout, layout, layout builder
 Requires at least: 3.4
-Tested up to: 3.6-beta2
+Tested up to: 3.6-beta3
 Stable tag: 0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
