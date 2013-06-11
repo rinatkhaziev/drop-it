@@ -324,6 +324,14 @@ class Drop_It {
 
 		return $prepared;
 	}
+	/**
+	 * Sort drops according to their grid coords
+	 * @param  [type] $drops [description]
+	 * @return [type]        [description]
+	 */
+	function sort_drops( $drops = array() ) {
+		$prepared = array();
+	}
 
 	/**
 	 * Create a new drop
