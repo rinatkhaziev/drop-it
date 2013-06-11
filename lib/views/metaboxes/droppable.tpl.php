@@ -38,7 +38,7 @@
  <button class="button button-secondary right drop-delete">Delete</button>
 </script>
 <script type="text/template" id="query-dropTemplate">
-	<strong>Awesome2</strong>
+	<strong></strong>
 </script>
 
 <script type="text/template" id="dropProtoTemplate">

@@ -7,17 +7,17 @@
  * @since 0.1
  */
 abstract class Drop_It_Drop  {
+	public static $_id = 'drop_it_drop';
 	public $id,
 		   $label,
 		   $template,
-		   $options,
-		   $allowed_tokens;
+		   $options;
 
 	function __construct( $id, $label, $template, $options = array() ) {
-		$this->id = $id;
 		$this->label = $label;
-		$this->template = $template;
+		$this->template = apply_filters( $id .'_drop_template', $template );
 		$this->options = $options;
+		$this->id = $id;
 	}
 
 	function preview() {

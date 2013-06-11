@@ -192,7 +192,7 @@ class Drop_It {
 		$class_names = get_declared_classes();
 		foreach( $class_names as $class_name )
 			if ( is_subclass_of( $class_name, 'Drop_It_Drop' ) )
-				$this->drops[ sanitize_title_with_dashes( $class_name ) ] = new $class_name;
+				$this->drops[ $class_name::$_id ] = new $class_name;
 	}
 
 	function action_enable_tiny() {
@@ -296,7 +296,8 @@ class Drop_It {
 <script type="text/javascript">
 	window.drops = <?php echo $meta ?>;
 	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
-	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>
+	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
+	window.drop_it_drop_types = '<?php echo json_encode( $this->drops ) ?>';
 </script>
 <?php
 	}
