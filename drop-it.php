@@ -222,14 +222,14 @@ class Drop_It {
 				'menu_position' => null,
 				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields' )
 			) );*/
-		register_post_type( 'di-layout', array(
-				'labels' => array( 'name' => _x( 'Drop It Layouts', 'Drop layout post type plural name', 'drop-it' ) ),
+		register_post_type( 'di-zone', array(
+				'labels' => array( 'name' => _x( 'Drop It Zones', 'Drop layout post type plural name', 'drop-it' ) ),
 				'public' => true,
 				'publicly_queryable' => true,
 				'show_ui' => true,
 				'show_in_menu' => true,
 				'query_var' => true,
-				'rewrite' => array( 'slug' => _x( 'di-layout', 'Drop layout slug', 'drop-it' ) ),
+				'rewrite' => array( 'slug' => _x( 'di-zone', 'Drop layout slug', 'drop-it' ) ),
 				'capability_type' => 'post',
 				'has_archive' => true,
 				'hierarchical' => false,
@@ -241,29 +241,18 @@ class Drop_It {
 	}
 
 	function action_add_meta_boxes() {
+
+		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
 		// The post is not saved, so display a note that the post should be saved
-		if ( !isset( $_GET['post'] ) ) {
 			add_meta_box(
-				'drop_it_layout_droppable_new_post',
+				"drop_it_layout_droppable{$suffix}",
 				__( 'Drop It Here!', 'drop-it' ),
 				$this->_a( '_metabox' ),
-				'di-layout',
+				'di-zone',
 				'normal',
 				'default',
-				array( 'view' => 'droppable_new_post' )
+				array( 'view' => "droppable{$suffix}" )
 			);
-			return;
-		}
-		add_meta_box(
-			'drop_it_layout_droppable',
-			__( 'Drop It Here!', 'drop-it' ),
-			$this->_a( '_metabox' ),
-			'di-layout',
-			'normal',
-			'default',
-			array( 'view' => 'droppable' )
-		);
-
 	}
 
 	function _metabox( $post_id, $metabox ) {
@@ -278,12 +267,12 @@ class Drop_It {
 	function action_admin_menu() {
 		// add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
 		// add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-		// add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+		// add_submenu_page( $this->key, __( 'Zones', 'drop-it' ), __( 'Zones', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
 
 	function action_admin_head() {
 		$screen = get_current_screen();
-		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-layout' )
+		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-zone' )
 			return;
 		$drops = $this->get_drops_for_layout( $_GET['post'] );
 		$exclude = array();
@@ -485,7 +474,7 @@ class Drop_It {
 		// Bust cache for dev
 		$screen = get_current_screen();
 		// Bail if we're somewhere else besides layout editor
-		if ( $screen->base != 'post' || $screen->post_type != 'di-layout' )
+		if ( $screen->base != 'post' || $screen->post_type != 'di-zone' )
 			return;
 
 		$rnd = mt_rand( 100, 10000 );
@@ -535,7 +524,7 @@ class Drop_It {
 	function get_zone_id_by_slug( $slug ) {
 		$zone = get_posts( array(
 				'name' => $slug,
-				'post_type' => 'di-layout',
+				'post_type' => 'di-zone',
 				'posts_per_page' => 1,
 				'post_status' => 'any'
 			) );

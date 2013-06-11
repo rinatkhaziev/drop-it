@@ -34,7 +34,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	function test_create_drop() {
 		// Test successful creation of static drop
-		$post_id = $this->factory->post->create( array( 'post_type' => 'di-layout' ) );
+		$post_id = $this->factory->post->create( array( 'post_type' => 'di-zone' ) );
 		$payload = (object) array( 'type' => 'static_html', 'content' => 'test', 'post_id' => $post_id );
 		$drop_result = json_decode( $this->di->create_drop( $payload ) );
 		$this->assertInternalType( 'object', $drop_result );
@@ -54,7 +54,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	function test_ajax_search() {
 		// Successful search
 		$titles = array( 'test', 'rest', 'blast', 'fast' );
-		$post_id = $this->factory->post->create_many( '20',  array( 'post_type' => 'di-layout', 'post_title' => array_rand( $titles ) ) );
+		$post_id = $this->factory->post->create_many( '20',  array( 'post_type' => 'di-zone', 'post_title' => array_rand( $titles ) ) );
 		$_GET['term'] = 'test';
 		$_GET['exclude'] = '1,2,3,4,5,6,7';
 
