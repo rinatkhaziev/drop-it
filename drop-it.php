@@ -80,13 +80,13 @@ class Drop_It {
 		$term = sanitize_text_field( $_GET['term'] );
 		$exclude = isset( $_GET['exclude'] ) && is_array( $_GET['exclude'] ) ? $_GET['exclude'] : array();
 		$posts = get_posts( array(
-			's' => $term,
-			'posts_per_page' => 10,
-			'exclude' => $exclude
-		) );
+				's' => $term,
+				'posts_per_page' => 10,
+				'exclude' => $exclude
+			) );
 
 		$return = array();
-		foreach( $posts as $post ) {
+		foreach ( $posts as $post ) {
 			$return[] = (object) array( 'post_id' => $post->ID, 'post_title' => $post->post_title, 'post_date' => $post->post_date );
 		}
 		echo json_encode( $return );
@@ -94,41 +94,42 @@ class Drop_It {
 	}
 	/**
 	 * Route AJAX actions to CRUD methods
+	 *
 	 * @return [type] [description]
 	 */
 	function _route_ajax_actions() {
 		// Read and decode JSON payload fro
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 		if ( !empty( $payload ) && isset( $payload->action ) ) {
-			switch( $payload->action ) {
-				case 'create_drop':
-						$result = $this->create_drop( $payload );
-						if ( ! $result ) {
-							status_header( 701 );
-							$result = "The drop you're trying to save is invalid";
-						}
-						echo $result;
-					break;
-				case 'get_drop':
-						echo $this->get_drop( $payload );
-					break;
-				case 'update_drop':
-						echo $this->update_drop( $payload );
-					break;
-				case 'delete_drop':
-						echo $this->delete_drop( $payload->drop_id, $payload->post_id );
-					break;
+			switch ( $payload->action ) {
+			case 'create_drop':
+				$result = $this->create_drop( $payload );
+				if ( ! $result ) {
+					status_header( 701 );
+					$result = "The drop you're trying to save is invalid";
+				}
+				echo $result;
+				break;
+			case 'get_drop':
+				echo $this->get_drop( $payload );
+				break;
+			case 'update_drop':
+				echo $this->update_drop( $payload );
+				break;
+			case 'delete_drop':
+				echo $this->delete_drop( $payload->drop_id, $payload->post_id );
+				break;
 			}
-		exit;
+			exit;
 		}
 
 		/**
 		 * Prototype of handling CRUD actions for collections
 		 */
 		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
-			switch( $_REQUEST['mode'] ) {
-				case 'update_collection':
-					$this->update_collection( $payload );
+			switch ( $_REQUEST['mode'] ) {
+			case 'update_collection':
+				$this->update_collection( $payload );
 				break;
 			}
 			exit;
@@ -147,6 +148,7 @@ class Drop_It {
 		/**
 		 * Configuration filter: di_drops_folders
 		 * By default, we look into
+		 *
 		 * @var [type]
 		 */
 		$paths = apply_filters( 'di_drops_folders', array( $default_path ) );
@@ -157,27 +159,27 @@ class Drop_It {
 		$class_files = array();
 
 		// Scan drops folder for bundled drops
-		foreach( $paths as $path )
+		foreach ( $paths as $path )
 			if ( file_exists( $path ) )
 				$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
 
-		// Use this filter to add custom drops in
-		foreach ( $class_files as $drop ) {
-			foreach ( $paths as $path ) {
-			$class_file = $path . $drop;
+			// Use this filter to add custom drops in
+			foreach ( $class_files as $drop ) {
+				foreach ( $paths as $path ) {
+					$class_file = $path . $drop;
 
-			// Just a safety check for a filter
-			if ( !file_exists( $class_file ) || is_dir( $class_file ) )
-				continue;
+					// Just a safety check for a filter
+					if ( !file_exists( $class_file ) || is_dir( $class_file ) )
+						continue;
 
-			// Prevent inclusion of any other files than php
-			$check = wp_check_filetype( $class_file, array( 'php' => 'php' ) );
+					// Prevent inclusion of any other files than php
+					$check = wp_check_filetype( $class_file, array( 'php' => 'php' ) );
 
-			if ( $check['ext'] && $check['type'] )
-				require_once $class_file;
+					if ( $check['ext'] && $check['type'] )
+						require_once $class_file;
+				}
+
 			}
-
-		}
 
 		$this->if_initialize_classes();
 	}
@@ -185,12 +187,13 @@ class Drop_It {
 	/**
 	 * Check if available class definitions are subclasses of Drop_It_Drop
 	 * And init if they are
-	 * @param  array  $class_names [description]
+	 *
+	 * @param array   $class_names [description]
 	 * @return [type]              [description]
 	 */
 	function if_initialize_classes() {
 		$class_names = get_declared_classes();
-		foreach( $class_names as $class_name )
+		foreach ( $class_names as $class_name )
 			if ( is_subclass_of( $class_name, 'Drop_It_Drop' ) )
 				$this->drops[ $class_name::$_id ] = new $class_name;
 	}
@@ -205,7 +208,7 @@ class Drop_It {
 	 */
 	function action_init() {
 		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-/*		register_post_type( 'di-drop', array(
+		/*		register_post_type( 'di-drop', array(
 				'labels' => array( 'name' => _x( 'Drop It Drops', 'Drop post type plural name', 'drop-it' ) ),
 				'public' => true,
 				'publicly_queryable' => true,
@@ -273,9 +276,9 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function action_admin_menu() {
-	//	add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
-	//	add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-	//	add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
+		// add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
+		// add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
+		// add_submenu_page( $this->key, __( 'Layouts', 'drop-it' ), __( 'Layouts', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
 	}
 
 	function action_admin_head() {
@@ -285,7 +288,7 @@ class Drop_It {
 		$drops = $this->get_drops_for_layout( $_GET['post'] );
 		$exclude = array();
 		$meta = json_encode( $drops );
-		foreach( $drops as $drop ) {
+		foreach ( $drops as $drop ) {
 			// Add the post id to array of posts that should be excluded in autocomplete search
 			if ( $drop['type'] == 'single' ) {
 				$exclude[] = (int) $drop['data'];
@@ -304,7 +307,8 @@ class Drop_It {
 
 	/**
 	 * Construct and return array of drops as expected by Backbone.js model
-	 * @param  [type] $post_id [description]
+	 *
+	 * @param [type]  $post_id [description]
 	 * @return [type]          [description]
 	 */
 	function get_drops_for_layout( $post_id ) {
@@ -313,13 +317,13 @@ class Drop_It {
 		$drops = $wpdb->get_results( $wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id ) );
 		$prepared = array();
 
-		foreach( (array) $drops as $drop ) {
+		foreach ( (array) $drops as $drop ) {
 			$meta  = (array) unserialize( $drop->meta_value );
 			// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
 			if ( $meta['type'] == 'single' ) {
 				$post = (array) get_post( $meta['data'], 'ARRAY_A' );
 
-				if ( !empty($post ) )
+				if ( !empty( $post ) )
 					$meta = array_merge( $meta,
 						array(
 							'post_title' =>  $post['post_title'],
@@ -334,7 +338,8 @@ class Drop_It {
 
 	/**
 	 * Create a new drop
-	 * @param  object $payload Decoded JSON payload
+	 *
+	 * @param object  $payload Decoded JSON payload
 	 * @return mixed  int of freshly created drop on success or false on failure
 	 */
 	function create_drop( $payload ) {
@@ -350,21 +355,21 @@ class Drop_It {
 				'row' => (int) $payload->row
 			);
 			switch ( $payload->type ) {
-				case 'static_html':
-				case 'single':
-					add_post_meta( (int) $payload->post_id, '_drop', $drop );
-					$meta_id = $wpdb->get_var(
-						$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
+			case 'static_html':
+			case 'single':
+				add_post_meta( (int) $payload->post_id, '_drop', $drop );
+				$meta_id = $wpdb->get_var(
+					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
-					if ( $payload->type == 'single' ) {
-						$post = get_post( $payload->post_id, 'ARRAY_A' );
-						$extra['post_title'] = $post['post_title'];
-					}
+				if ( $payload->type == 'single' ) {
+					$post = get_post( $payload->post_id, 'ARRAY_A' );
+					$extra['post_title'] = $post['post_title'];
+				}
 
-					return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
+				return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
 				break;
-				default:
-					return false;
+			default:
+				return false;
 			}
 		}
 		return false;
@@ -378,7 +383,7 @@ class Drop_It {
 	 * Prototype of updating a drop
 	 *
 	 * @todo Add all the kinds of checks
-	 * @param  [type] $payload [description]
+	 * @param [type]  $payload [description]
 	 * @return [type]          [description]
 	 */
 	function update_drop( $payload ) {
@@ -393,16 +398,16 @@ class Drop_It {
 	}
 
 	function update_collection( $drops = array() ) {
-		foreach( $drops as $drop ) {
+		foreach ( $drops as $drop ) {
 			$this->update_drop( $drop );
 		}
 	}
 
 	/**
 	 * Remove the drop and clear the cache
-	 * 
-	 * @param  int $drop_id meta_id
-	 * @param  int $post_id [description]
+	 *
+	 * @param int     $drop_id meta_id
+	 * @param int     $post_id [description]
 	 * @return bool result
 	 */
 	function delete_drop( $drop_id, $post_id ) {
@@ -513,7 +518,8 @@ class Drop_It {
 
 	/**
 	 * Get drops meta data, format it, and return
-	 * @param  int $zone_id Drop It Zone post_id
+	 *
+	 * @param int     $zone_id Drop It Zone post_id
 	 * @return array
 	 */
 	function get_drops_for_zone( $zone_id ) {
@@ -528,11 +534,11 @@ class Drop_It {
 
 	function get_zone_id_by_slug( $slug ) {
 		$zone = get_posts( array(
-			'name' => $slug,
-			'post_type' => 'di-layout',
-			'posts_per_page' => 1,
-			'post_status' => 'any'
-		) );
+				'name' => $slug,
+				'post_type' => 'di-layout',
+				'posts_per_page' => 1,
+				'post_status' => 'any'
+			) );
 
 		if ( !isset( $zone[0] ) )
 			return false;
@@ -541,15 +547,17 @@ class Drop_It {
 	}
 
 	/**
+	 *
+	 *
 	 * @param zone
-	 * @param  [type] $atts [description]
+	 * @param [type]  $atts [description]
 	 * @return [type]       [description]
 	 */
 	function _render_shortcode( $atts ) {
 		extract( shortcode_atts( array(
-			// zone slug
-			'zone' => '',
-		), $atts ) );
+					// zone slug
+					'zone' => '',
+				), $atts ) );
 
 		// Bail if no zone is set
 		if ( empty( $zone ) )
@@ -573,12 +581,13 @@ class Drop_It {
 
 	/**
 	 * Parse and return template for each drop
-	 * @param  array  $drops Drops to render
+	 *
+	 * @param array   $drops Drops to render
 	 * @return string Processed HTML
 	 */
 	function _render_drops( $drops = array() ) {
 		ob_start();
-		foreach( $drops as $drop ) {
+		foreach ( $drops as $drop ) {
 			if ( !isset( $this->drops[ $drop['type'] ] ) )
 				continue;
 
@@ -592,7 +601,8 @@ class Drop_It {
 
 /**
  * Just a convenience wrapper
- * @param  [type] $zone_id [description]
+ *
+ * @param [type]  $zone_id [description]
  * @return [type]          [description]
  */
 function di_get_drops_for_zone( $zone_id ) {

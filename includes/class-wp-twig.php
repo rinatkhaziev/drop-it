@@ -11,7 +11,7 @@ class WP_Twig {
 	$twig_error;
 
 	function __construct( $templates_dir_path = '', $env_cache = false ) {
-/*		if ( !file_exists( $templates_dir_path ) )
+		/*		if ( !file_exists( $templates_dir_path ) )
 			return;*/
 		if ( $env_cache && !file_exists( $env_cache ) )
 			$env_cache = false;
@@ -36,7 +36,7 @@ class WP_Twig {
 					'cache'       => $env_cache,
 					'auto_reload' => true,
 					'autoescape' => false
-			) );
+				) );
 
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
@@ -48,8 +48,9 @@ class WP_Twig {
 	 * This is not always possible depending on your setup
 	 *
 	 * So use wp_cache_ methods
-	 * @param  string $template [description]
-	 * @param  array  $data     [description]
+	 *
+	 * @param string  $template [description]
+	 * @param array   $data     [description]
 	 * @return [type]           [description]
 	 */
 	function render( $template = '', $data = array() ) {
@@ -83,7 +84,7 @@ class WP_Twig {
 	}
 
 	function admin_exception() {
-    ?>
+?>
     <div class="error">
         <p><?php echo $this->twig_error->getMessage(); ?></p>
         <p>Trace:<pre> <?php echo $this->twig_error->getTraceAsString(); ?></pre></p>

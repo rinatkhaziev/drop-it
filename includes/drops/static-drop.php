@@ -7,7 +7,8 @@ class Static_HTML_Drop_It_Drop extends Drop_It_Drop {
 
 	/**
 	 * Render inside shortcodes if any
-	 * @param  [type] $drop [description]
+	 *
+	 * @param [type]  $drop [description]
 	 * @return [type]       [description]
 	 */
 	function prepare_data( $drop ) {

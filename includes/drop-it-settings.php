@@ -20,11 +20,12 @@ class Drop_It_Settings {
 	}
 	/**
 	 * Only run if current screen is plugin settings or options.php
+	 *
 	 * @return [type] [description]
 	 */
 	function action_current_screen() {
 		$screen = get_current_screen();
-		if ( ! in_array( $screen->base, array( "{$this->slug}_page_{$this->settings_suffix}", 'options' ) ) ) 
+		if ( ! in_array( $screen->base, array( "{$this->slug}_page_{$this->settings_suffix}", 'options' ) ) )
 			return;
 		$this->settings_api->set_sections( $this->get_settings_sections() );
 		$this->settings_api->set_fields( $this->get_settings_fields() );
@@ -33,7 +34,7 @@ class Drop_It_Settings {
 
 
 	function action_admin_menu() {
-		add_submenu_page( $this->slug, __( 'Settings', 'drop-it' ) , __('Settings', 'drop-it' ), $this->caps, $this->settings_suffix, array( $this, 'plugin_page' ) );
+		add_submenu_page( $this->slug, __( 'Settings', 'drop-it' ) , __( 'Settings', 'drop-it' ), $this->caps, $this->settings_suffix, array( $this, 'plugin_page' ) );
 	}
 
 	function get_settings_sections() {
@@ -56,7 +57,6 @@ class Drop_It_Settings {
 				array(
 					'name' => 'default_columns',
 					'label' => __( 'Default number of columns', 'drop-it' ),
-					'desc' => __( '', 'drop-it' ),
 					'type' => 'select',
 					'default' => '3',
 					'options' => array(

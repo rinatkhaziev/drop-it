@@ -6,20 +6,21 @@
  *
  * @since 0.1
  */
-abstract class Drop_It_Drop  {
+abstract class Drop_It_Drop {
 	public static $_id = 'drop_it_drop';
 	public $id,
-		   $label,
-		   $template,
-		   $options;
+	$label,
+	$template,
+	$options;
 	/**
 	 * Constructor
+	 *
 	 * @todo may be get rid of constructor at all
 	 *
-	 * @param [type] $id       [description]
-	 * @param [type] $label    [description]
-	 * @param [type] $template [description]
-	 * @param array  $options  [description]
+	 * @param [type]  $id       [description]
+	 * @param [type]  $label    [description]
+	 * @param [type]  $template [description]
+	 * @param array   $options  [description]
 	 */
 	function __construct( $id, $label, $template, $options = array() ) {
 		$this->label = $label;
@@ -39,7 +40,7 @@ abstract class Drop_It_Drop  {
 	 *
 	 * Override this method in a child class to customize your data
 	 *
-	 * @param  array $drop a single drop
+	 * @param array   $drop a single drop
 	 * @return array prepared data, ready for templating
 	 *
 	 */
@@ -47,4 +48,3 @@ abstract class Drop_It_Drop  {
 		return $drop;
 	}
 }
-

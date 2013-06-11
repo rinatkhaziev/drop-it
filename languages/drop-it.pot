@@ -1,301 +1,190 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-01 12:28-0600\n"
-"PO-Revision-Date: 2013-04-01 12:37-0600\n"
+"Project-Id-Version: Drop It\n"
+"POT-Creation-Date: 2013-06-11 01:25-0600\n"
+"PO-Revision-Date: 2013-06-11 01:25-0600\n"
 "Last-Translator: Rinat Khaziev <rinat.khaziev@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: rinatkhaziev\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.3\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
-"X-Poedit-SearchPath-1: ../..\n"
 
-#: ../php/drop-it-settings.php:38 ../../lib/php/drop-it-settings.php:38
+#: ../drop-it.php:245 ../drop-it.php:256
+msgid "Drop It Here!"
+msgstr ""
+
+#: ../includes/drop-it-settings.php:36
 msgid "Settings"
 msgstr ""
 
-#: ../php/drop-it-settings.php:45
-#: ../php/wp-settings-api/procedural-example.php:20
-#: ../php/wp-settings-api/settings-api.php:48
-#: ../../lib/php/drop-it-settings.php:45
-#: ../../lib/php/wp-settings-api/procedural-example.php:20
-#: ../../lib/php/wp-settings-api/settings-api.php:48
+#: ../includes/drop-it-settings.php:43
+#: ../includes/vendor/wp-settings-api/procedural-example.php:20
+#: ../includes/vendor/wp-settings-api/settings-api.php:48
 msgid "Basic Settings"
 msgstr ""
 
-#: ../php/drop-it-settings.php:60 ../../lib/php/drop-it-settings.php:60
+#: ../includes/drop-it-settings.php:58
 msgid "Default number of columns"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:24
-#: ../php/wp-settings-api/settings-api.php:52
-#: ../../lib/php/wp-settings-api/procedural-example.php:24
-#: ../../lib/php/wp-settings-api/settings-api.php:52
+#: ../includes/vendor/wp-settings-api/procedural-example.php:24
+#: ../includes/vendor/wp-settings-api/settings-api.php:52
 msgid "Advanced Settings"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:28
-#: ../php/wp-settings-api/settings-api.php:56
-#: ../../lib/php/wp-settings-api/procedural-example.php:28
-#: ../../lib/php/wp-settings-api/settings-api.php:56
+#: ../includes/vendor/wp-settings-api/procedural-example.php:28
+#: ../includes/vendor/wp-settings-api/settings-api.php:56
 msgid "Other Settings"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:36
-#: ../php/wp-settings-api/procedural-example.php:104
-#: ../php/wp-settings-api/procedural-example.php:173
-#: ../php/wp-settings-api/settings-api.php:141
-#: ../php/wp-settings-api/settings-api.php:210
-#: ../../lib/php/wp-settings-api/procedural-example.php:36
-#: ../../lib/php/wp-settings-api/procedural-example.php:104
-#: ../../lib/php/wp-settings-api/procedural-example.php:173
-#: ../../lib/php/wp-settings-api/settings-api.php:141
-#: ../../lib/php/wp-settings-api/settings-api.php:210
+#: ../includes/vendor/wp-settings-api/procedural-example.php:36
+#: ../includes/vendor/wp-settings-api/procedural-example.php:104
+#: ../includes/vendor/wp-settings-api/procedural-example.php:173
+#: ../includes/vendor/wp-settings-api/settings-api.php:141
+#: ../includes/vendor/wp-settings-api/settings-api.php:210
 msgid "Text Input"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:37
-#: ../php/wp-settings-api/procedural-example.php:105
-#: ../php/wp-settings-api/procedural-example.php:174
-#: ../php/wp-settings-api/settings-api.php:73
-#: ../php/wp-settings-api/settings-api.php:142
-#: ../php/wp-settings-api/settings-api.php:211
-#: ../../lib/php/wp-settings-api/procedural-example.php:37
-#: ../../lib/php/wp-settings-api/procedural-example.php:105
-#: ../../lib/php/wp-settings-api/procedural-example.php:174
-#: ../../lib/php/wp-settings-api/settings-api.php:73
-#: ../../lib/php/wp-settings-api/settings-api.php:142
-#: ../../lib/php/wp-settings-api/settings-api.php:211
+#: ../includes/vendor/wp-settings-api/procedural-example.php:37
+#: ../includes/vendor/wp-settings-api/procedural-example.php:105
+#: ../includes/vendor/wp-settings-api/procedural-example.php:174
+#: ../includes/vendor/wp-settings-api/settings-api.php:73
+#: ../includes/vendor/wp-settings-api/settings-api.php:142
+#: ../includes/vendor/wp-settings-api/settings-api.php:211
 msgid "Text input description"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:43
-#: ../php/wp-settings-api/procedural-example.php:111
-#: ../php/wp-settings-api/procedural-example.php:180
-#: ../php/wp-settings-api/settings-api.php:80
-#: ../php/wp-settings-api/settings-api.php:148
-#: ../php/wp-settings-api/settings-api.php:217
-#: ../../lib/php/wp-settings-api/procedural-example.php:43
-#: ../../lib/php/wp-settings-api/procedural-example.php:111
-#: ../../lib/php/wp-settings-api/procedural-example.php:180
-#: ../../lib/php/wp-settings-api/settings-api.php:80
-#: ../../lib/php/wp-settings-api/settings-api.php:148
-#: ../../lib/php/wp-settings-api/settings-api.php:217
+#: ../includes/vendor/wp-settings-api/procedural-example.php:43
+#: ../includes/vendor/wp-settings-api/procedural-example.php:111
+#: ../includes/vendor/wp-settings-api/procedural-example.php:180
+#: ../includes/vendor/wp-settings-api/settings-api.php:80
+#: ../includes/vendor/wp-settings-api/settings-api.php:148
+#: ../includes/vendor/wp-settings-api/settings-api.php:217
 msgid "Textarea Input"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:44
-#: ../php/wp-settings-api/procedural-example.php:112
-#: ../php/wp-settings-api/procedural-example.php:181
-#: ../php/wp-settings-api/settings-api.php:81
-#: ../php/wp-settings-api/settings-api.php:149
-#: ../php/wp-settings-api/settings-api.php:218
-#: ../../lib/php/wp-settings-api/procedural-example.php:44
-#: ../../lib/php/wp-settings-api/procedural-example.php:112
-#: ../../lib/php/wp-settings-api/procedural-example.php:181
-#: ../../lib/php/wp-settings-api/settings-api.php:81
-#: ../../lib/php/wp-settings-api/settings-api.php:149
-#: ../../lib/php/wp-settings-api/settings-api.php:218
+#: ../includes/vendor/wp-settings-api/procedural-example.php:44
+#: ../includes/vendor/wp-settings-api/procedural-example.php:112
+#: ../includes/vendor/wp-settings-api/procedural-example.php:181
+#: ../includes/vendor/wp-settings-api/settings-api.php:81
+#: ../includes/vendor/wp-settings-api/settings-api.php:149
+#: ../includes/vendor/wp-settings-api/settings-api.php:218
 msgid "Textarea description"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:49
-#: ../php/wp-settings-api/procedural-example.php:117
-#: ../php/wp-settings-api/procedural-example.php:186
-#: ../php/wp-settings-api/settings-api.php:86
-#: ../php/wp-settings-api/settings-api.php:154
-#: ../php/wp-settings-api/settings-api.php:223
-#: ../../lib/php/wp-settings-api/procedural-example.php:49
-#: ../../lib/php/wp-settings-api/procedural-example.php:117
-#: ../../lib/php/wp-settings-api/procedural-example.php:186
-#: ../../lib/php/wp-settings-api/settings-api.php:86
-#: ../../lib/php/wp-settings-api/settings-api.php:154
-#: ../../lib/php/wp-settings-api/settings-api.php:223
+#: ../includes/vendor/wp-settings-api/procedural-example.php:49
+#: ../includes/vendor/wp-settings-api/procedural-example.php:117
+#: ../includes/vendor/wp-settings-api/procedural-example.php:186
+#: ../includes/vendor/wp-settings-api/settings-api.php:86
+#: ../includes/vendor/wp-settings-api/settings-api.php:154
+#: ../includes/vendor/wp-settings-api/settings-api.php:223
 msgid "Checkbox"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:50
-#: ../php/wp-settings-api/procedural-example.php:118
-#: ../php/wp-settings-api/procedural-example.php:187
-#: ../php/wp-settings-api/settings-api.php:87
-#: ../php/wp-settings-api/settings-api.php:155
-#: ../php/wp-settings-api/settings-api.php:224
-#: ../../lib/php/wp-settings-api/procedural-example.php:50
-#: ../../lib/php/wp-settings-api/procedural-example.php:118
-#: ../../lib/php/wp-settings-api/procedural-example.php:187
-#: ../../lib/php/wp-settings-api/settings-api.php:87
-#: ../../lib/php/wp-settings-api/settings-api.php:155
-#: ../../lib/php/wp-settings-api/settings-api.php:224
+#: ../includes/vendor/wp-settings-api/procedural-example.php:50
+#: ../includes/vendor/wp-settings-api/procedural-example.php:118
+#: ../includes/vendor/wp-settings-api/procedural-example.php:187
+#: ../includes/vendor/wp-settings-api/settings-api.php:87
+#: ../includes/vendor/wp-settings-api/settings-api.php:155
+#: ../includes/vendor/wp-settings-api/settings-api.php:224
 msgid "Checkbox Label"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:55
-#: ../php/wp-settings-api/procedural-example.php:123
-#: ../php/wp-settings-api/procedural-example.php:192
-#: ../php/wp-settings-api/settings-api.php:92
-#: ../php/wp-settings-api/settings-api.php:160
-#: ../php/wp-settings-api/settings-api.php:229
-#: ../../lib/php/wp-settings-api/procedural-example.php:55
-#: ../../lib/php/wp-settings-api/procedural-example.php:123
-#: ../../lib/php/wp-settings-api/procedural-example.php:192
-#: ../../lib/php/wp-settings-api/settings-api.php:92
-#: ../../lib/php/wp-settings-api/settings-api.php:160
-#: ../../lib/php/wp-settings-api/settings-api.php:229
+#: ../includes/vendor/wp-settings-api/procedural-example.php:55
+#: ../includes/vendor/wp-settings-api/procedural-example.php:123
+#: ../includes/vendor/wp-settings-api/procedural-example.php:192
+#: ../includes/vendor/wp-settings-api/settings-api.php:92
+#: ../includes/vendor/wp-settings-api/settings-api.php:160
+#: ../includes/vendor/wp-settings-api/settings-api.php:229
 msgid "Radio Button"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:56
-#: ../php/wp-settings-api/procedural-example.php:124
-#: ../php/wp-settings-api/procedural-example.php:193
-#: ../php/wp-settings-api/settings-api.php:93
-#: ../php/wp-settings-api/settings-api.php:161
-#: ../php/wp-settings-api/settings-api.php:230
-#: ../../lib/php/wp-settings-api/procedural-example.php:56
-#: ../../lib/php/wp-settings-api/procedural-example.php:124
-#: ../../lib/php/wp-settings-api/procedural-example.php:193
-#: ../../lib/php/wp-settings-api/settings-api.php:93
-#: ../../lib/php/wp-settings-api/settings-api.php:161
-#: ../../lib/php/wp-settings-api/settings-api.php:230
+#: ../includes/vendor/wp-settings-api/procedural-example.php:56
+#: ../includes/vendor/wp-settings-api/procedural-example.php:124
+#: ../includes/vendor/wp-settings-api/procedural-example.php:193
+#: ../includes/vendor/wp-settings-api/settings-api.php:93
+#: ../includes/vendor/wp-settings-api/settings-api.php:161
+#: ../includes/vendor/wp-settings-api/settings-api.php:230
 msgid "A radio button"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:65
-#: ../php/wp-settings-api/procedural-example.php:134
-#: ../php/wp-settings-api/procedural-example.php:202
-#: ../php/wp-settings-api/settings-api.php:102
-#: ../php/wp-settings-api/settings-api.php:171
-#: ../php/wp-settings-api/settings-api.php:239
-#: ../../lib/php/wp-settings-api/procedural-example.php:65
-#: ../../lib/php/wp-settings-api/procedural-example.php:134
-#: ../../lib/php/wp-settings-api/procedural-example.php:202
-#: ../../lib/php/wp-settings-api/settings-api.php:102
-#: ../../lib/php/wp-settings-api/settings-api.php:171
-#: ../../lib/php/wp-settings-api/settings-api.php:239
+#: ../includes/vendor/wp-settings-api/procedural-example.php:65
+#: ../includes/vendor/wp-settings-api/procedural-example.php:134
+#: ../includes/vendor/wp-settings-api/procedural-example.php:202
+#: ../includes/vendor/wp-settings-api/settings-api.php:102
+#: ../includes/vendor/wp-settings-api/settings-api.php:171
+#: ../includes/vendor/wp-settings-api/settings-api.php:239
 msgid "Multile checkbox"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:66
-#: ../php/wp-settings-api/procedural-example.php:135
-#: ../php/wp-settings-api/procedural-example.php:203
-#: ../php/wp-settings-api/settings-api.php:103
-#: ../php/wp-settings-api/settings-api.php:172
-#: ../php/wp-settings-api/settings-api.php:240
-#: ../../lib/php/wp-settings-api/procedural-example.php:66
-#: ../../lib/php/wp-settings-api/procedural-example.php:135
-#: ../../lib/php/wp-settings-api/procedural-example.php:203
-#: ../../lib/php/wp-settings-api/settings-api.php:103
-#: ../../lib/php/wp-settings-api/settings-api.php:172
-#: ../../lib/php/wp-settings-api/settings-api.php:240
+#: ../includes/vendor/wp-settings-api/procedural-example.php:66
+#: ../includes/vendor/wp-settings-api/procedural-example.php:135
+#: ../includes/vendor/wp-settings-api/procedural-example.php:203
+#: ../includes/vendor/wp-settings-api/settings-api.php:103
+#: ../includes/vendor/wp-settings-api/settings-api.php:172
+#: ../includes/vendor/wp-settings-api/settings-api.php:240
 msgid "Multi checkbox description"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:77
-#: ../php/wp-settings-api/procedural-example.php:147
-#: ../php/wp-settings-api/procedural-example.php:214
-#: ../php/wp-settings-api/settings-api.php:114
-#: ../php/wp-settings-api/settings-api.php:184
-#: ../php/wp-settings-api/settings-api.php:251
-#: ../../lib/php/wp-settings-api/procedural-example.php:77
-#: ../../lib/php/wp-settings-api/procedural-example.php:147
-#: ../../lib/php/wp-settings-api/procedural-example.php:214
-#: ../../lib/php/wp-settings-api/settings-api.php:114
-#: ../../lib/php/wp-settings-api/settings-api.php:184
-#: ../../lib/php/wp-settings-api/settings-api.php:251
+#: ../includes/vendor/wp-settings-api/procedural-example.php:77
+#: ../includes/vendor/wp-settings-api/procedural-example.php:147
+#: ../includes/vendor/wp-settings-api/procedural-example.php:214
+#: ../includes/vendor/wp-settings-api/settings-api.php:114
+#: ../includes/vendor/wp-settings-api/settings-api.php:184
+#: ../includes/vendor/wp-settings-api/settings-api.php:251
 msgid "A Dropdown"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:78
-#: ../php/wp-settings-api/procedural-example.php:148
-#: ../php/wp-settings-api/procedural-example.php:215
-#: ../php/wp-settings-api/settings-api.php:115
-#: ../php/wp-settings-api/settings-api.php:185
-#: ../php/wp-settings-api/settings-api.php:252
-#: ../../lib/php/wp-settings-api/procedural-example.php:78
-#: ../../lib/php/wp-settings-api/procedural-example.php:148
-#: ../../lib/php/wp-settings-api/procedural-example.php:215
-#: ../../lib/php/wp-settings-api/settings-api.php:115
-#: ../../lib/php/wp-settings-api/settings-api.php:185
-#: ../../lib/php/wp-settings-api/settings-api.php:252
+#: ../includes/vendor/wp-settings-api/procedural-example.php:78
+#: ../includes/vendor/wp-settings-api/procedural-example.php:148
+#: ../includes/vendor/wp-settings-api/procedural-example.php:215
+#: ../includes/vendor/wp-settings-api/settings-api.php:115
+#: ../includes/vendor/wp-settings-api/settings-api.php:185
+#: ../includes/vendor/wp-settings-api/settings-api.php:252
 msgid "Dropdown description"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:88
-#: ../php/wp-settings-api/procedural-example.php:157
-#: ../php/wp-settings-api/procedural-example.php:224
-#: ../php/wp-settings-api/settings-api.php:125
-#: ../php/wp-settings-api/settings-api.php:194
-#: ../php/wp-settings-api/settings-api.php:261
-#: ../../lib/php/wp-settings-api/procedural-example.php:88
-#: ../../lib/php/wp-settings-api/procedural-example.php:157
-#: ../../lib/php/wp-settings-api/procedural-example.php:224
-#: ../../lib/php/wp-settings-api/settings-api.php:125
-#: ../../lib/php/wp-settings-api/settings-api.php:194
-#: ../../lib/php/wp-settings-api/settings-api.php:261
+#: ../includes/vendor/wp-settings-api/procedural-example.php:88
+#: ../includes/vendor/wp-settings-api/procedural-example.php:157
+#: ../includes/vendor/wp-settings-api/procedural-example.php:224
+#: ../includes/vendor/wp-settings-api/settings-api.php:125
+#: ../includes/vendor/wp-settings-api/settings-api.php:194
+#: ../includes/vendor/wp-settings-api/settings-api.php:261
 msgid "Password"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:89
-#: ../php/wp-settings-api/procedural-example.php:158
-#: ../php/wp-settings-api/procedural-example.php:225
-#: ../php/wp-settings-api/settings-api.php:126
-#: ../php/wp-settings-api/settings-api.php:195
-#: ../php/wp-settings-api/settings-api.php:262
-#: ../../lib/php/wp-settings-api/procedural-example.php:89
-#: ../../lib/php/wp-settings-api/procedural-example.php:158
-#: ../../lib/php/wp-settings-api/procedural-example.php:225
-#: ../../lib/php/wp-settings-api/settings-api.php:126
-#: ../../lib/php/wp-settings-api/settings-api.php:195
-#: ../../lib/php/wp-settings-api/settings-api.php:262
+#: ../includes/vendor/wp-settings-api/procedural-example.php:89
+#: ../includes/vendor/wp-settings-api/procedural-example.php:158
+#: ../includes/vendor/wp-settings-api/procedural-example.php:225
+#: ../includes/vendor/wp-settings-api/settings-api.php:126
+#: ../includes/vendor/wp-settings-api/settings-api.php:195
+#: ../includes/vendor/wp-settings-api/settings-api.php:262
 msgid "Password description"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:95
-#: ../php/wp-settings-api/procedural-example.php:164
-#: ../php/wp-settings-api/procedural-example.php:231
-#: ../php/wp-settings-api/settings-api.php:132
-#: ../php/wp-settings-api/settings-api.php:201
-#: ../php/wp-settings-api/settings-api.php:268
-#: ../../lib/php/wp-settings-api/procedural-example.php:95
-#: ../../lib/php/wp-settings-api/procedural-example.php:164
-#: ../../lib/php/wp-settings-api/procedural-example.php:231
-#: ../../lib/php/wp-settings-api/settings-api.php:132
-#: ../../lib/php/wp-settings-api/settings-api.php:201
-#: ../../lib/php/wp-settings-api/settings-api.php:268
+#: ../includes/vendor/wp-settings-api/procedural-example.php:95
+#: ../includes/vendor/wp-settings-api/procedural-example.php:164
+#: ../includes/vendor/wp-settings-api/procedural-example.php:231
+#: ../includes/vendor/wp-settings-api/settings-api.php:132
+#: ../includes/vendor/wp-settings-api/settings-api.php:201
+#: ../includes/vendor/wp-settings-api/settings-api.php:268
 msgid "File"
 msgstr ""
 
-#: ../php/wp-settings-api/procedural-example.php:96
-#: ../php/wp-settings-api/procedural-example.php:165
-#: ../php/wp-settings-api/procedural-example.php:232
-#: ../php/wp-settings-api/settings-api.php:133
-#: ../php/wp-settings-api/settings-api.php:202
-#: ../php/wp-settings-api/settings-api.php:269
-#: ../../lib/php/wp-settings-api/procedural-example.php:96
-#: ../../lib/php/wp-settings-api/procedural-example.php:165
-#: ../../lib/php/wp-settings-api/procedural-example.php:232
-#: ../../lib/php/wp-settings-api/settings-api.php:133
-#: ../../lib/php/wp-settings-api/settings-api.php:202
-#: ../../lib/php/wp-settings-api/settings-api.php:269
+#: ../includes/vendor/wp-settings-api/procedural-example.php:96
+#: ../includes/vendor/wp-settings-api/procedural-example.php:165
+#: ../includes/vendor/wp-settings-api/procedural-example.php:232
+#: ../includes/vendor/wp-settings-api/settings-api.php:133
+#: ../includes/vendor/wp-settings-api/settings-api.php:202
+#: ../includes/vendor/wp-settings-api/settings-api.php:269
 msgid "File description"
 msgstr ""
 
-#: ../php/wp-settings-api/settings-api.php:72
-#: ../../lib/php/wp-settings-api/settings-api.php:72
+#: ../includes/vendor/wp-settings-api/settings-api.php:72
 msgid "Text Input (integer validation)"
-msgstr ""
-
-#: ../../drop-it.php:108
-msgid "Drop It!"
-msgstr ""
-
-#: ../../drop-it.php:109
-msgid "Drops"
-msgstr ""
-
-#: ../../drop-it.php:110
-msgid "Layouts"
 msgstr ""
