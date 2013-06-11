@@ -5,7 +5,7 @@
 class Single_Drop_It_Drop extends Drop_It_Drop {
 	static $_id = 'single';
 	function __construct( $label = 'Single Post', $template = 'single', $options = array() ) {
-		parent::__construct( $label, $template, $options );
+		parent::__construct( self::$_id, $label, $template, $options );
 	}
 
 	/**

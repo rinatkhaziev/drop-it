@@ -297,7 +297,7 @@ class Drop_It {
 	window.drops = <?php echo $meta ?>;
 	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
 	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
-	window.drop_it_drop_types = '<?php echo json_encode( $this->drops ) ?>';
+	window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
 </script>
 <?php
 	}
