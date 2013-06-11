@@ -8,7 +8,7 @@ TL;DR: Drag and drop layout management framework for WordPress. Comes with a set
 ## Extended Description
 The goal was to build a powerful and extensible, yet easy to use layout management plugin.
 
-Essentially, the plugin gives users an ability to create grid of a certain size (Drop Zone) and populate it with widgets (Drops) that might represent different content (static html, single post, custom query, whatever data you want to present). You can shuffle drops around the grid as you want.
+Essentially, the plugin gives users an ability to create a grid of certain size (Drop Zone) and populate it with widgets (Drops) that represent content (static html, single post, custom query, whatever data you want to present). You can shuffle drops around the grid as you want.
 
 ## Implementation Details
 Each drop is represented by Drop_It_Drop child class. Think of it as an MVC wannabe. Backend UI utilizes [Backbone.js](http://backbonejs.org/) (min 1.0). [Underscore.js](http://underscorejs.org) for templating, frontend utilizes [Twig](http://twig.sensiolabs.org/) for templating. I know, I know, PHP is a templating engine itself. The idea behind using templating engine is that users will be able to create multiple templates for each registered drop right from the admin, and without breaking anything (yet to be implemented).
