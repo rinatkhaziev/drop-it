@@ -4,8 +4,8 @@ class Static_HTML extends Drop_It_Drop {
 		parent::__construct( $id, $label, $template, $options );
 	}
 
-	function render( $drop ) {
-
+	function prepare_data( $drop ) {
+		$drop['content'] = do_shortcode( $drop['content'] );
+		return $drop;
 	}
-
 }

@@ -399,16 +399,14 @@ class Drop_It {
 
 	/**
 	 * Remove the drop and clear the cache
+	 * 
 	 * @param  int $drop_id meta_id
 	 * @param  int $post_id [description]
 	 * @return bool result
 	 */
 	function delete_drop( $drop_id, $post_id ) {
-		global $wpdb;
-		$result = (bool) $wpdb->delete( "$wpdb->postmeta", array( 'meta_id' => (int) $drop_id ) );
-		if ( $result ) {
-			wp_cache_delete( $post_id, 'post_meta' );
-		}
+		$result = (bool) delete_metadata_by_mid( 'post', $drop_id );
+
 		return $result;
 	}
 
@@ -585,14 +583,14 @@ class Drop_It {
 
 			$drop_instance = $this->drops[ $drop['type'] ];
 
-			$this->twig->render( $drop_instance->template, $drop );
+			$this->twig->render( $drop_instance->template, $drop_instance->prepare_data( $drop ) );
 		}
 		return ob_get_clean();
 	}
 }
 
 /**
- * Just a convinience wrapper
+ * Just a convenience wrapper
  * @param  [type] $zone_id [description]
  * @return [type]          [description]
  */

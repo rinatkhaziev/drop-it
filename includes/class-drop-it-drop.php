@@ -18,12 +18,6 @@ abstract class Drop_It_Drop  {
 		$this->label = $label;
 		$this->template = $template;
 		$this->options = $options;
-		$this->allowed_tokens = apply_filters( "di_allowed_tokens", array(
-			'the_title',
-			'the_content',
-			'the_excerpt',
-			'the_date',
-		) );
 	}
 
 	function preview() {
@@ -32,9 +26,17 @@ abstract class Drop_It_Drop  {
 	function save() {
 	}
 
-	// Each drop type should implement it's own render logic
-	function render( $drop ) {
-		return apply_filters( "{$this->id}_drop_template", '' );
+	/**
+	 * Prepare data for template logic
+	 *
+	 * Override this method in a child class to customize your data
+	 *
+	 * @param  array $drop a single drop
+	 * @return array prepared data, ready for templating
+	 *
+	 */
+	function prepare_data( $drop = array() ) {
+		return $drop;
 	}
 }
 

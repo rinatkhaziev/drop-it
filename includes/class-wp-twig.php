@@ -35,7 +35,7 @@ class WP_Twig {
 			$this->e = new Twig_Environment( $this->loader, array(
 					'cache'       => $env_cache,
 					'auto_reload' => true,
-					'autoescape' => true
+					'autoescape' => false
 			) );
 
 		} catch( Exception $e ) {
