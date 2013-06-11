@@ -13,6 +13,12 @@ Essentially, the plugin gives users an ability to create grid of a certain size 
 ## Implementation Details
 Each drop is represented by Drop_It_Drop child class. Think of it as an MVC wannabe. Backend UI utilizes [Backbone.js](http://backbonejs.org/) (min 1.0). [Underscore.js](http://underscorejs.org) for templating, frontend utilizes [Twig](http://twig.sensiolabs.org/) for templating. I know, I know, PHP is a templating engine itself. The idea behind using templating engine is that users will be able to create multiple templates for each registered drop right from the admin, and without breaking anything (yet to be implemented).
 
+Each drop instance has a set of basic values:
+* type (one of registered types)
+* colspan ()
+* column (in the grid)
+* row (in the grid)
+
 ## Disclaimer
 Current implementation is ~~half-assed~~ under heavy development.
 
