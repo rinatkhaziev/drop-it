@@ -14,7 +14,7 @@ class Single_Drop_It_Drop extends Drop_It_Drop {
 	 * @return [type]       [description]
 	 */
 	function prepare_data( $drop ) {
-		$post = get_post( $drop['content'] );
+		$post = get_post( $drop['data'] );
 		$drop['post'] = $post;
 		return $drop;
 	}
