@@ -147,7 +147,7 @@ class Drop_It {
 
 		/**
 		 * Configuration filter: di_drops_folders
-		 * By default, we look into
+		 * By default, we look into these folders for drops
 		 *
 		 * @var [type]
 		 */
@@ -173,6 +173,7 @@ class Drop_It {
 						continue;
 
 					// Prevent inclusion of any other files than php
+					// So we don't break anything by accidentally including some binary/text file
 					$check = wp_check_filetype( $class_file, array( 'php' => 'php' ) );
 
 					if ( $check['ext'] && $check['type'] )
@@ -187,6 +188,8 @@ class Drop_It {
 	/**
 	 * Check if available class definitions are subclasses of Drop_It_Drop
 	 * And init if they are
+	 *
+	 * @todo maybe convert drops to static classes and do not instantiate them
 	 *
 	 * @param array   $class_names [description]
 	 * @return [type]              [description]
@@ -302,24 +305,17 @@ class Drop_It {
 	 */
 	function get_drops_for_layout( $post_id ) {
 		global $wpdb;
-		//@todo need to sort out the sorting
+
 		$drops = $wpdb->get_results( $wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id ) );
-		$prepared = array();
+		$prepared = $extra = array();
 
 		foreach ( (array) $drops as $drop ) {
 			$meta  = (array) unserialize( $drop->meta_value );
-			// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
-			if ( $meta['type'] == 'single' ) {
-				$post = (array) get_post( $meta['data'], 'ARRAY_A' );
 
-				if ( !empty( $post ) )
-					$meta = array_merge( $meta,
-						array(
-							'post_title' =>  $post['post_title'],
-							'post_excerpt' => $post['post_excerpt'],
-						) );
-			}
-			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), $meta );
+			if ( is_callable( array( $this->drops[ $meta['type'] ], 'add_extra_info_for_ui' ) ) )
+				$extra = $this->drops[ $meta['type'] ]->add_extra_info_for_ui( $meta );
+
+			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), $meta, $extra );
 		}
 
 		return $prepared;

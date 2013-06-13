@@ -19,4 +19,18 @@ class Single_Drop_It_Drop extends Drop_It_Drop {
 		$drop['post'] = $post;
 		return $drop;
 	}
+
+	// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
+	function add_extra_info_for_ui( $meta ) {
+		$post = (array) get_post( $meta['data'], 'ARRAY_A' );
+
+		if ( !empty( $post ) )
+			$meta = array_merge( $meta,
+				array(
+					'post_title' =>  $post['post_title'],
+					'post_excerpt' => $post['post_excerpt'],
+				) );
+
+		return $meta;
+	}
 }
