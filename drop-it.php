@@ -237,7 +237,7 @@ class Drop_It {
 				'has_archive' => true,
 				'hierarchical' => false,
 				'menu_position' => null,
-				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields' ),
+				'supports' => array( 'title', 'thumbnail', 'excerpt' ),
 			) );
 		// Must register drops after we register our post type
 		$this->register_drops();
@@ -313,7 +313,7 @@ class Drop_It {
 			$meta  = (array) unserialize( $drop->meta_value );
 
 			if ( is_callable( array( $this->drops[ $meta['type'] ], 'add_extra_info_for_ui' ) ) )
-				$extra = $this->drops[ $meta['type'] ]->add_extra_info_for_ui( $meta );
+				$extra = (array) $this->drops[ $meta['type'] ]->add_extra_info_for_ui( $meta );
 
 			$prepared[] = array_merge( array( 'drop_id' => $drop->meta_id ), $meta, $extra );
 		}
