@@ -19,7 +19,7 @@
 }
 
 #create-drop label, #create-drop textarea, #create-drop select, #create-drop input  {
-	margin: 2px 0;
+	margin: 3px 0;
 	display: block;
 	width: 20%;
 }
@@ -41,4 +41,9 @@
 #drops {
 	min-height: 480px;
 	position: relative;
+}
+
+.drop-input-wrapper {
+	margin: 5px 0;
+	line-height: 20px;
 }

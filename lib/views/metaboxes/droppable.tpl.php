@@ -42,26 +42,32 @@
 </script>
 
 <script type="text/template" id="dropProtoTemplate">
+<div class="drop-input-wrapper">
     <label for="dropSelectTemplate">Drop type:</label>
     <select id="dropSelectTemplate" name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
+</div>
 
+<div class="drop-input-wrapper">
     <label for="dropWidthTemplate">Columns Span</label>
     <select id="dropWidthTemplate" name="width">
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
+</div>
 
+<div class="drop-input-wrapper">
     <label for="dropColumnTemplate">Column</label>
     <select id="dropColumnTemplate" name="column">
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
-
+</div>
+<div class="drop-input-wrapper">
     <label for="dropRowTemplate">Row</label>
     <select id="dropRowTemplate" name="row">
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
-
+</div>
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
@@ -70,26 +76,34 @@
 </script>
 
 <script type="text/template" id="static_html-createDropTemplate">
+<div class="drop-input-wrapper">
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 	<button class="button button-primary drop-add">Add It</button>
+</div>
 </script>
 
 <script type="text/template" id="single-createDropTemplate">
+<div class="drop-input-wrapper">
 	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
+</div>
 
+<div class="drop-input-wrapper">
 	<label class="di-found-post"></label>
 	<input type="hidden" name="data" class="di-found-data" />
 
 	<button class="button button-primary drop-add">Add It</button>
+</div>
 </script>
 
 <script type="text/template" id="query-createDropTemplate">
-	Im loop
+
 </script>
 
 <script type="text/template" id="autocompleteDropTemplate">
+<div class="drop-input-wrapper">
 	<a><%= post_title %></a>
 	<input type="hidden" value="<%= post_id %>" name="data" />
+</div>
 </script>
 
 
