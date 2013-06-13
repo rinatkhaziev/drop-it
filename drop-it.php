@@ -312,6 +312,7 @@ class Drop_It {
 		foreach ( (array) $drops as $drop ) {
 			$meta  = (array) unserialize( $drop->meta_value );
 
+			// Add any extra data for ui
 			if ( is_callable( array( $this->drops[ $meta['type'] ], 'add_extra_info_for_ui' ) ) )
 				$extra = (array) $this->drops[ $meta['type'] ]->add_extra_info_for_ui( $meta );
 
@@ -327,6 +328,18 @@ class Drop_It {
 	 */
 	function sort_drops( $drops = array() ) {
 		$prepared = array();
+		// Sort rows
+		foreach( $drops as $drop ) {
+			$prepared[ $drop['row'] ][] = $drop;
+		}
+		// Sort by column
+		foreach( $prepared as $index => $prep ) {
+			usort( $prepared[ $index ], function( $a, $b ) {  return $a['column'] - $b['column']  ;} );
+		}
+		// Flatten it
+		$prepared = call_user_func_array('array_merge', $prepared );
+
+		return $prepared;
 	}
 
 	/**
@@ -563,6 +576,8 @@ class Drop_It {
 			return;
 
 		$zone_drops = $this->get_drops_for_zone( $zone_id );
+
+		$zone_drops = $this->sort_drops( $zone_drops );
 
 		// Bail if there's no drops for the zone
 		if ( empty( $zone_drops ) )
