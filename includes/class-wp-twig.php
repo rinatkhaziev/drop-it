@@ -1,16 +1,17 @@
 <?php
 /**
- * Simple Wrapper class for Twig template engine
+ * Simple Wrapper class for Twig templating engine
  *
  */
 require_once __DIR__ . "/vendor/twig/lib/Twig/Autoloader.php";
 class WP_Twig {
 
-	public $loader,
+	public
+	$loaders,
 	$e,
 	$twig_error;
 
-	function __construct( $templates_dir_path = '', $env_cache = false ) {
+	function __construct( $templates_dir_path = array(), $env_cache = false ) {
 		/*		if ( !file_exists( $templates_dir_path ) )
 			return;*/
 		if ( $env_cache && !file_exists( $env_cache ) )
@@ -22,17 +23,27 @@ class WP_Twig {
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
 		}
+		// Twig renders first found template in array of dirs
+		// Theme folder is the last element in this array
+		// Tmp workaround: reverse array
+		// @todo Figure out the best to provide ability to configure the behavior
+		$templates_dir_path = array_reverse( $templates_dir_path );
 
 		try {
 			// Define template directory location
-			$this->loader = new Twig_Loader_Filesystem( $templates_dir_path );
+			foreach( $templates_dir_path as $index => $path ) {
+				// If there's no dir, just skip to the next path
+				if ( !file_exists( $path ) )
+					continue;
+				$this->loaders[] = new Twig_Loader_Filesystem( $path );
+			}
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
 		}
 
 		try {
 			// Initialize Twig environment
-			$this->e = new Twig_Environment( $this->loader, array(
+			$this->e = new Twig_Environment( new Twig_Loader_Chain( (array) $this->loaders ), array(
 					'cache'       => $env_cache,
 					'auto_reload' => true,
 					'autoescape' => false
