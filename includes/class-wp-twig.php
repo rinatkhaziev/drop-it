@@ -65,7 +65,6 @@ class WP_Twig {
 	 * @return [type]           [description]
 	 */
 	function render( $template = '', $data = array() ) {
-
 		$cache_key = "{$template}:" . md5( serialize( $data ) );
 		if ( false !== $cached_tmpl = wp_cache_get( $cache_key, 'wp-twig' ) ) {
 			echo $cached_tmpl;

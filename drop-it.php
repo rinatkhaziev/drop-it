@@ -574,7 +574,7 @@ class Drop_It {
 	 * @return [type]       [description]
 	 */
 	function _do_render_action( $atts ) {
-		return $this->_render_shortcode(  $atts ) ;
+		echo $this->_render_shortcode(  $atts ) ;
 	}
 
 	/**
@@ -619,6 +619,7 @@ class Drop_It {
 	 * @return string Processed HTML
 	 */
 	function _render_drops( $drops = array() ) {
+		ob_start();
 		foreach ( $drops as $drop ) {
 			// @todo nightly bug
 			$type = isset( $drop['type'] ) ? $drop['type'] : $drop['id'];
