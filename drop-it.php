@@ -317,7 +317,11 @@ class Drop_It {
 	function get_drops_for_layout( $post_id ) {
 		global $wpdb;
 
-		$drops = $wpdb->get_results( $wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id ) );
+		// We need meta id, so custom query it is
+		$drops = $wpdb->get_results(
+			$wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id )
+		);
+
 		$prepared = $extra = array();
 
 		foreach ( (array) $drops as $drop ) {
