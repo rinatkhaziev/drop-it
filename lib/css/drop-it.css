@@ -12,7 +12,7 @@
 	height: 200px;
 	overflow: hidden;
 	padding: 10px 10px;
-	border: 1px black dashed;
+	border: 1px #369 solid;
 }
 .di-drop-collapsed {
 	/*display: none;*/
