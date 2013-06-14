@@ -59,12 +59,14 @@
 
 <script type="text/template" id="static_html-createDropTemplate">
 <div class="drop-input-wrapper">
+	<label>HTML/Shortcodes</label>
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 </div>
 </script>
 
 <script type="text/template" id="single-createDropTemplate">
 <div class="drop-input-wrapper">
+	<label>Post Title</label>
 	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
 </div>
 

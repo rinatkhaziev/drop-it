@@ -18,6 +18,10 @@
 	/*display: none;*/
 }
 
+#create-drop label {
+	font-weight: 600;
+}
+
 #create-drop label, #create-drop textarea, #create-drop select, #create-drop input  {
 	margin: 3px 0;
 	display: block;
