@@ -61,6 +61,7 @@ class Drop_It {
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
 		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
 		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
+		add_action( 'drop-it-zone', $this->_a( '_do_render_action' ) );
 
 		/**
 		 * Init Twig
@@ -568,6 +569,15 @@ class Drop_It {
 	}
 
 	/**
+	 * do_action callback
+	 * @param  [type] $atts [description]
+	 * @return [type]       [description]
+	 */
+	function _do_render_action( $atts ) {
+		return $this->_render_shortcode(  $atts ) ;
+	}
+
+	/**
 	 *
 	 *
 	 * @param zone
@@ -609,12 +619,13 @@ class Drop_It {
 	 * @return string Processed HTML
 	 */
 	function _render_drops( $drops = array() ) {
-		ob_start();
 		foreach ( $drops as $drop ) {
-			if ( !isset( $this->drops[ $drop['type'] ] ) )
+			// @todo nightly bug
+			$type = isset( $drop['type'] ) ? $drop['type'] : $drop['id'];
+			if ( !isset( $this->drops[ $type ] ) )
 				continue;
 
-			$drop_instance = $this->drops[ $drop['type'] ];
+			$drop_instance = $this->drops[ $type ];
 
 			$this->twig->render( $drop_instance->template, $drop_instance->prepare_data( $drop ) );
 		}

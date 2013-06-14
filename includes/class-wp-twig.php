@@ -79,7 +79,7 @@ class WP_Twig {
 
 		// Do not cache while developing/debugging
 		if ( !WP_DEBUG )
-			wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig' );
+			wp_cache_add( $cache_key, $cached_tmpl, 'wp-twig', 300 );
 
 		echo $cached_tmpl;
 	}
