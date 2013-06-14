@@ -510,8 +510,6 @@ class Drop_It {
 		if ( $screen->base != 'post' || $screen->post_type != 'di-zone' )
 			return;
 
-		$rnd = mt_rand( 100, 10000 );
-
 		// @todo Test $wp_version < 3.6
 		if ( version_compare( floatval( $wp_version ), '3.6' ) == -1  ) {
 			wp_deregister_script( 'backbone' );
