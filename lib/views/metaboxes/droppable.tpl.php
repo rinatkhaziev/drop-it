@@ -49,13 +49,15 @@
     </select>
 </div>
 
+<div id="varyOptionsForProto"></div>
+
 <div class="drop-input-wrapper">
     <label for="dropWidthTemplate">Columns Span</label>
     <select id="dropWidthTemplate" name="width">
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 </div>
-
+<!-- 
 <div class="drop-input-wrapper">
     <label for="dropColumnTemplate">Column</label>
     <select id="dropColumnTemplate" name="column">
@@ -68,17 +70,17 @@
 	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 </div>
+-->
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
 
-    <div id="varyOptionsForProto"></div>
+	<button class="button button-primary drop-add">Add It</button>
 </script>
 
 <script type="text/template" id="static_html-createDropTemplate">
 <div class="drop-input-wrapper">
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
-	<button class="button button-primary drop-add">Add It</button>
 </div>
 </script>
 
@@ -90,8 +92,6 @@
 <div class="drop-input-wrapper">
 	<label class="di-found-post"></label>
 	<input type="hidden" name="data" class="di-found-data" />
-
-	<button class="button button-primary drop-add">Add It</button>
 </div>
 </script>
 
