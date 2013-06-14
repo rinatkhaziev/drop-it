@@ -61,8 +61,8 @@ class Drop_It {
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
 		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
 		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
-
-		$this->twig = new WP_Twig( DROP_IT_ROOT . '/lib/views/twig-templates/', false );
+		if ( !is_admin() )
+			$this->twig = new WP_Twig( DROP_IT_ROOT . '/lib/views/twig-templates/', false );
 	}
 
 	/**

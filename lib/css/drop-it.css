@@ -16,11 +16,14 @@
 }
 
 .drop-item.dragging {
--webkit-box-shadow: 7px 7px 20px 0px rgba(0,0,0,0.3); /* Safari and Chrome */
--moz-box-shadow: 7px 7px 20px 0px rgba(0,0,0,0.3); /* Firefox */
--ms-box-shadow: 7px 7px 20px 0px rgba(0,0,0,0.3); /* Internet Explorer */
--o-box-shadow: 7px 7px 20px 0px rgba(0,0,0,0.3); /* Opera */
-box-shadow: 7px 7px 20px 0px rgba(0,0,0,0.3); /* CSS3 */
+-webkit-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Safari and Chrome */
+-moz-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Firefox */
+-ms-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Internet Explorer */
+-o-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Opera */
+box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* CSS3 */
+
+
+
 }
 .di-drop-collapsed {
 	/*display: none;*/
