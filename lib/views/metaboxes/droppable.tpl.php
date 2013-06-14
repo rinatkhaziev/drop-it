@@ -48,34 +48,13 @@
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 </div>
-
 <div id="varyOptionsForProto"></div>
 
-<div class="drop-input-wrapper">
-    <label for="dropWidthTemplate">Columns Span</label>
-    <select id="dropWidthTemplate" name="width">
-	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
-    </select>
-</div>
-<!-- 
-<div class="drop-input-wrapper">
-    <label for="dropColumnTemplate">Column</label>
-    <select id="dropColumnTemplate" name="column">
-	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
-    </select>
-</div>
-<div class="drop-input-wrapper">
-    <label for="dropRowTemplate">Row</label>
-    <select id="dropRowTemplate" name="row">
-	<% _.each( {1:1, 2:2, 3:3}, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
-    </select>
-</div>
--->
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
 
-	<button class="button button-primary drop-add">Add It</button>
+		<button class="button button-primary drop-add">Add It</button>
 </script>
 
 <script type="text/template" id="static_html-createDropTemplate">
