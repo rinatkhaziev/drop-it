@@ -72,7 +72,7 @@ class Drop_It {
 		 */
 		if ( !is_admin() )
 			$this->twig = new WP_Twig( apply_filters( 'di_drop_templates_paths', array(
-				DROP_IT_ROOT . '/lib/views/twig-templates/',
+				DROP_IT_ROOT . '/lib/views/templates/',
 				get_stylesheet_directory() . '/drops/templates/'
 			), false ) );
 	}
@@ -376,6 +376,7 @@ class Drop_It {
 				'column' => (int) $payload->column,
 				'row' => (int) $payload->row
 			);
+
 			switch ( $payload->type ) {
 			case 'static_html':
 			case 'single':
@@ -594,18 +595,21 @@ class Drop_It {
 
 		$zone_id = $this->get_zone_id_by_slug( $zone );
 
-		// Bail if there's no drop it zone
+		// Bail if there's no zone with this slug
 		if ( ! $zone_id )
 			return;
 
+		// Get dem drops
 		$zone_drops = $this->get_drops_for_zone( $zone_id );
 
+		// And sort dem drops
 		$zone_drops = $this->sort_drops( $zone_drops );
 
 		// Bail if there's no drops for the zone
 		if ( empty( $zone_drops ) )
 			return;
 
+		// At last render
 		return $this->_render_drops( $zone_drops );
 	}
 
@@ -624,9 +628,12 @@ class Drop_It {
 			if ( !isset( $this->drops[ $type ] ) )
 				continue;
 
-			$drop_instance = $this->drops[ $type ];
+			// Convenenience var
+			$di = $this->drops[ $type ];
 
-			$this->twig->render( $drop_instance->template, $drop_instance->prepare_data( $drop ) );
+			// Pass prepared data to render the template.
+			// prepare_data should be defined in a child of Drop_It_Drop class
+			$this->twig->render( $di->template, $di->prepare_data( $drop ) );
 		}
 		return ob_get_clean();
 	}
@@ -643,5 +650,6 @@ function di_get_drops_for_zone( $zone_id ) {
 	$drops = $drop_it->get_drops_for_zone( $zone_id );
 }
 
+// Here we go and add some overhead
 global $drop_it;
 $drop_it = new Drop_It;

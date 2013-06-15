@@ -12,8 +12,6 @@ class WP_Twig {
 	$twig_error;
 
 	function __construct( $templates_dir_path = array(), $env_cache = false ) {
-		/*		if ( !file_exists( $templates_dir_path ) )
-			return;*/
 		if ( $env_cache && !file_exists( $env_cache ) )
 			$env_cache = false;
 
@@ -35,14 +33,17 @@ class WP_Twig {
 				// If there's no dir, just skip to the next path
 				if ( !file_exists( $path ) )
 					continue;
+				// Add a template loader for this folder
 				$this->loaders[] = new Twig_Loader_Filesystem( $path );
 			}
+
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
 		}
 
 		try {
-			// Initialize Twig environment
+			// Initialize Twig with multiple template loaders
+			// In the following order: any custom path, theme path/drops/templates, plugin/lib/views/templates
 			$this->e = new Twig_Environment( new Twig_Loader_Chain( (array) $this->loaders ), array(
 					'cache'       => $env_cache,
 					'auto_reload' => true,
@@ -87,16 +88,14 @@ class WP_Twig {
 
 	function process_exception( $e ) {
 		$this->twig_error = $e;
-		if ( is_admin() ) {
+		if ( is_admin() )
 			add_action( 'admin_notices', array( $this, 'admin_exception' ) );
-		} else {
+		else
 			return $this->twig_error->getMessage();
-		}
-
 	}
 
 	function admin_exception() {
-?>
+	?>
     <div class="error">
         <p><?php echo $this->twig_error->getMessage(); ?></p>
         <p>Trace:<pre> <?php echo $this->twig_error->getTraceAsString(); ?></pre></p>
