@@ -5,7 +5,7 @@ Plugin URI: http://digitallyconscious.com
 Description: Easy drag and drop layout management for WordPress
 Author: Rinat Khaziev
 Version: 0.1
-Author URI: http://doejo.com
+Author URI: http://digitallyconscious.com
 
 GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
 
@@ -30,7 +30,7 @@ define( 'DROP_IT_ROOT' , dirname( __FILE__ ) );
 define( 'DROP_IT_FILE_PATH' , DROP_IT_ROOT . '/' . basename( __FILE__ ) );
 define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 
-// Bootstrap
+// Bootstrap the stuff
 require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
 require_once DROP_IT_ROOT . '/includes/vendor/wp-settings-api/class.settings-api.php';
 require_once DROP_IT_ROOT . '/includes/drop-it-settings.php';
@@ -48,18 +48,35 @@ class Drop_It {
 	 * Instantiate the plugin, hook the filters and actions
 	 */
 	function __construct() {
+		// Create custom post types
 		add_action( 'init', $this->_a( 'action_init' ) );
+
+		// Enqueue admin scripts
 		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
-		add_action( 'admin_menu', $this->_a( 'action_admin_menu' ) );
+
+		// Add some JS vars for admin UI
 		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
+
+		// Add meta boxes
 		add_action( 'add_meta_boxes', $this->_a( 'action_add_meta_boxes' ) );
-		add_action( 'admin_init', $this->_a( '_route_ajax_actions' ) );
+
+		// @todo Implement
 		add_action( 'edit_form_advanced', $this->_a( 'action_enable_tiny' ) );
+
+		// Initial setup
 		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
+
+		// Capabilities needed to be able to manage Drop It
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
+
+		// Setings
 		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
+
+		// Route AJAX actions
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
 		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
+
+		// Shortcode and template tag
 		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
 		add_action( 'drop-it-zone', $this->_a( '_do_render_action' ) );
 
@@ -76,77 +93,6 @@ class Drop_It {
 						DROP_IT_ROOT . '/lib/views/templates/',
 						get_stylesheet_directory() . '/drops/templates/'
 					), false ) );
-	}
-
-	/**
-	 * AJAX Autocomplete callback
-	 *
-	 * @return json encoded array of found posts
-	 */
-	function _ajax_search() {
-
-		// Bail if search term is empty
-		if ( !isset( $_GET['term'] ) || empty( $_GET['term'] ) )
-			exit;
-
-		// Sanitize term and make sure that exclude is array
-		$term = sanitize_text_field( $_GET['term'] );
-		$exclude = isset( $_GET['exclude'] ) && is_array( $_GET['exclude'] ) ? $_GET['exclude'] : array();
-		$posts = get_posts( array(
-				's' => $term,
-				'posts_per_page' => 10,
-				'exclude' => $exclude
-			) );
-
-		$return = array();
-		foreach ( $posts as $post ) {
-			$return[] = (object) array( 'post_id' => $post->ID, 'post_title' => $post->post_title, 'post_date' => $post->post_date );
-		}
-		echo json_encode( $return );
-		exit;
-	}
-	/**
-	 * Route AJAX actions to CRUD methods
-	 *
-	 * @return [type] [description]
-	 */
-	function _route_ajax_actions() {
-		// Read and decode JSON payload fro
-		$payload = json_decode( file_get_contents( 'php://input' ) );
-		if ( !empty( $payload ) && isset( $payload->action ) ) {
-			switch ( $payload->action ) {
-			case 'create_drop':
-				$result = $this->create_drop( $payload );
-				if ( ! $result ) {
-					status_header( 701 );
-					$result = "The drop you're trying to save is invalid";
-				}
-				echo $result;
-				break;
-			case 'get_drop':
-				echo $this->get_drop( $payload );
-				break;
-			case 'update_drop':
-				echo $this->update_drop( $payload );
-				break;
-			case 'delete_drop':
-				echo $this->delete_drop( $payload->drop_id, $payload->post_id );
-				break;
-			}
-			exit;
-		}
-
-		/**
-		 * Prototype of handling CRUD actions for collections
-		 */
-		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
-			switch ( $_REQUEST['mode'] ) {
-			case 'update_collection':
-				$this->update_collection( $payload );
-				break;
-			}
-			exit;
-		}
 	}
 
 	/**
@@ -275,39 +221,114 @@ class Drop_It {
 		extract( $metabox['args'] );
 		$this->_render( 'metaboxes/' . $view );
 	}
+
 	/**
-	 * Add menu items
-	 *
+	 * Some global JS vars
 	 * @return [type] [description]
 	 */
-	function action_admin_menu() {
-		// add_menu_page( __( 'Drop It!', 'drop-it' ), __( 'Drop It!', 'drop-it' ), $this->manage_cap , $this->key, $this->_a( 'admin_page' ), 'div', 11 );
-		// add_submenu_page( $this->key, __( 'Drops', 'drop-it' ), __( 'Drops', 'drop-it' ), $this->manage_cap, $this->key . '-drops', $this->_a( 'admin_page_drops' ) );
-		// add_submenu_page( $this->key, __( 'Zones', 'drop-it' ), __( 'Zones', 'drop-it' ), $this->manage_cap, $this->key . '-layouts', $this->_a( 'admin_page_layouts' ) );
-	}
-
 	function action_admin_head() {
 		$screen = get_current_screen();
 		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-zone' )
 			return;
+		// Get teh drops
 		$drops = $this->get_drops_for_layout( $_GET['post'] );
+
+		// Array of post IDs to exclude from autocomplete search
 		$exclude = array();
-		$meta = json_encode( $drops );
+
 		foreach ( $drops as $drop ) {
 			// Add the post id to array of posts that should be excluded in autocomplete search
 			if ( $drop['type'] == 'single' ) {
 				$exclude[] = (int) $drop['data'];
 			}
 		}
+
 		$exclude = json_encode( $exclude ); ?>
 
 <script type="text/javascript">
-	window.drops = <?php echo $meta ?>;
+	window.drops = <?php echo json_encode( $drops ); ?>;
 	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
 	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
 	window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
 </script>
 <?php
+	}
+
+	/**
+	 * Route AJAX actions to CRUD methods
+	 *
+	 * @return [type] [description]
+	 */
+	function _route_ajax_actions() {
+		// Read and decode JSON payload fro
+		$payload = json_decode( file_get_contents( 'php://input' ) );
+
+		if ( !empty( $payload ) && isset( $payload->action ) ) {
+			switch ( $payload->action ) {
+			case 'create_drop':
+				$result = $this->create_drop( $payload );
+				if ( ! $result ) {
+					status_header( 701 );
+					$result = "The drop you're trying to save is invalid";
+				}
+				echo $result;
+				break;
+
+			case 'get_drop':
+				echo $this->get_drop( $payload );
+				break;
+
+			case 'update_drop':
+				echo $this->update_drop( $payload );
+				break;
+
+			case 'delete_drop':
+				echo $this->delete_drop( $payload->drop_id, $payload->post_id );
+				break;
+			}
+
+			exit;
+		}
+
+		/**
+		 * Prototype of handling CRUD actions for collections
+		 */
+		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
+			switch ( $_REQUEST['mode'] ) {
+			case 'update_collection':
+				$this->update_collection( $payload );
+				break;
+			}
+			exit;
+		}
+	}
+
+	/**
+	 * AJAX Autocomplete callback
+	 *
+	 * @return json encoded array of found posts
+	 */
+	function _ajax_search() {
+
+		// Bail if search term is empty
+		if ( !isset( $_GET['term'] ) || empty( $_GET['term'] ) )
+			exit;
+
+		// Sanitize term and make sure that exclude is array
+		$term = sanitize_text_field( $_GET['term'] );
+		$exclude = isset( $_GET['exclude'] ) && is_array( $_GET['exclude'] ) ? $_GET['exclude'] : array();
+		$posts = get_posts( array(
+				's' => $term,
+				'posts_per_page' => 10,
+				'exclude' => $exclude
+			) );
+
+		$return = array();
+		foreach ( $posts as $post ) {
+			$return[] = (object) array( 'post_id' => $post->ID, 'post_title' => $post->post_title, 'post_date' => $post->post_date );
+		}
+		echo json_encode( $return );
+		exit;
 	}
 
 	/**
@@ -329,7 +350,7 @@ class Drop_It {
 		foreach ( (array) $drops as $drop ) {
 			$meta  = (array) unserialize( $drop->meta_value );
 
-			// Add any extra data for ui
+			// Add any extra data for UI
 			if ( is_callable( array( $this->drops[ $meta['type'] ], 'add_extra_info_for_ui' ) ) )
 				$extra = (array) $this->drops[ $meta['type'] ]->add_extra_info_for_ui( $meta );
 
@@ -338,6 +359,7 @@ class Drop_It {
 
 		return $prepared;
 	}
+
 	/**
 	 * Sort drops according to their grid coords
 	 *
@@ -379,6 +401,7 @@ class Drop_It {
 				'row' => (int) $payload->row
 			);
 
+			// @todo Delegate to drops
 			switch ( $payload->type ) {
 			case 'static_html':
 			case 'single':
@@ -401,13 +424,13 @@ class Drop_It {
 	}
 
 	function get_drop( $payload ) {
-
+		// @todo Implement
 	}
 
 	/**
-	 * Prototype of updating a drop
+	 * Update a drop
 	 *
-	 * @todo Add all the kinds of checks
+	 * @todo delegate to Drop classes
 	 * @param [type]  $payload [description]
 	 * @return [type]          [description]
 	 */
@@ -422,10 +445,14 @@ class Drop_It {
 		update_metadata_by_mid( 'post', $payload->drop_id, $drop, $meta_key = false );
 	}
 
+	/**
+	 * Update a collection of drops
+	 * @param  array  $drops [description]
+	 * @return [type]        [description]
+	 */
 	function update_collection( $drops = array() ) {
-		foreach ( $drops as $drop ) {
+		foreach ( $drops as $drop )
 			$this->update_drop( $drop );
-		}
 	}
 
 	/**
@@ -442,7 +469,7 @@ class Drop_It {
 	}
 
 	/**
-	 * Do activation specific stuff
+	 * Do activation
 	 *
 	 * @return [type] [description]
 	 */
@@ -461,33 +488,7 @@ class Drop_It {
 	}
 
 	/**
-	 * Preview a drop
-	 *
-	 * @return [type] [description]
-	 */
-	function preview() {
-	}
-
-	/**
-	 * View for index admin page
-	 *
-	 * @return [type] [description]
-	 */
-	function admin_page() {
-		$this->_render( 'index' );
-	}
-
-	/**
-	 * View for drops management page
-	 *
-	 * @return [type] [description]
-	 */
-	function admin_page_drops() {
-		$this->_render( 'drops' );
-	}
-
-	/**
-	 * Render a view
+	 * Render backend view
 	 *
 	 * @param string  $view_slug
 	 * @return [type]            [description]
@@ -518,14 +519,14 @@ class Drop_It {
 			wp_deregister_script( 'backbone' );
 			wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), false, true );
 		}
-		wp_enqueue_script( 'di-bb-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
-		wp_enqueue_script( 'di-bb-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), false, true );
-		wp_enqueue_script( 'di-bb-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), false, true );
-		wp_enqueue_script( 'di-bb-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), false, true );
-		wp_enqueue_script( 'drop-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
-		wp_enqueue_script( 'drop-it-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
+		wp_enqueue_script( 'di-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
+		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
-		wp_enqueue_style( 'drop-it-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
+		wp_enqueue_style( 'di-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
 	}
 
 	/**
@@ -555,7 +556,13 @@ class Drop_It {
 		return $drops;
 	}
 
-	function get_zone_id_by_slug( $slug ) {
+	/**
+	 * Get zone id by slug
+	 *
+	 * @param  string $slug zone slug
+	 * @return (bool|int)    zone id
+	 */
+	function get_zone_id_by_slug( $slug = '' ) {
 		$zone = get_posts( array(
 				'name' => $slug,
 				'post_type' => 'di-zone',
@@ -580,15 +587,14 @@ class Drop_It {
 	}
 
 	/**
+	 * Shortcode callback
 	 *
-	 *
-	 * @param zone
-	 * @param [type]  $atts [description]
-	 * @return [type]       [description]
+	 * @param  array  $atts shortcode attributes
+	 * @return string rendered shortcode
 	 */
 	function _render_shortcode( $atts ) {
 		extract( shortcode_atts( array(
-					// zone slug
+					// Zone slug
 					'zone' => '',
 				), $atts ) );
 
@@ -615,7 +621,6 @@ class Drop_It {
 		// At last render
 		return $this->_render_drops( $zone_drops );
 	}
-
 
 	/**
 	 * Parse and return template for each drop
