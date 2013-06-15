@@ -83,7 +83,8 @@ class Drop_It {
 		/**
 		 * Init Twig
 		 *
-		 * Configuration filter: di_drop_templates_paths
+		 * Configuration filter: 'di_drop_templates_paths':
+		 * Array of folders with Twig templates
 		 *
 		 * @param array   list of folders to look for drop templates
 		 *
@@ -92,7 +93,8 @@ class Drop_It {
 			$this->twig = new WP_Twig( apply_filters( 'di_drop_templates_paths', array(
 						DROP_IT_ROOT . '/lib/views/templates/',
 						get_stylesheet_directory() . '/drops/templates/'
-					), false ) );
+				),
+			false ) );
 	}
 
 	/**
@@ -110,8 +112,8 @@ class Drop_It {
 		 *
 		 * @var [type]
 		 */
-		$paths = apply_filters( 'di_drops_folders', array( $default_path ) );
-		// test
+		$paths = (array) apply_filters( 'di_drops_folders', array( $default_path ) );
+
 		if ( empty( $paths ) )
 			$paths[] = $default_path;
 
@@ -122,7 +124,6 @@ class Drop_It {
 			if ( file_exists( $path ) )
 				$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
 
-			// Use this filter to add custom drops in
 			foreach ( $class_files as $drop ) {
 				foreach ( $paths as $path ) {
 					$class_file = $path . $drop;
@@ -138,7 +139,6 @@ class Drop_It {
 					if ( $check['ext'] && $check['type'] )
 						require_once $class_file;
 				}
-
 			}
 
 		$this->if_initialize_classes();
@@ -160,16 +160,26 @@ class Drop_It {
 				$this->drops[ $class_name::$_id ] = new $class_name;
 	}
 
+	/**
+	 * Init TinyMCE for textareas
+	 *
+	 * @todo Implement
+	 * @return [type] [description]
+	 */
 	function action_enable_tiny() {
 		//wp_editor( '', 'staticcontent' );
 	}
+
 	/**
 	 * Register drop and layout post types
 	 *
 	 * @return [type] [description]
 	 */
 	function action_init() {
+		// i18n
 		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+		// Drop It Zone custom post type
 		register_post_type( 'di-zone', array(
 				'labels' => array( 'name' => _x( 'Drop It Zones', 'Drop layout post type plural name', 'drop-it' ) ),
 				'public' => true,
