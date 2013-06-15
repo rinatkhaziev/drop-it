@@ -1,4 +1,14 @@
-<script type="text/template" id="static_html-dropTemplate">
+<?php
+/*
+ * @todo unfuckup the mess:
+ *
+ * Move all drop templates to their classes
+ * Unhardcode
+ *
+ */
+?>
+
+<script type="text/template" id="static_html_drop_template">
  <div class="di-drop di-drop-collapsed">
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
  	<input type="hidden" name="column" value="<%= column %>" />
@@ -37,7 +47,7 @@
  <button class="button button-primary drop-expand">Edit</button>
  <button class="button button-secondary right drop-delete">Delete</button>
 </script>
-<script type="text/template" id="query-dropTemplate">
+<script type="text/template" id="query_drop_template">
 	<strong></strong>
 </script>
 
@@ -57,14 +67,14 @@
 		<button class="button button-primary drop-add">Add It</button>
 </script>
 
-<script type="text/template" id="static_html-createDropTemplate">
+<script type="text/template" id="static_html_create_drop_template">
 <div class="drop-input-wrapper">
 	<label>HTML/Shortcodes</label>
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 </div>
 </script>
 
-<script type="text/template" id="single-createDropTemplate">
+<script type="text/template" id="single_create_drop_template">
 <div class="drop-input-wrapper">
 	<label>Post Title</label>
 	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
@@ -76,7 +86,7 @@
 </div>
 </script>
 
-<script type="text/template" id="query-createDropTemplate">
+<script type="text/template" id="query_create_drop_template">
 
 </script>
 
@@ -87,10 +97,7 @@
 </div>
 </script>
 
-
-
 <div id="create-drop"></div>
 
-<div id="drops" class="gridster">
-</div>
+<div id="drops" class="gridster"></div>
 <div class="clear"></div>
