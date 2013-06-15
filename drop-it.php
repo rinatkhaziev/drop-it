@@ -170,20 +170,6 @@ class Drop_It {
 	 */
 	function action_init() {
 		load_plugin_textdomain( 'drop-it', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		/*		register_post_type( 'di-drop', array(
-				'labels' => array( 'name' => _x( 'Drop It Drops', 'Drop post type plural name', 'drop-it' ) ),
-				'public' => true,
-				'publicly_queryable' => true,
-				'show_ui' => true,
-				'show_in_menu' => true,
-				'query_var' => true,
-				'rewrite' => array( 'slug' => _x( 'di-drop', 'Drop slug', 'drop-it' ) ),
-				'capability_type' => 'post',
-				'has_archive' => true,
-				'hierarchical' => false,
-				'menu_position' => null,
-				'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields' )
-			) );*/
 		register_post_type( 'di-zone', array(
 				'labels' => array( 'name' => _x( 'Drop It Zones', 'Drop layout post type plural name', 'drop-it' ) ),
 				'public' => true,
@@ -202,8 +188,10 @@ class Drop_It {
 		$this->register_drops();
 	}
 
+	/**
+	 * Add meta boxes for drop it zones
+	 */
 	function action_add_meta_boxes() {
-
 		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
 		// The post is not saved, so display a note that the post should be saved
 		add_meta_box(
@@ -217,6 +205,12 @@ class Drop_It {
 		);
 	}
 
+	/**
+	 * Metabox callback
+	 * @param  [type] $post_id [description]
+	 * @param  [type] $metabox [description]
+	 * @return [type]          [description]
+	 */
 	function _metabox( $post_id, $metabox ) {
 		extract( $metabox['args'] );
 		$this->_render( 'metaboxes/' . $view );
@@ -246,9 +240,13 @@ class Drop_It {
 		$exclude = json_encode( $exclude ); ?>
 
 <script type="text/javascript">
+	// All the drops for this layout
 	window.drops = <?php echo json_encode( $drops ); ?>;
+	// Layout ID
 	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
+	// Array of post IDs excluded from autocomplete search
 	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
+	// Array of registered drop types
 	window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
 </script>
 <?php
@@ -340,13 +338,15 @@ class Drop_It {
 	function get_drops_for_layout( $post_id ) {
 		global $wpdb;
 
-		// We need meta id, so custom query it is
+		// We need meta id, so wpdb query it is
+		// Should be fine, the function gets called only in admin
 		$drops = $wpdb->get_results(
 			$wpdb->prepare( "select * from $wpdb->postmeta where post_id=%s and meta_key='_drop'", $post_id )
 		);
 
 		$prepared = $extra = array();
 
+		// Prepare each drop for rendering
 		foreach ( (array) $drops as $drop ) {
 			$meta  = (array) unserialize( $drop->meta_value );
 
@@ -368,10 +368,12 @@ class Drop_It {
 	 */
 	function sort_drops( $drops = array() ) {
 		$prepared = array();
-		// Sort rows
+
+		// Sort drops by rows
 		foreach ( $drops as $drop ) {
 			$prepared[ $drop['row'] ][] = $drop;
 		}
+
 		// Sort by column
 		foreach ( $prepared as $index => $prep ) {
 			usort( $prepared[ $index ], function( $a, $b ) {  return $a['column'] - $b['column']  ;} );
@@ -392,6 +394,7 @@ class Drop_It {
 		global $wpdb;
 		// Array to hold additional per drop properties
 		$extra = array();
+
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array(
 				'type' => $payload->type,
