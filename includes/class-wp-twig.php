@@ -49,6 +49,8 @@ class WP_Twig {
 					'autoescape' => false
 				) );
 
+			$this->e->addFilter( new Twig_SimpleFilter( 'get_permalink', function( $post_id ) { return get_permalink( $post_id ); } ) );
+
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
 		}
