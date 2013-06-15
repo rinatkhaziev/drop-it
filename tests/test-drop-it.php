@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * Test case for Drop It
  *
  */
@@ -9,6 +8,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Init
+	 *
 	 * @return [type] [description]
 	 */
 	function setup() {
@@ -30,7 +30,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function test_is_subclass() {
-		foreach( $this->di->drops as $drop_slug => $drop_instance ) {
+		foreach ( $this->di->drops as $drop_slug => $drop_instance ) {
 			$this->assertInstanceOf( 'Drop_It_Drop', $drop_instance );
 		}
 	}
@@ -56,6 +56,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	}
 	/**
 	 * [test_ajax_search description]
+	 *
 	 * @return [type] [description]
 	 */
 	function test_ajax_search() {
@@ -68,4 +69,3 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 		$this->assertNotEmpty( $this->di->_ajax_search() );
 	}
 }
-

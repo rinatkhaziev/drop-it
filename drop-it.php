@@ -67,14 +67,15 @@ class Drop_It {
 		 * Init Twig
 		 *
 		 * Configuration filter: di_drop_templates_paths
-		 * @param array list of folders to look for drop templates
+		 *
+		 * @param array   list of folders to look for drop templates
 		 *
 		 */
 		if ( !is_admin() )
 			$this->twig = new WP_Twig( apply_filters( 'di_drop_templates_paths', array(
-				DROP_IT_ROOT . '/lib/views/templates/',
-				get_stylesheet_directory() . '/drops/templates/'
-			), false ) );
+						DROP_IT_ROOT . '/lib/views/templates/',
+						get_stylesheet_directory() . '/drops/templates/'
+					), false ) );
 	}
 
 	/**
@@ -259,15 +260,15 @@ class Drop_It {
 
 		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
 		// The post is not saved, so display a note that the post should be saved
-			add_meta_box(
-				"drop_it_layout_droppable{$suffix}",
-				__( 'Drop It Here!', 'drop-it' ),
-				$this->_a( '_metabox' ),
-				'di-zone',
-				'normal',
-				'default',
-				array( 'view' => "droppable{$suffix}" )
-			);
+		add_meta_box(
+			"drop_it_layout_droppable{$suffix}",
+			__( 'Drop It Here!', 'drop-it' ),
+			$this->_a( '_metabox' ),
+			'di-zone',
+			'normal',
+			'default',
+			array( 'view' => "droppable{$suffix}" )
+		);
 	}
 
 	function _metabox( $post_id, $metabox ) {
@@ -339,21 +340,22 @@ class Drop_It {
 	}
 	/**
 	 * Sort drops according to their grid coords
-	 * @param  [type] $drops [description]
+	 *
+	 * @param [type]  $drops [description]
 	 * @return [type]        [description]
 	 */
 	function sort_drops( $drops = array() ) {
 		$prepared = array();
 		// Sort rows
-		foreach( $drops as $drop ) {
+		foreach ( $drops as $drop ) {
 			$prepared[ $drop['row'] ][] = $drop;
 		}
 		// Sort by column
-		foreach( $prepared as $index => $prep ) {
+		foreach ( $prepared as $index => $prep ) {
 			usort( $prepared[ $index ], function( $a, $b ) {  return $a['column'] - $b['column']  ;} );
 		}
 		// Flatten it
-		$prepared = call_user_func_array('array_merge', $prepared );
+		$prepared = call_user_func_array( 'array_merge', $prepared );
 
 		return $prepared;
 	}
@@ -569,7 +571,8 @@ class Drop_It {
 
 	/**
 	 * do_action callback
-	 * @param  [type] $atts [description]
+	 *
+	 * @param [type]  $atts [description]
 	 * @return [type]       [description]
 	 */
 	function _do_render_action( $atts ) {

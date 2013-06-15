@@ -29,7 +29,7 @@ class WP_Twig {
 
 		try {
 			// Define template directory location
-			foreach( $templates_dir_path as $index => $path ) {
+			foreach ( $templates_dir_path as $index => $path ) {
 				// If there's no dir, just skip to the next path
 				if ( !file_exists( $path ) )
 					continue;
@@ -95,7 +95,7 @@ class WP_Twig {
 	}
 
 	function admin_exception() {
-	?>
+?>
     <div class="error">
         <p><?php echo $this->twig_error->getMessage(); ?></p>
         <p>Trace:<pre> <?php echo $this->twig_error->getTraceAsString(); ?></pre></p>
