@@ -644,13 +644,11 @@ class Drop_It {
 	function _render_drops( $drops = array() ) {
 		ob_start();
 		foreach ( $drops as $drop ) {
-			// @todo nightly bug
-			$type = isset( $drop['type'] ) ? $drop['type'] : $drop['id'];
-			if ( !isset( $this->drops[ $type ] ) )
+			if ( !isset( $this->drops[ $drop['type'] ] ) )
 				continue;
 
 			// Convenenience var
-			$di = $this->drops[ $type ];
+			$di = $this->drops[ $drop['type'] ];
 
 			// Pass prepared data to render the template.
 			// prepare_data should be defined in a child of Drop_It_Drop class
