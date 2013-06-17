@@ -424,7 +424,7 @@ class Drop_It {
 					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
 				if ( $payload->type == 'single' ) {
-					$post = get_post( $payload->post_id, 'ARRAY_A' );
+					$post = get_post( $payload->data, 'ARRAY_A' );
 					$extra['post_title'] = $post['post_title'];
 				}
 
