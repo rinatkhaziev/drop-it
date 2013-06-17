@@ -358,6 +358,7 @@ class Drop_It {
 
 		// Prepare each drop for rendering
 		foreach ( (array) $drops as $drop ) {
+			$extra = array();
 			$meta  = (array) unserialize( $drop->meta_value );
 
 			// Add any extra data for UI
@@ -644,6 +645,7 @@ class Drop_It {
 	function _render_drops( $drops = array() ) {
 		ob_start();
 		foreach ( $drops as $drop ) {
+
 			if ( !isset( $this->drops[ $drop['type'] ] ) )
 				continue;
 
