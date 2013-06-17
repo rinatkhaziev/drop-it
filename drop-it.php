@@ -378,6 +378,11 @@ class Drop_It {
 	 * @return [type]        [description]
 	 */
 	function sort_drops( $drops = array() ) {
+
+		// Bail if we don't have any drops
+		if ( empty($drops ) )
+			return $drops;
+
 		$prepared = array();
 
 		// Sort drops by rows
@@ -389,6 +394,7 @@ class Drop_It {
 		foreach ( $prepared as $index => $prep ) {
 			usort( $prepared[ $index ], function( $a, $b ) {  return $a['column'] - $b['column']  ;} );
 		}
+
 		// Flatten it
 		$prepared = call_user_func_array( 'array_merge', $prepared );
 
@@ -597,6 +603,7 @@ class Drop_It {
 	 * @return [type]       [description]
 	 */
 	function _do_render_action( $atts ) {
+		$atts = apply_filters( 'drop_it_zone_action_atts', $atts );
 		echo $this->_render_shortcode(  $atts ) ;
 	}
 
@@ -646,7 +653,8 @@ class Drop_It {
 		ob_start();
 		foreach ( $drops as $drop ) {
 
-			if ( !isset( $this->drops[ $drop['type'] ] ) )
+			// Skip to the next drop if this one doesn't have matching Drop_It_Drop or malformed
+			if ( !isset( $drop['type'] ) || !isset( $this->drops[ $drop['type'] ] ) )
 				continue;
 
 			// Convenenience var
