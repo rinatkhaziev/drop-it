@@ -9,7 +9,7 @@ class Single_Drop_It_Drop extends Drop_It_Drop {
 	}
 
 	/**
-	 * Add post itself for rendering
+	 * Add post itself for rendering (Front End)
 	 *
 	 * @param [type]  $drop [description]
 	 * @return [type]       [description]
