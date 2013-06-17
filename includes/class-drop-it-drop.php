@@ -29,10 +29,7 @@ abstract class Drop_It_Drop {
 		$this->id = $id;
 	}
 
-	function preview() {
-	}
-
-	function save() {
+	function create_drop() {
 	}
 
 	/**

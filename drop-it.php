@@ -358,6 +358,7 @@ class Drop_It {
 
 		// Prepare each drop for rendering
 		foreach ( (array) $drops as $drop ) {
+			// Reset extra
 			$extra = array();
 			$meta  = (array) unserialize( $drop->meta_value );
 
@@ -421,7 +422,6 @@ class Drop_It {
 				'row' => (int) $payload->row
 			);
 
-			// @todo Delegate to drops
 			switch ( $payload->type ) {
 			case 'static_html':
 			case 'single':
@@ -433,6 +433,10 @@ class Drop_It {
 					$post = get_post( $payload->data, 'ARRAY_A' );
 					$extra['post_title'] = $post['post_title'];
 				}
+
+				// Add any extra data for UI
+				if ( is_callable( array( $this->drops[ $payload->type ], 'add_extra_info_for_ui' ) ) )
+					$extra = (array) $this->drops[ $payload->type ]->add_extra_info_for_ui( $payload );
 
 				return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
 				break;
