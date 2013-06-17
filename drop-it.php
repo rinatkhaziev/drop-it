@@ -192,7 +192,7 @@ class Drop_It {
 				'has_archive' => true,
 				'hierarchical' => false,
 				'menu_position' => null,
-				'supports' => array( 'title', 'thumbnail', 'excerpt' ),
+				'supports' => array( 'title', 'thumbnail' ),
 			) );
 		// Must register drops after we register our post type
 		$this->register_drops();
