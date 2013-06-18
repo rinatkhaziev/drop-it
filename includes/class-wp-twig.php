@@ -49,14 +49,23 @@ class WP_Twig {
 					'auto_reload' => true,
 					'autoescape' => false
 				) );
-
-			$this->e->addFilter( new Twig_SimpleFilter( 'get_permalink', function( $post_id ) { return get_permalink( $post_id ); } ) );
+			$this->add_filters();
 
 		} catch( Exception $e ) {
 			$this->process_exception( $e );
 		}
 	}
 
+	/**
+	 *
+	 * Add WP specific Twig filters
+	 *
+	 */
+	function add_filters() {
+		$this->e->addFilter(
+			new Twig_SimpleFilter( 'get_permalink', function( $post_id ) { return get_permalink( $post_id ); } 
+		) );
+	}
 	/**
 	 * Twig uses file system to cache compiled templates
 	 * This is not always possible depending on your setup
