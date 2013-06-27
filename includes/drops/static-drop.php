@@ -11,7 +11,7 @@ class Static_HTML_Drop_It_Drop extends Drop_It_Drop {
 	 * @param [type]  $drop [description]
 	 * @return [type]       [description]
 	 */
-	function prepare_data( $drop ) {
+	function prepare_data( $drop = array() ) {
 		$drop['data'] = do_shortcode( $drop['data'] );
 		return $drop;
 	}
