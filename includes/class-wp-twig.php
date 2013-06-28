@@ -65,6 +65,8 @@ class WP_Twig {
 		$this->e->addFilter(
 			new Twig_SimpleFilter( 'get_permalink', function( $post_id ) { return get_permalink( $post_id ); } 
 		) );
+		// Add any additional twig filters
+		do_action( 'wp_twig_add_filters', $this->e );
 	}
 	/**
 	 * Twig uses file system to cache compiled templates
