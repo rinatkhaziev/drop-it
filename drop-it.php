@@ -203,7 +203,6 @@ class Drop_It {
 	 */
 	function action_add_meta_boxes() {
 		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
-		// The post is not saved, so display a note that the post should be saved
 		add_meta_box(
 			"drop_it_layout_droppable{$suffix}",
 			__( 'Drop It Here!', 'drop-it' ),
@@ -543,11 +542,23 @@ class Drop_It {
 			wp_deregister_script( 'backbone' );
 			wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), false, true );
 		}
-		wp_enqueue_script( 'di-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
+
+		// Models
+		wp_enqueue_script( 'di-drop-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-drop-dropproto-model', DROP_IT_URL . 'lib/js/models/dropproto.js', array( 'jquery', 'backbone' ), false, true );
+
+		// Collection
 		wp_enqueue_script( 'di-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), false, true );
+
+		// Views
 		wp_enqueue_script( 'di-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-dropproto-view', DROP_IT_URL . 'lib/js/views/dropproto.js', array( 'jquery',  'backbone' ), false, true );
 		wp_enqueue_script( 'di-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), false, true );
+
+		// Gridster
 		wp_enqueue_script( 'di-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
+
+		// Init
 		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
 		wp_enqueue_style( 'di-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
