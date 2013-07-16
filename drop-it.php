@@ -683,8 +683,44 @@ class Drop_It {
 			// prepare_data should be defined in a child of Drop_It_Drop class
 			// Twig is disabled for v0.1
 			//$this->twig->render( $di->template, $di->prepare_data( $drop ) );
+
+			// Instead using temporary rendering function (or maybe provide it as alternative for people who don't want to mess with Twig)
+			$this->render( $di->template, $di->prepare_data( $drop ) );
+
 		}
 		return ob_get_clean();
+	}
+
+	/**
+	 * v0.1 version of rendering method
+	 * @param  string $template_name [description]
+	 * @param  array  $drop          [description]
+	 * @return [type]                [description]
+	 */
+	function render( $template_name = '', $drop_data = array() ) {
+		// Declare global $drop to use in templates
+		global $drop;
+		$drop = $drop_data;
+
+		// Try to include template located in theme first
+		$theme_tpl = locate_template( "drops/templates/{$template_name}.tpl.php" );
+		if ( isset( $drop['post'] ) ) {
+			// Setup global $post if it's a single
+			global $post;
+			$post = $drop['post'];
+			setup_postdata( $post );
+		}
+
+		if ( !empty( $theme_tpl ) ) {
+			load_template( $theme_tpl, false );
+		// Then try to include the one bundled with plugin
+		} else {
+			$plugin_tpl = DROP_IT_ROOT . "/lib/views/templates/{$template_name}.tpl.php";
+			if ( file_exists( $plugin_tpl ) )
+				load_template( $plugin_tpl, false );
+		}
+		wp_reset_postdata();
+		return;
 	}
 }
 
