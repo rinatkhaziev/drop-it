@@ -34,7 +34,9 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
 require_once DROP_IT_ROOT . '/includes/vendor/wp-settings-api/class.settings-api.php';
 require_once DROP_IT_ROOT . '/includes/drop-it-settings.php';
-require_once DROP_IT_ROOT . '/includes/class-wp-twig.php';
+
+// Do not init Twig until it passes VIP Review
+// require_once DROP_IT_ROOT . '/includes/class-wp-twig.php';
 
 class Drop_It {
 
@@ -42,7 +44,7 @@ class Drop_It {
 	public $key = 'drop-it';
 	public $manage_cap;
 	public $settings;
-	public $twig;
+	// public $twig;
 
 	/**
 	 * Instantiate the plugin, hook the filters and actions
@@ -86,15 +88,17 @@ class Drop_It {
 		 * Configuration filter: 'di_drop_templates_paths':
 		 * Array of folders with Twig templates
 		 *
+		 * Disabled until Twig review
+		 *
 		 * @param array   list of folders to look for drop templates
 		 *
 		 */
-		if ( !is_admin() )
+/*		if ( !is_admin() )
 			$this->twig = new WP_Twig( apply_filters( 'di_drop_templates_paths', array(
 						DROP_IT_ROOT . '/lib/views/templates/',
 						get_stylesheet_directory() . '/drops/templates/'
 				),
-			false ) );
+			false ) );*/
 	}
 
 	/**
@@ -677,7 +681,8 @@ class Drop_It {
 
 			// Pass prepared data to render the template.
 			// prepare_data should be defined in a child of Drop_It_Drop class
-			$this->twig->render( $di->template, $di->prepare_data( $drop ) );
+			// Twig is disabled for v0.1
+			//$this->twig->render( $di->template, $di->prepare_data( $drop ) );
 		}
 		return ob_get_clean();
 	}

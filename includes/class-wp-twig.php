@@ -2,6 +2,7 @@
 /**
  * Simple Wrapper class for Twig templating engine
  *
+ * Twig is disabled for v0.1 WPCOM VIP
  */
 require_once __DIR__ . "/vendor/twig/lib/Twig/Autoloader.php";
 class WP_Twig {
