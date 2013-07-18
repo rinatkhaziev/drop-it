@@ -1,3 +1,15 @@
+/***************************************
+
+	1. Menu Item Icons
+	2. Gridster Grid
+	3. Create New Drop Form
+
+****************************************/
+
+
+
+
+/* 1. Menu Item Icons ******************/
 .toplevel_page_drop-it .wp-menu-image {
 	background-image: url("./img/drop-it-icon.png");
 	background-position: center center;
@@ -6,28 +18,65 @@
 .toplevel_page_drop-it.wp-has-current-submenu .wp-menu-image {
 	background-image: url("./img/drop-it-icon-active.png");
 }
+/****************************************/
 
-.drop-item {
-	width: 200px;
-	height: 200px;
-	overflow: hidden;
-	padding: 10px 10px;
-	border: 1px #369 solid;
+
+
+
+/* 2. Gridster Grid *********************/
+.gridster {
+    position: relative;
+    list-style: none;
 }
 
-.drop-item.dragging {
--webkit-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Safari and Chrome */
--moz-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Firefox */
--ms-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Internet Explorer */
--o-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* Opera */
-box-shadow: 15px 15px 20px 0px rgba(33,66,99,0.45); /* CSS3 */
-
-
-
+.gridster > * {
+    margin: 0 auto;
 }
-.di-drop-collapsed {
-	/*display: none;*/
+
+/* Single item */
+.gridster .gs_w {
+    z-index: 2;
+    position: absolute;
+    overflow: hidden;
+	background: #f5f5f5;
+	border: 1px solid #eee;
 }
+
+.ready .gs_w:not(.preview-holder) {
+    -webkit-transition: opacity .3s, left .3s, top .3s;
+    -moz-transition: opacity .3s, left .3s, top .3s;
+    -o-transition: opacity .3s, left .3s, top .3s;
+    transition: opacity .3s, left .3s, top .3s;
+}
+
+/* placement area */
+.gridster .preview-holder {
+    z-index: 1;
+    position: absolute;
+    background-color: #fff;
+    border: 4px dashed #ddd;
+    background: transparent;
+}
+
+.gridster .player-revert {
+    z-index: 10!important;
+    -webkit-transition: left .3s, top .3s!important;
+    -moz-transition: left .3s, top .3s!important;
+    -o-transition: left .3s, top .3s!important;
+    transition:  left .3s, top .3s!important;
+}
+
+.gridster .dragging {
+    z-index: 10!important;
+    -webkit-transition: all 0s !important;
+    -moz-transition: all 0s !important;
+    -o-transition: all 0s !important;
+    transition: all 0s !important;
+}
+/****************************************/
+
+
+
 
 #create-drop label {
 	font-weight: 600;

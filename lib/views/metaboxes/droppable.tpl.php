@@ -13,8 +13,8 @@
  	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
  	<input type="hidden" name="column" value="<%= column %>" />
  	<input type="hidden" name="row" value="<%= row %>" />
- 	<ul>
-	 	<li><strong>Drop type</strong>:
+	
+	<h3 class="hndle">
 		<% switch( type ) {
 			case 'static_html':
 			%> Static HTML <%
@@ -25,10 +25,8 @@
 		}
 		%>
 
-	 	</li>
-	 	<li><strong>Columns</strong>: <%= width %></li>
-	 	<li></li>
-	 	<li></li>
+	</h3>
+	</ul>
 	 	<li><strong>Parameters</strong>:<br/>
 	 	<% switch( type ) {
 			case 'static_html':
@@ -98,6 +96,4 @@
 </script>
 
 <div id="create-drop"></div>
-
 <div id="drops" class="gridster"></div>
-<div class="clear"></div>
