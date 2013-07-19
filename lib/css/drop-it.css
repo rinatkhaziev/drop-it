@@ -38,8 +38,7 @@
     z-index: 2;
     position: absolute;
     overflow: hidden;
-	background: #f5f5f5;
-	border: 1px solid #eee;
+	background: transparent;
 }
 
 .ready .gs_w:not(.preview-holder) {
@@ -54,7 +53,7 @@
     z-index: 1;
     position: absolute;
     background-color: #fff;
-    border: 4px dashed #ddd;
+    border: 3px dashed #dedede;
     background: transparent;
 }
 
@@ -72,6 +71,22 @@
     -moz-transition: all 0s !important;
     -o-transition: all 0s !important;
     transition: all 0s !important;
+    opacity: 0.7;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+    transform: scale(1.05, 1.05);
+	-webkit-transform: scale(1.05, 1.05);
+	-moz-transform: scale(1.05, 1.05);
+	-o-transform: scale(1.05, 1.05);
+	-ms-transform: scale(1.05, 1.05);
+}
+
+.gridster .widget {
+	margin: 0;
+	height: 148px;
+}
+
+.gridster .widget-inside {
+	display: block;
 }
 /****************************************/
 
