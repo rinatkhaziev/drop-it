@@ -25,55 +25,57 @@
 
 /* 2. Gridster Grid *********************/
 .gridster {
-    position: relative;
-    list-style: none;
+  position: relative;
+  list-style: none;
 }
 
 .gridster > * {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 /* Single item */
 .gridster .gs_w {
-    z-index: 2;
-    position: absolute;
-    overflow: hidden;
+  z-index: 2;
+  position: absolute;
+  overflow: hidden;
 	background: transparent;
 }
 
 .ready .gs_w:not(.preview-holder) {
-    -webkit-transition: opacity .3s, left .3s, top .3s;
-    -moz-transition: opacity .3s, left .3s, top .3s;
-    -o-transition: opacity .3s, left .3s, top .3s;
-    transition: opacity .3s, left .3s, top .3s;
+  -webkit-transition: opacity .3s, left .3s, top .3s;
+  -moz-transition: opacity .3s, left .3s, top .3s;
+  -o-transition: opacity .3s, left .3s, top .3s;
+  transition: opacity .3s, left .3s, top .3s;
 }
 
 /* placement area */
 .gridster .preview-holder {
-    z-index: 1;
-    position: absolute;
-    background-color: #fff;
-    border: 3px dashed #dedede;
-    background: transparent;
+  z-index: 1;
+  position: absolute;
+  background-color: #dedede;
+  border: 1px dashed #bbb;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .gridster .player-revert {
-    z-index: 10!important;
-    -webkit-transition: left .3s, top .3s!important;
-    -moz-transition: left .3s, top .3s!important;
-    -o-transition: left .3s, top .3s!important;
-    transition:  left .3s, top .3s!important;
+  z-index: 10!important;
+  -webkit-transition: left .3s, top .3s!important;
+  -moz-transition: left .3s, top .3s!important;
+  -o-transition: left .3s, top .3s!important;
+  transition:  left .3s, top .3s!important;
 }
 
 .gridster .dragging {
-    z-index: 10!important;
-    -webkit-transition: all 0s !important;
-    -moz-transition: all 0s !important;
-    -o-transition: all 0s !important;
-    transition: all 0s !important;
-    opacity: 0.7;
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
-    transform: scale(1.05, 1.05);
+  z-index: 10!important;
+  -webkit-transition: all 0s !important;
+  -moz-transition: all 0s !important;
+  -o-transition: all 0s !important;
+  transition: all 0s !important;
+  opacity: 0.7;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+  transform: scale(1.05, 1.05);
 	-webkit-transform: scale(1.05, 1.05);
 	-moz-transform: scale(1.05, 1.05);
 	-o-transform: scale(1.05, 1.05);
