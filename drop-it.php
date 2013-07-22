@@ -565,7 +565,7 @@ class Drop_It {
 		// Init
 		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
-		wp_enqueue_style( 'di-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
+		//wp_enqueue_style( 'di-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
 	}
 
 	/**

@@ -9,43 +9,44 @@
 ?>
 
 <script type="text/template" id="static_html_drop_template">
- <div class="di-drop di-drop-collapsed">
- 	<input type="hidden" name="drop_id" value="<%= drop_id %>" />
- 	<input type="hidden" name="column" value="<%= column %>" />
- 	<input type="hidden" name="row" value="<%= row %>" />
- 	<ul>
-	 	<li><strong>Drop type</strong>:
-		<% switch( type ) {
-			case 'static_html':
-			%> Static HTML <%
-			break;
-			case 'single':
-			%> Single Post <%
-			break;
-		}
-		%>
+	<div class="di-drop di-drop-collapsed widget">
+		<input type="hidden" name="drop_id" value="<%= drop_id %>" />
+		<input type="hidden" name="column" value="<%= column %>" />
+		<input type="hidden" name="row" value="<%= row %>" />
+		<div class="widget-top">
+			<div class="widget-title">
+				<h4>
+					<% switch( type ) {
+						case 'static_html':
+						%> Static HTML <%
+						break;
+						case 'single':
+						%> Single Post <%
+						break;
+					}
+					%>
 
-	 	</li>
-	 	<li><strong>Columns</strong>: <%= width %></li>
-	 	<li></li>
-	 	<li></li>
-	 	<li><strong>Parameters</strong>:<br/>
-	 	<% switch( type ) {
-			case 'static_html':
-			%> <%= data %> <%
-			break;
-			case 'single':
-			%> Post title: <%= post_title %> <br/> <%
-			%> Post ID: <%= data %> <%
-			break;
-		}
-		%>
-		</li>
+				</h4>
+			</div>
+		</div>
+		<div class="widget-inside">
+			<p>
+			 	<% switch( type ) {
+					case 'static_html':
+					%> Title: <strong> <%= data %> </strong> <%
+					break;
+					case 'single':
+					%> Post title: <strong> <%= post_title %> </strong> <%
+					break;
+				}
+				%>
+			</p>
 
-	</ul>
- </div>
- <button class="button button-primary drop-expand">Edit</button>
- <button class="button button-secondary right drop-delete">Delete</button>
+			</ul>
+			<button class="button button-primary drop-expand">Edit</button>
+			<button class="button button-secondary right drop-delete">Delete</button>
+		</div>
+	</div>
 </script>
 <script type="text/template" id="query_drop_template">
 	<strong></strong>
@@ -98,6 +99,4 @@
 </script>
 
 <div id="create-drop"></div>
-
 <div id="drops" class="gridster"></div>
-<div class="clear"></div>
