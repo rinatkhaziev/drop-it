@@ -65,9 +65,6 @@ class Drop_It {
 		// Initial setup
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
-		// Capabilities needed to be able to manage Drop It
-		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
-
 		// Route AJAX actions
 		add_action( 'wp_ajax_drop_it_ajax_route', array( $this, '_route_ajax_actions' ) );
 		add_action( 'wp_ajax_drop_it_ajax_search', array( $this, '_ajax_search' ) );
@@ -108,28 +105,23 @@ class Drop_It {
 		$class_files = array_diff( scandir( $drops_path ), array( '..', '.' ) );
 
 		foreach ( $class_files as $drop ) {
-				$class_file = $drops_path . $drop;
-				include_once $class_file;
-		}
+			// Full path to class file
+			$class_file = $drops_path . $drop;
+			include_once $class_file;
+			// Get rid of .php part
+			$class_name = str_replace( '.php' , '', $drop );
 
-		$this->if_initialize_classes();
-	}
-
-	/**
-	 * Check if available class definitions are subclasses of Drop_It_Drop
-	 * And init if they are
-	 *
-	 * @todo maybe convert drops to static classes and do not instantiate them
-	 *
-	 * @param array   $class_names [description]
-	 * @return [type]              [description]
-	 */
-	function if_initialize_classes() {
-		$class_names = get_declared_classes();
-		foreach ( $class_names as $class_name )
+			// Follow class naming convention
+			// E.g. class name for static-html-drop.php should be Static_Html_Drop_It_Drop
+			$class_name_arr = array_map( 'ucfirst', explode( '-', $class_name ) );
+			$class_name = implode( '_', $class_name_arr ) . '_It_Drop';
 			if ( is_subclass_of( $class_name, 'Drop_It_Drop' ) )
 				$this->drops[ $class_name::$_id ] = new $class_name;
+		}
+
+		$this->drops = apply_filters( 'di_registered_drop_types', $this->drops );
 	}
+
 
 	/**
 	 * Init TinyMCE for textareas
@@ -165,6 +157,10 @@ class Drop_It {
 				'menu_position' => null,
 				'supports' => array( 'title', 'thumbnail' ),
 			) );
+
+		// Capabilities needed to be able to manage Drop It
+		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
+
 		// Must register drops after we register our post type
 		$this->register_drops();
 	}
