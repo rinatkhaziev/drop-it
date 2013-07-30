@@ -32,8 +32,6 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 
 // Bootstrap the stuff
 require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
-require_once DROP_IT_ROOT . '/includes/vendor/wp-settings-api/class.settings-api.php';
-require_once DROP_IT_ROOT . '/includes/drop-it-settings.php';
 
 // Do not init Twig until it passes VIP Review
 // require_once DROP_IT_ROOT . '/includes/class-wp-twig.php';
@@ -43,7 +41,6 @@ class Drop_It {
 	public $drops;
 	public $key = 'drop-it';
 	public $manage_cap;
-	public $settings;
 	// public $twig;
 
 	/**
@@ -70,9 +67,6 @@ class Drop_It {
 
 		// Capabilities needed to be able to manage Drop It
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
-
-		// Setings
-		$this->settings =  new Drop_It_Settings( $this->key, $this->manage_cap );
 
 		// Route AJAX actions
 		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
