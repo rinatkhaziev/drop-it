@@ -102,42 +102,15 @@ class Drop_It {
 	 * @return [type]        [description]
 	 */
 	function register_drops() {
-		$default_path =  DROP_IT_ROOT . '/includes/drops/';
-
-		/**
-		 * Configuration filter: di_drops_folders
-		 * By default, we look into these folders for drops
-		 *
-		 * @var [type]
-		 */
-		$paths = (array) apply_filters( 'di_drops_folders', array( $default_path ) );
-
-		if ( empty( $paths ) )
-			$paths[] = $default_path;
-
-		$class_files = array();
+		$drops_path =  DROP_IT_ROOT . '/includes/drops/';
 
 		// Scan drops folder for bundled drops
-		foreach ( $paths as $path )
-			if ( file_exists( $path ) )
-				$class_files = array_merge( $class_files, array_diff( scandir( $path ), array( '..', '.' ) ) );
+		$class_files = array_diff( scandir( $drops_path ), array( '..', '.' ) );
 
-			foreach ( $class_files as $drop ) {
-				foreach ( $paths as $path ) {
-					$class_file = $path . $drop;
-
-					// Just a safety check for a filter
-					if ( !file_exists( $class_file ) || is_dir( $class_file ) )
-						continue;
-
-					// Prevent inclusion of any other files than php
-					// So we don't break anything by accidentally including some binary/text file
-					$check = wp_check_filetype( $class_file, array( 'php' => 'php' ) );
-
-					if ( $check['ext'] && $check['type'] )
-						require_once $class_file;
-				}
-			}
+		foreach ( $class_files as $drop ) {
+				$class_file = $drops_path . $drop;
+				include_once $class_file;
+		}
 
 		$this->if_initialize_classes();
 	}
