@@ -48,33 +48,33 @@ class Drop_It {
 	 */
 	function __construct() {
 		// Create custom post types
-		add_action( 'init', $this->_a( 'action_init' ) );
+		add_action( 'init', array( $this, 'action_init' ) );
 
 		// Enqueue admin scripts
-		add_action( 'admin_enqueue_scripts', $this->_a( 'admin_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		// Add some JS vars for admin UI
-		add_action( 'admin_head', $this->_a( 'action_admin_head' ) );
+		add_action( 'admin_head', array( $this, 'action_admin_head' ) );
 
 		// Add meta boxes
-		add_action( 'add_meta_boxes', $this->_a( 'action_add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 
 		// @todo Implement
-		add_action( 'edit_form_advanced', $this->_a( 'action_enable_tiny' ) );
+		add_action( 'edit_form_advanced', array( $this, 'action_enable_tiny' ) );
 
 		// Initial setup
-		register_activation_hook( __FILE__, $this->_a( 'activation' ) );
+		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
 		// Capabilities needed to be able to manage Drop It
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
 
 		// Route AJAX actions
-		add_action( 'wp_ajax_drop_it_ajax_route', $this->_a( '_route_ajax_actions' ) );
-		add_action( 'wp_ajax_drop_it_ajax_search', $this->_a( '_ajax_search' ) );
+		add_action( 'wp_ajax_drop_it_ajax_route', array( $this, '_route_ajax_actions' ) );
+		add_action( 'wp_ajax_drop_it_ajax_search', array( $this, '_ajax_search' ) );
 
 		// Shortcode and template tag
-		add_shortcode( 'drop-it-zone', $this->_a( '_render_shortcode' ) );
-		add_action( 'drop-it-zone', $this->_a( '_do_render_action' ) );
+		add_shortcode( 'drop-it-zone', array( $this, '_render_shortcode' ) );
+		add_action( 'drop-it-zone', array( $this, '_do_render_action' ) );
 
 		/**
 		 * Init Twig
@@ -204,7 +204,7 @@ class Drop_It {
 		add_meta_box(
 			"drop_it_layout_droppable{$suffix}",
 			__( 'Drop It Here!', 'drop-it' ),
-			$this->_a( '_metabox' ),
+			array( $this, '_metabox' ),
 			'di-zone',
 			'normal',
 			'default',
