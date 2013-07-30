@@ -231,8 +231,12 @@ class Drop_It {
 		$screen = get_current_screen();
 		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-zone' )
 			return;
+
+		// Sanitize post id
+		$zone_id = absint( $_GET['post'] );
+
 		// Get teh drops
-		$drops = $this->get_drops_for_layout( $_GET['post'] );
+		$drops = $this->get_drops_for_layout( $zone_id );
 
 		// Array of post IDs to exclude from autocomplete search
 		$exclude = array();
@@ -244,19 +248,20 @@ class Drop_It {
 			}
 		}
 
-		$exclude = json_encode( $exclude ); ?>
+		$exclude = json_encode( $exclude );
+		?>
 
-<script type="text/javascript">
-	// All the drops for this layout
-	window.drops = <?php echo json_encode( $drops ); ?>;
-	// Layout ID
-	window.drop_it_layout_id = '<?php echo esc_js( $_GET['post'] ) ?>';
-	// Array of post IDs excluded from autocomplete search
-	window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
-	// Array of registered drop types
-	window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
-</script>
-<?php
+		<script type="text/javascript">
+			// All the drops for this layout
+			window.drops = <?php echo json_encode( $drops ); ?>;
+			// Layout ID
+			window.drop_it_layout_id = '<?php echo esc_js( $zone_id ) ?>';
+			// Array of post IDs excluded from autocomplete search
+			window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
+			// Array of registered drop types
+			window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
+		</script>
+		<?php
 	}
 
 	/**
