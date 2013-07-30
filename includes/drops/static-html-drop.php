@@ -1,5 +1,5 @@
 <?php
-class Static_HTML_Drop_It_Drop extends Drop_It_Drop {
+class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 	static $_id = 'static_html';
 	function __construct( $label = 'Static HTML', $template = 'static_html', $options = array() ) {
 		parent::__construct( self::$_id, $label, $template, $options );
