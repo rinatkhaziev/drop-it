@@ -314,6 +314,17 @@ class Drop_It {
 	}
 
 	/**
+	 * Handles security checks
+	 *
+	 * @param string nonce
+	 * @return bool
+	 *
+	 */
+	function _check_perms_and_nonce( $nonce = '') {
+		return current_user_can( $this->manage_cap ) && wp_verify_nonce( $nonce, DROP_IT_FILE_PATH );
+	}
+
+	/**
 	 * Construct and return array of drops as expected by Backbone.js model
 	 *
 	 * @param [type]  $post_id [description]
