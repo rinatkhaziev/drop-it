@@ -221,14 +221,17 @@ class Drop_It {
 		?>
 
 		<script type="text/javascript">
+			var DropIt = window.DropIt || {};
+			DropIt.Admin = {};
 			// All the drops for this layout
-			window.drops = <?php echo json_encode( $drops ); ?>;
+			DropIt.Admin.drops = <?php echo json_encode( $drops ); ?>;
 			// Layout ID
-			window.drop_it_layout_id = '<?php echo esc_js( $zone_id ) ?>';
+			DropIt.Admin.layout_id = '<?php echo esc_js( $zone_id ) ?>';
 			// Array of post IDs excluded from autocomplete search
-			window.drop_it_autocomplete_exclude = <?php echo $exclude ?>;
+			DropIt.Admin.autocomplete_exclude = <?php echo $exclude ?>;
 			// Array of registered drop types
-			window.drop_it_drop_types = <?php echo json_encode( $this->drops ) ?>;
+			DropIt.Admin.drop_types = <?php echo json_encode( $this->drops ) ?>;
+			DropIt.Admin.nonce = '<?php echo wp_create_nonce( DROP_IT_FILE_PATH ) ?>';
 		</script>
 		<?php
 	}
