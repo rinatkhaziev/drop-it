@@ -246,6 +246,10 @@ class Drop_It {
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 
 		if ( !empty( $payload ) && isset( $payload->action ) ) {
+
+			$payload->title = sanitize_title($payload->title);
+			$payload->data = wp_filter_post_kses($payload->data);
+
 			switch ( $payload->action ) {
 			case 'create_drop':
 				$result = $this->create_drop( $payload );
@@ -401,7 +405,8 @@ class Drop_It {
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array(
 				'type' => $payload->type,
-				'data' => wp_filter_post_kses( $payload->data ),
+				'title' => $payload->title,
+				'data' => $payload->data,
 				'width' => (int) $payload->width,
 				'column' => (int) $payload->column,
 				'row' => (int) $payload->row
@@ -446,7 +451,8 @@ class Drop_It {
 	function update_drop( $payload ) {
 		$drop = array(
 			'type' => $payload->type,
-			'data' => wp_filter_post_kses( $payload->data ),
+			'title' => $payload->title,
+			'data' => $payload->data,
 			'width' => (int) $payload->width,
 			'column' => (int) $payload->column,
 			'row' => (int) $payload->row

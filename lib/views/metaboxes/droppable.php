@@ -33,7 +33,8 @@
 			<p>
 			 	<% switch( type ) {
 					case 'static_html':
-					%> Title: <strong> <%= data %> </strong> <%
+					%> Title: <strong> <%= title %> </strong> <br /> 
+					<%= data %> <%
 					break;
 					case 'single':
 					%> Post title: <strong> <%= post_title %> </strong> <%
@@ -71,6 +72,7 @@
 <script type="text/template" id="static_html_create_drop_template">
 <div class="drop-input-wrapper">
 	<label>HTML/Shortcodes</label>
+	<input type="text" name="title" id="title" placeholder="Title"></textarea>
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 </div>
 </script>
