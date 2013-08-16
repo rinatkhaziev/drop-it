@@ -33,22 +33,43 @@
 			<p>
 			 	<% switch( type ) {
 					case 'static_html':
-					%> Title: <strong> <%= title %> </strong> <br /> 
-					<%= data %> <%
+					%> Title: <strong> <%= title %> </strong><br /><br />
+					 <%= data %> <br />
+					 <button class="button button-primary drop-expand">Edit</button>
+					 <button class="button button-secondary right drop-delete">Delete</button>
+					<%
 					break;
 					case 'single':
-					%> Post title: <strong> <%= post_title %> </strong> <%
+					%> Post title: <strong> <%= post_title %> </strong><br />
+					<button class="button button-secondary right drop-delete">Delete</button>
+					<%
 					break;
 				}
 				%>
 			</p>
 
 			</ul>
-			<button class="button button-primary drop-expand">Edit</button>
-			<button class="button button-secondary right drop-delete">Delete</button>
+		</div>
+		<div class="widget-inside-edit">
+			<p>
+			 	<% if( type=="static_html" ) {
+					%>
+					<p>Title:</p>
+					<input type="text" class="drop-single-title" value="<%= title %>" />
+					<p>Text:</p>
+					<input type="text" class="drop-single-data" value="<%= data %>" />
+					<button class="button button-primary drop-save">Save</button>
+					<button class="button button-secondary right drop-delete">Delete</button>
+					 <%
+					}
+					%>
+			</p>
+			</ul>
 		</div>
 	</div>
 </script>
+
+
 <script type="text/template" id="query_drop_template">
 	<strong></strong>
 </script>
@@ -72,7 +93,7 @@
 <script type="text/template" id="static_html_create_drop_template">
 <div class="drop-input-wrapper">
 	<label>HTML/Shortcodes</label>
-	<input type="text" name="title" id="title" placeholder="Title"></textarea>
+	<input type="text" name="title" id="title" placeholder="Title">
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 </div>
 </script>

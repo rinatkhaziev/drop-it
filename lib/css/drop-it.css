@@ -37,7 +37,7 @@
 .gridster .gs_w {
   z-index: 2;
   position: absolute;
-  overflow: hidden;
+  overflow: scroll;
 	background: transparent;
 }
 
@@ -84,7 +84,7 @@
 
 .gridster .widget {
 	margin: 0;
-	height: 148px;
+	height: 300px;
 }
 
 .gridster .widget-inside {
@@ -127,4 +127,40 @@
 .drop-input-wrapper {
 	margin: 5px 0;
 	line-height: 20px;
+}
+
+.widget-inside, .widget-inside-edit {
+  position: relative;
+  height: 300px;
+}
+
+.widget-inside-edit {
+  display: none;
+  padding: 12px 12px 10px;
+}
+
+.widget-inside-edit input {
+  width: 90%;
+}
+
+.widget-inside-edit textarea {
+  width: 90%;
+}
+
+.drop-expand {
+  position: absolute;
+  bottom: 80px;
+  left: 10px;
+}
+
+.drop-save {
+  position: absolute;
+  bottom: 80px;
+  left: 10px;
+}
+
+.drop-delete {
+  position: absolute;
+  bottom: 80px;
+  right: 10px;
 }
