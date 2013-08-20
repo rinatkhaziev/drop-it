@@ -84,7 +84,7 @@
 
 .gridster .widget {
 	margin: 0;
-	height: 300px;
+	height: 240px;
 }
 
 .gridster .widget-inside {
@@ -106,7 +106,7 @@
 }
 
 #create-drop textarea {
-	width: 400px;
+	width: 300px;
 	min-height: 300px;
 	margin-bottom: 10px;
 }
@@ -120,7 +120,7 @@
 }
 
 #drops {
-	min-height: 480px;
+	min-height: 300px;
 	position: relative;
 }
 
@@ -131,7 +131,7 @@
 
 .widget-inside, .widget-inside-edit {
   position: relative;
-  height: 300px;
+  height: 200px;
 }
 
 .widget-inside-edit {
