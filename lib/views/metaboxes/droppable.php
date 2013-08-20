@@ -55,9 +55,9 @@
 			 	<% if( type=="static_html" ) {
 					%>
 					<p>Title:</p>
-					<input type="text" class="drop-single-title" value="<%= title %>" />
+					<input type="text" class="drop-single-title" name="title" value="<%= title %>" />
 					<p>Text:</p>
-					<input type="text" class="drop-single-data" value="<%= data %>" />
+					<textarea name="data" class="drop-single-data"><%= data %></textarea>
 					<button class="button button-primary drop-save">Save</button>
 					<button class="button button-secondary right drop-delete">Delete</button>
 					 <%
