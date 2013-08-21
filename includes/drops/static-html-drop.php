@@ -16,4 +16,19 @@ class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 		$drop['data'] = do_shortcode( $drop['data'] );
 		return $drop;
 	}
+
+	/**
+	 * Callback to render admin JS template
+	 */
+	function action_di_create_drop_templates() {
+?>
+<script type="text/template" id="static_html_create_drop_template">
+<div class="drop-input-wrapper">
+	<label>HTML/Shortcodes</label>
+	<input type="text" name="title" id="title" placeholder="Title">
+	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
+</div>
+</script>
+<?php
+	}
 }

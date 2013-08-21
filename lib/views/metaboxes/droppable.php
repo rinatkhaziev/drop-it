@@ -101,31 +101,12 @@
 		<button class="button button-primary drop-add">Add It</button>
 </script>
 
-<script type="text/template" id="static_html_create_drop_template">
-<div class="drop-input-wrapper">
-	<label>HTML/Shortcodes</label>
-	<input type="text" name="title" id="title" placeholder="Title">
-	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
-</div>
-</script>
+<?php
+// Instead of hardcoding create drop templates, register the action
+// This should provide necessary flexibility
+do_action( 'di_create_drop_templates' );
+?>
 
-<script type="text/template" id="single_create_drop_template">
-<div class="drop-input-wrapper">
-	<label>Post Title</label>
-	<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
-</div>
-
-<div class="drop-input-wrapper">
-	<label class="di-found-post"></label>
-	<input type="hidden" name="data" class="di-found-data" />
-</div>
-</script>
-
-<script type="text/template" id="ad_create_drop_template">
-<div class="drop-input-wrapper">
-	<p>Add an advertisement module</p>
-</div>
-</script>
 
 <script type="text/template" id="query_create_drop_template">
 

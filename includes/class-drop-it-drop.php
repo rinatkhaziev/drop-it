@@ -27,6 +27,7 @@ abstract class Drop_It_Drop {
 		$this->template = apply_filters( $id .'_drop_template', $template );
 		$this->options = $options;
 		$this->id = $id;
+		add_action( 'di_create_drop_templates', array( $this, 'action_di_create_drop_templates' ) );
 	}
 
 	function create_drop() {
@@ -43,5 +44,12 @@ abstract class Drop_It_Drop {
 	 */
 	function prepare_data( $drop = array() ) {
 		return $drop;
+	}
+
+	/**
+	 * Callback to render admin JS template
+	 */
+	function action_di_create_drop_templates() {
+		// Should be implementend in child classes
 	}
 }

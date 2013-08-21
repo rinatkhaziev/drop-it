@@ -35,4 +35,20 @@ class Single_Drop_It_Drop extends Drop_It_Drop {
 
 		return $meta;
 	}
+
+	function action_di_create_drop_templates() {
+?>
+		<script type="text/template" id="single_create_drop_template">
+		<div class="drop-input-wrapper">
+			<label>Post Title</label>
+			<input type="text" name="post_search" class="drop-name-autocomplete" placeholder="Find a post by title" />
+		</div>
+
+		<div class="drop-input-wrapper">
+			<label class="di-found-post"></label>
+			<input type="hidden" name="data" class="di-found-data" />
+		</div>
+		</script>
+<?php
+	}
 }
