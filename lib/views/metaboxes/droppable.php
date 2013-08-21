@@ -23,6 +23,9 @@
 						case 'single':
 						%> Single Post <%
 						break;
+						case 'ad':
+						%> Advertisement <%
+						break;
 					}
 					%>
 
@@ -41,6 +44,11 @@
 					break;
 					case 'single':
 					%> Post title: <strong> <%= post_title %> </strong><br />
+					<button class="button button-secondary right drop-delete">Delete</button>
+					<%
+					break;
+					case 'ad':
+					%><strong> Advertisement </strong><br />
 					<button class="button button-secondary right drop-delete">Delete</button>
 					<%
 					break;
@@ -69,6 +77,9 @@
 	</div>
 </script>
 
+<script type="text/template" id="ad_drop_template">
+	<strong></strong>
+</script>
 
 <script type="text/template" id="query_drop_template">
 	<strong></strong>
@@ -107,6 +118,12 @@
 <div class="drop-input-wrapper">
 	<label class="di-found-post"></label>
 	<input type="hidden" name="data" class="di-found-data" />
+</div>
+</script>
+
+<script type="text/template" id="ad_create_drop_template">
+<div class="drop-input-wrapper">
+	<p>Add an advertisement module</p>
 </div>
 </script>
 

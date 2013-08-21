@@ -415,6 +415,7 @@ class Drop_It {
 			switch ( $payload->type ) {
 			case 'static_html':
 			case 'single':
+			case 'ad':
 				add_post_meta( (int) $payload->post_id, '_drop', $drop );
 				$meta_id = $wpdb->get_var(
 					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
