@@ -246,6 +246,10 @@ class Drop_It {
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 
 		if ( !empty( $payload ) && isset( $payload->action ) ) {
+
+			$payload->title = sanitize_title($payload->title);
+			$payload->data = wp_filter_post_kses($payload->data);
+
 			switch ( $payload->action ) {
 			case 'create_drop':
 				$result = $this->create_drop( $payload );
@@ -401,7 +405,8 @@ class Drop_It {
 		if ( (int) $payload->post_id != 0 ) {
 			$drop = array(
 				'type' => $payload->type,
-				'data' => wp_filter_post_kses( $payload->data ),
+				'title' => $payload->title,
+				'data' => $payload->data,
 				'width' => (int) $payload->width,
 				'column' => (int) $payload->column,
 				'row' => (int) $payload->row
@@ -410,6 +415,7 @@ class Drop_It {
 			switch ( $payload->type ) {
 			case 'static_html':
 			case 'single':
+			case 'ad':
 				add_post_meta( (int) $payload->post_id, '_drop', $drop );
 				$meta_id = $wpdb->get_var(
 					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
@@ -446,7 +452,8 @@ class Drop_It {
 	function update_drop( $payload ) {
 		$drop = array(
 			'type' => $payload->type,
-			'data' => wp_filter_post_kses( $payload->data ),
+			'title' => $payload->title,
+			'data' => $payload->data,
 			'width' => (int) $payload->width,
 			'column' => (int) $payload->column,
 			'row' => (int) $payload->row
@@ -504,7 +511,7 @@ class Drop_It {
 	 */
 	function _render( $view_slug = '', $pre = '<div class="wrap">', $after = '</div>' ) {
 		ob_start();
-		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug .'.tpl.php';
+		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug . '.php';
 		if ( file_exists( $file ) )
 			require $file;
 		echo $pre  . ob_get_clean() . $after;
@@ -584,6 +591,7 @@ class Drop_It {
 	 * @return (bool|int)    zone id
 	 */
 	function get_zone_id_by_slug( $slug = '' ) {
+
 		$zone = get_posts( array(
 				'name' => $slug,
 				'post_type' => 'di-zone',
@@ -615,6 +623,7 @@ class Drop_It {
 	 * @return string rendered shortcode
 	 */
 	function _render_shortcode( $atts ) {
+
 		extract( shortcode_atts( array(
 					// Zone slug
 					'zone' => '',
@@ -685,7 +694,7 @@ class Drop_It {
 		$drop = $drop_data;
 
 		// Try to include template located in theme first
-		$theme_tpl = locate_template( "drops/templates/{$template_name}.tpl.php" );
+		$theme_tpl = locate_template( "drops/templates/{$template_name}.php" );
 		if ( isset( $drop['post'] ) ) {
 			// Setup global $post if it's a single
 			global $post;
@@ -697,7 +706,7 @@ class Drop_It {
 			load_template( $theme_tpl, false );
 		// Then try to include the one bundled with plugin
 		} else {
-			$plugin_tpl = DROP_IT_ROOT . "/lib/views/templates/{$template_name}.tpl.php";
+			$plugin_tpl = DROP_IT_ROOT . "/lib/views/templates/{$template_name}.php";
 			if ( file_exists( $plugin_tpl ) )
 				load_template( $plugin_tpl, false );
 		}
