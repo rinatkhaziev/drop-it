@@ -1,12 +1,15 @@
 <?php
-class Static_Html_Drop_It_Drop extends Drop_It_Drop {
-	static $_id = 'static_html';
-	function __construct( $label = 'Static HTML', $template = 'static_html', $options = array() ) {
+/**
+ * Single Post Drop
+ */
+class Ad_Drop_It_Drop extends Drop_It_Drop {
+	static $_id = 'ad';
+	function __construct( $label = 'Advertisement', $template = 'ad', $options = array() ) {
 		parent::__construct( self::$_id, $label, $template, $options );
 	}
 
 	/**
-	 * Render inside shortcodes if any
+	 * Add post itself for rendering (Front End)
 	 *
 	 * @param [type]  $drop [description]
 	 * @return [type]       [description]
