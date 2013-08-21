@@ -48,6 +48,9 @@ abstract class Drop_It_Drop {
 
 	/**
 	 * Callback to render admin JS template
+	 *
+	 * @todo Probably it'd be better to pass array of arguments like title and fields to render
+	 * @todo And then output formatted template
 	 */
 	function action_di_create_drop_templates() {
 		// Should be implementend in child classes
