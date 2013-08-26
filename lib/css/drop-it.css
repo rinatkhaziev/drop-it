@@ -149,18 +149,18 @@
 
 .drop-expand {
   position: absolute;
-  bottom: 80px;
+  bottom: 20px;
   left: 10px;
 }
 
 .drop-save {
   position: absolute;
-  bottom: 80px;
+  bottom: 20px;
   left: 10px;
 }
 
 .drop-delete {
   position: absolute;
-  bottom: 80px;
+  bottom: 20px;
   right: 10px;
 }
