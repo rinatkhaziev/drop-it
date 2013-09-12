@@ -416,6 +416,7 @@ class Drop_It {
 			case 'static_html':
 			case 'single':
 			case 'ad':
+			case 'search_box':
 				add_post_meta( (int) $payload->post_id, '_drop', $drop );
 				$meta_id = $wpdb->get_var(
 					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
@@ -695,6 +696,7 @@ class Drop_It {
 
 		// Try to include template located in theme first
 		$theme_tpl = locate_template( "drops/templates/{$template_name}.php" );
+
 		if ( isset( $drop['post'] ) ) {
 			// Setup global $post if it's a single
 			global $post;

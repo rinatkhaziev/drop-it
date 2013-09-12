@@ -26,6 +26,9 @@
 						case 'ad':
 						%> Advertisement <%
 						break;
+						case 'search_box':
+						%> Search Box <%
+						break;
 					}
 					%>
 
@@ -49,6 +52,11 @@
 					break;
 					case 'ad':
 					%><strong> Advertisement </strong><br />
+					<button class="button button-secondary right drop-delete">Delete</button>
+					<%
+					break;
+					case 'search_box':
+					%><strong> Search Box </strong><br />
 					<button class="button button-secondary right drop-delete">Delete</button>
 					<%
 					break;
@@ -78,6 +86,10 @@
 </script>
 
 <script type="text/template" id="ad_drop_template">
+	<strong></strong>
+</script>
+
+<script type="text/template" id="search_box_drop_template">
 	<strong></strong>
 </script>
 
