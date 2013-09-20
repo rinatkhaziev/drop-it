@@ -241,6 +241,13 @@ class Drop_It {
 		return $payload;
 	}
 
+	function _sanitize_array( $array = array() ) {
+		foreach ( $array as $k => $v ) {
+			$array['$k'] = wp_filter_post_kses( $v );
+		}
+		return $array;
+	}
+
 	/**
 	 * Route AJAX actions to CRUD methods
 	 *
