@@ -33,15 +33,11 @@ define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
 // Bootstrap the stuff
 require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
 
-// Do not init Twig until it passes VIP Review
-// require_once DROP_IT_ROOT . '/includes/class-wp-twig.php';
-
 class Drop_It {
 
 	public $drops;
 	public $key = 'drop-it';
 	public $manage_cap;
-	// public $twig;
 
 	/**
 	 * Instantiate the plugin, hook the filters and actions
@@ -73,23 +69,6 @@ class Drop_It {
 		add_shortcode( 'drop-it-zone', array( $this, '_render_shortcode' ) );
 		add_action( 'drop-it-zone', array( $this, '_do_render_action' ) );
 
-		/**
-		 * Init Twig
-		 *
-		 * Configuration filter: 'di_drop_templates_paths':
-		 * Array of folders with Twig templates
-		 *
-		 * Disabled until Twig review
-		 *
-		 * @param array   list of folders to look for drop templates
-		 *
-		 */
-/*		if ( !is_admin() )
-			$this->twig = new WP_Twig( apply_filters( 'di_drop_templates_paths', array(
-						DROP_IT_ROOT . '/lib/views/templates/',
-						get_stylesheet_directory() . '/drops/templates/'
-				),
-			false ) );*/
 	}
 
 	/**
@@ -532,7 +511,7 @@ class Drop_It {
 			return;
 
 		// @todo Test $wp_version < 3.6
-		if ( version_compare( floatval( $wp_version ), '3.6' ) == -1  ) {
+		if ( version_compare( floatval( $wp_version ), 3.6 ) == -1  ) {
 			wp_deregister_script( 'backbone' );
 			wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), false, true );
 		}
@@ -555,7 +534,6 @@ class Drop_It {
 		// Init
 		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
 		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
-		//wp_enqueue_style( 'di-gridster-style', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.min.css' );
 	}
 
 	/**
@@ -673,8 +651,6 @@ class Drop_It {
 
 			// Pass prepared data to render the template.
 			// prepare_data should be defined in a child of Drop_It_Drop class
-			// Twig is disabled for v0.1
-			//$this->twig->render( $di->template, $di->prepare_data( $drop ) );
 
 			// Instead using temporary rendering function (or maybe provide it as alternative for people who don't want to mess with Twig)
 			$this->render( $di->template, $di->prepare_data( $drop ) );
