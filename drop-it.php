@@ -216,6 +216,32 @@ class Drop_It {
 	}
 
 	/**
+	 * Sanitize payload callback
+	 * @param  [type] $payload [description]
+	 * @return [type]          [description]
+	 */
+	function _sanitize_payload( $payload ) {
+
+		foreach( $payload as $key => $value ) {
+			$type = gettype( $value );
+
+			switch ( $type ) {
+				case 'array':
+				case 'object':
+					$value = $this->_sanitize_array( $value );
+					break;
+				default:
+					$value = wp_filter_post_kses( $value );
+			}
+
+			$payload->$key = apply_filters( "di_sanitize_{$type}", $value );
+			$payload->$key = apply_filters( "di_sanitize_{$type}_{$key}", $value );
+		}
+
+		return $payload;
+	}
+
+	/**
 	 * Route AJAX actions to CRUD methods
 	 *
 	 * @return [type] [description]
@@ -226,8 +252,7 @@ class Drop_It {
 
 		if ( !empty( $payload ) && isset( $payload->action ) ) {
 
-			$payload->title = sanitize_title($payload->title);
-			$payload->data = wp_filter_post_kses($payload->data);
+			$payload = $this->_sanitize_payload( $payload );
 
 			switch ( $payload->action ) {
 			case 'create_drop':
