@@ -222,30 +222,33 @@ class Drop_It {
 	 */
 	function _sanitize_payload( $payload ) {
 
+		// Iterate over decoded payload
 		foreach( $payload as $key => $value ) {
+			// Check current var type
 			$type = gettype( $value );
 
 			switch ( $type ) {
+				// Special case for arrays and objects
 				case 'array':
 				case 'object':
-					$value = $this->_sanitize_array( $value );
+					$value = $this->_sanitize_array( $value, $type );
 					break;
+				// Treat everything else as a string
 				default:
 					$value = wp_filter_post_kses( $value );
 			}
-
-			$payload->$key = apply_filters( "di_sanitize_{$type}", $value );
-			$payload->$key = apply_filters( "di_sanitize_{$type}_{$key}", $value );
+			// Apply any additional sanitization callback
+			$payload->$key = apply_filters( "di_sanitize_payload_{$type}", $value, $key );
 		}
 
 		return $payload;
 	}
 
-	function _sanitize_array( $array = array() ) {
-		foreach ( $array as $k => $v ) {
+	function _sanitize_array( $array = array(), $type = 'array' ) {
+		foreach ( (array) $array as $k => $v ) {
 			$array['$k'] = wp_filter_post_kses( $v );
 		}
-		return $array;
+		return  $type == 'array' ? $array : (object) $array;
 	}
 
 	/**
