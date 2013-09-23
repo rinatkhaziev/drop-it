@@ -604,17 +604,6 @@ class Drop_It {
 	}
 
 	/**
-	 * Just a convenience wrapper that returns array of reference to the instance and a method
-	 * Used for registering hooks
-	 *
-	 * @param [type]  $method [description]
-	 * @return [type]         [description]
-	 */
-	private function _a( $method ) {
-		return array( $this, $method );
-	}
-
-	/**
 	 * Get drops meta data, format it, and return
 	 *
 	 * @param int     $zone_id Drop It Zone post_id
@@ -638,17 +627,25 @@ class Drop_It {
 	 */
 	function get_zone_id_by_slug( $slug = '' ) {
 
-		$zone = get_posts( array(
-				'name' => $slug,
-				'post_type' => 'di-zone',
-				'posts_per_page' => 1,
-				'post_status' => 'any'
-			) );
 
-		if ( !isset( $zone[0] ) )
+		$cache_key = "zone_{$slug}";
+
+		// Check if we have cached zone and return if we do
+		if ( false !== $zone = wp_cache_get( $cache_key, $this->key ) )
+			return $zone->ID;
+		
+		// If not, get it
+		$zone = get_page_by_path( $slug, OBJECT, 'di-zone' )
+
+		// Bail if nothing found
+		if ( !isset( $zone->ID ) )
 			return false;
 
-		return $zone[0]->ID;
+		// Add zone to cache
+		wp_cache_add( $key, $zone, $this->key );
+
+		// Return Zone ID
+		return $zone->ID;
 	}
 
 	/**
@@ -719,7 +716,6 @@ class Drop_It {
 			// Pass prepared data to render the template.
 			// prepare_data should be defined in a child of Drop_It_Drop class
 
-			// Instead using temporary rendering function (or maybe provide it as alternative for people who don't want to mess with Twig)
 			$this->render( $di->template, $di->prepare_data( $drop ) );
 
 		}
@@ -736,6 +732,9 @@ class Drop_It {
 		// Declare global $drop to use in templates
 		global $drop;
 		$drop = $drop_data;
+
+		// Sanitize template name to prevent possible path traversal
+		$template_name = sanitize_key( $template_name );
 
 		// Try to include template located in theme first
 		$theme_tpl = locate_template( "drops/templates/{$template_name}.php" );
