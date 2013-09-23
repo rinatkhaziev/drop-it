@@ -40,35 +40,11 @@ class Drop_It {
 	public $manage_cap;
 
 	/**
-	 * Instantiate the plugin, hook the filters and actions
+	 * Instantiate the plugin, bind init action
 	 */
 	function __construct() {
 		// Create custom post types
 		add_action( 'init', array( $this, 'action_init' ) );
-
-		// Enqueue admin scripts
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
-		// Add some JS vars for admin UI
-		add_action( 'admin_head', array( $this, 'action_admin_head' ) );
-
-		// Add meta boxes
-		add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
-
-		// @todo Implement
-		add_action( 'edit_form_advanced', array( $this, 'action_enable_tiny' ) );
-
-		// Initial setup
-		register_activation_hook( __FILE__, array( $this, 'activation' ) );
-
-		// Route AJAX actions
-		add_action( 'wp_ajax_drop_it_ajax_route', array( $this, '_route_ajax_actions' ) );
-		add_action( 'wp_ajax_drop_it_ajax_search', array( $this, '_ajax_search' ) );
-
-		// Shortcode and template tag
-		add_shortcode( 'drop-it-zone', array( $this, '_render_shortcode' ) );
-		add_action( 'drop-it-zone', array( $this, '_do_render_action' ) );
-
 	}
 
 	/**
@@ -139,6 +115,29 @@ class Drop_It {
 
 		// Capabilities needed to be able to manage Drop It
 		$this->manage_cap = apply_filters( 'di_manage_cap', 'edit_others_posts' );
+
+		// Enqueue admin scripts
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		// Add some JS vars for admin UI
+		add_action( 'admin_head', array( $this, 'action_admin_head' ) );
+
+		// Add meta boxes
+		add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
+
+		// @todo Implement
+		add_action( 'edit_form_advanced', array( $this, 'action_enable_tiny' ) );
+
+		// Initial setup
+		register_activation_hook( __FILE__, array( $this, 'activation' ) );
+
+		// Route AJAX actions
+		add_action( 'wp_ajax_drop_it_ajax_route', array( $this, '_route_ajax_actions' ) );
+		add_action( 'wp_ajax_drop_it_ajax_search', array( $this, '_ajax_search' ) );
+
+		// Shortcode and template tag
+		add_shortcode( 'drop-it-zone', array( $this, '_render_shortcode' ) );
+		add_action( 'drop-it-zone', array( $this, '_do_render_action' ) );
 
 		// Must register drops after we register our post type
 		$this->register_drops();
