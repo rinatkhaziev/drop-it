@@ -244,11 +244,20 @@ class Drop_It {
 		return $payload;
 	}
 
-	function _sanitize_array( $array = array(), $type = 'array' ) {
-		foreach ( (array) $array as $k => $v ) {
-			$array['$k'] = wp_filter_post_kses( $v );
+	/**
+	 * Sanitize array callback
+	 * @param  array  $unsanitized [description]
+	 * @param  string $type        [description]
+	 * @return [type]              [description]
+	 */
+	function _sanitize_array( $unsanitized = array(), $type = 'array' ) {
+		$return = array();
+		// Cast to array, and iterate over
+		foreach ( (array) $unsanitized as $k => $v ) {
+			// Default sanitize callback is wp_filter_post_kses
+			$return[$k] = wp_filter_post_kses( $v );
 		}
-		return  $type == 'array' ? $array : (object) $array;
+		return  $type == 'array' ? $return : (object) $return;
 	}
 
 	/**
