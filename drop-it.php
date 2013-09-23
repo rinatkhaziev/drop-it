@@ -29,6 +29,7 @@ define( 'DROP_IT_VERSION', '0.1' );
 define( 'DROP_IT_ROOT' , dirname( __FILE__ ) );
 define( 'DROP_IT_FILE_PATH' , DROP_IT_ROOT . '/' . basename( __FILE__ ) );
 define( 'DROP_IT_URL' , plugins_url( '/', __FILE__ ) );
+define( 'DROP_IT_DROPS_PATH', DROP_IT_ROOT . '/includes/drops/' );
 
 // Bootstrap the stuff
 require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
@@ -54,14 +55,17 @@ class Drop_It {
 	 * @return [type]        [description]
 	 */
 	function register_drops() {
-		$drops_path =  DROP_IT_ROOT . '/includes/drops/';
 
-		// Scan drops folder for bundled drops
-		$class_files = array_diff( scandir( $drops_path ), array( '..', '.' ) );
+		// Try to get the option
+		$class_files = get_option( 'drop_it_class_files' );
 
-		foreach ( $class_files as $drop ) {
+		// Nothing found, run scandir 
+		if ( false === $class_files ) 
+			$class_files = $this->_scan_files();
+
+		foreach ( (array) $class_files as $drop ) {
 			// Full path to class file
-			$class_file = $drops_path . $drop;
+			$class_file = DROP_IT_DROPS_PATH . $drop;
 			include_once $class_file;
 			// Get rid of .php part
 			$class_name = str_replace( '.php' , '', $drop );
@@ -74,9 +78,20 @@ class Drop_It {
 				$this->drops[ $class_name::$_id ] = new $class_name;
 		}
 
+		// Add any additional drop instances with filter
 		$this->drops = apply_filters( 'di_registered_drop_types', $this->drops );
 	}
 
+	/**
+	 * 
+	 * @return [type] [description]
+	 */
+	function _scan_files() {
+		// Scan drops folder for bundled drops and store them as option
+		$class_files = array_diff( scandir( DROP_IT_DROPS_PATH ), array( '..', '.' ) );
+		update_option( 'drop_it_class_files', $class_files );				
+		return $class_files;
+	}
 
 	/**
 	 * Init TinyMCE for textareas
@@ -128,8 +143,9 @@ class Drop_It {
 		// @todo Implement
 		add_action( 'edit_form_advanced', array( $this, 'action_enable_tiny' ) );
 
-		// Initial setup
+		// Register activation/deactivation
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
 		// Route AJAX actions
 		add_action( 'wp_ajax_drop_it_ajax_route', array( $this, '_route_ajax_actions' ) );
@@ -265,13 +281,18 @@ class Drop_It {
 	 * @return [type] [description]
 	 */
 	function _route_ajax_actions() {
+
+		if ( !isset( $_GET['drop_it_nonce'] ) || false === $this->_check_perms_and_nonce( $_GET['drop_it_nonce'] ) ) {
+			echo json_encode( array( 'error' => 'Security check failed' ) );
+			exit;
+		}
 		// Read and decode JSON payload fro
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 
+		// Sanitize payload
+		$payload = $this->_sanitize_payload( $payload );
+
 		if ( !empty( $payload ) && isset( $payload->action ) ) {
-
-			$payload = $this->_sanitize_payload( $payload );
-
 			switch ( $payload->action ) {
 			case 'create_drop':
 				$result = $this->create_drop( $payload );
@@ -346,7 +367,7 @@ class Drop_It {
 	 * @return bool
 	 *
 	 */
-	function _check_perms_and_nonce( $nonce = '') {
+	function _check_perms_and_nonce( $nonce = '' ) {
 		return current_user_can( $this->manage_cap ) && wp_verify_nonce( $nonce, DROP_IT_FILE_PATH );
 	}
 
@@ -515,15 +536,18 @@ class Drop_It {
 	function activation() {
 		// Make sure our post type rewrite is registered
 		flush_rewrite_rules();
+		// Update the option to set default drop files
+		$this->_scan_files();
 	}
 
 	/**
-	 * Clean after ourselves
+	 * Clean up after ourselves
 	 *
 	 * @return [type] [description]
 	 */
 	function deactivation() {
 		flush_rewrite_rules();
+		delete_option( 'drop_it_class_files' );
 	}
 
 	/**
