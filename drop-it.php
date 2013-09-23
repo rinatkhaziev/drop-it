@@ -626,8 +626,6 @@ class Drop_It {
 	 * @return (bool|int)    zone id
 	 */
 	function get_zone_id_by_slug( $slug = '' ) {
-
-
 		$cache_key = "zone_{$slug}";
 
 		// Check if we have cached zone and return if we do
@@ -642,7 +640,7 @@ class Drop_It {
 			return false;
 
 		// Add zone to cache
-		wp_cache_add( $key, $zone, $this->key );
+		wp_cache_add( $cache_key, $zone, $this->key );
 
 		// Return Zone ID
 		return $zone->ID;
