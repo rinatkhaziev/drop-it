@@ -78,6 +78,8 @@ class Drop_It {
 				$this->drops[ $class_name::$_id ] = new $class_name;
 		}
 
+		var_dump( $this->drops );
+
 		// Add any additional drop instances with filter
 		$this->drops = apply_filters( 'di_registered_drop_types', $this->drops );
 	}

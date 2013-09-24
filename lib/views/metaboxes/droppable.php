@@ -86,16 +86,23 @@
 </script>
 
 <script type="text/template" id="ad_drop_template">
-	<strong></strong>
+	<strong>2</strong>
 </script>
 
 <script type="text/template" id="search_box_drop_template">
-	<strong></strong>
+	<strong>3</strong>
 </script>
 
 <script type="text/template" id="query_drop_template">
-	<strong></strong>
+	<strong>4</strong>
 </script>
+
+<script type="text/template" id="single_drop_template">
+	<strong>5</strong>
+</script>
+
+
+
 
 <script type="text/template" id="dropProtoTemplate">
 <div class="drop-input-wrapper">
@@ -118,11 +125,6 @@
 // This should provide necessary flexibility
 do_action( 'di_create_drop_templates' );
 ?>
-
-
-<script type="text/template" id="query_create_drop_template">
-
-</script>
 
 <script type="text/template" id="autocompleteDropTemplate">
 <div class="drop-input-wrapper">
