@@ -6,8 +6,24 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 	static $_id = 'query';
 	// Array 
 	static $_allowed_query_args = array(
-
+		// Author
+		'author' => 'Author',
+		'author_name' => 'Author slug',
+		// Category
+		'cat' => 'Category ID',
+		'category_name' => 'Category slug',
+		'category__in' => 'Include categories (ids)',
+		'category__not_in' => 'Exclude categories (ids)',		
+		// Category
+		'cat' => 'Category ID',
+		'category_name' => 'Category slug',
+		'category__in' => 'Include categories (ids)',
+		'category__not_in' => 'Exclude categories (ids)',
+		// Tax query
+		'tax_query' => 'Taxonomy Query',
 	);
+
+
 	function __construct( $label = 'Custom Query', $template = 'query', $options = array() ) {
 		parent::__construct( self::$_id, $label, $template, $options );
 	}
@@ -46,7 +62,10 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 	 */
 	function action_di_create_drop_templates() {
 ?>
-		<script type="text/template" id="query_create_drop_template">
+<script type="text/template" id="query_create_drop_template">
+	<p>Most of the parameters accept comma separated values. Check out <a target="_blank" href="http://codex.wordpress.org/Class_Reference/WP_Query#Parameters">WP_Query reference</a></p>
+	<p>For Taxonomy query use special format: taxonomy:taxonomy_slug; field:slug; terms:terms,comma,separated<br/>
+		E.g. : taxonomy:category; field:slug; terms: news,rumors</p>
 		<div class="drop-input-wrapper">
 			<label>Title</label>
 			<input type="text" name="title" id="title" placeholder="Title" />
@@ -56,7 +75,9 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 
 		<div class="drop-input-wrapper">			
 			<select name="data[key][]" class="drop-query-parameter">
-			<option value=""></option>
+				<?php foreach ( self::$_allowed_query_args as $key => $label ): ?>
+					<option value="<?php echo $key ?>"><?php echo $label ?></option>
+				<?php endforeach ?>
 			</select>
 			<input type="text" name="data[value][]" placeholder="Value" />
 		</div>
@@ -65,7 +86,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 			<button>Add another query argument</button>
 		</div>
 
-		</script>
+</script>
 <?php
 	}
 }
