@@ -16,22 +16,9 @@
 		<div class="widget-top">
 			<div class="widget-title">
 				<h4>
-					<% switch( type ) {
-						case 'static_html':
-						%> Static HTML <%
-						break;
-						case 'single':
-						%> Single Post <%
-						break;
-						case 'ad':
-						%> Advertisement <%
-						break;
-						case 'search_box':
-						%> Search Box <%
-						break;
-					}
-					%>
-
+            <% _.each( DropIt.Admin.drop_types, function( item ) { %> 
+                <%= type === item.id ? item.label : '' %>
+            <% }); %>
 				</h4>
 			</div>
 		</div>
