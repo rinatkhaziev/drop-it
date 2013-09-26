@@ -28,6 +28,7 @@ abstract class Drop_It_Drop {
 		$this->options = $options;
 		$this->id = $id;
 		add_action( 'di_create_drop_templates', array( $this, 'action_di_create_drop_templates' ) );
+		add_action( 'di_edit_drop_templates', array( $this, 'action_di_edit_drop_templates' ) );
 	}
 
 	function create_drop() {
@@ -53,6 +54,16 @@ abstract class Drop_It_Drop {
 	 * @todo And then output formatted template
 	 */
 	function action_di_create_drop_templates() {
+		// Should be implementend in child classes
+	}	
+
+	/**
+	 * Callback to render admin JS template
+	 *
+	 * @todo Probably it'd be better to pass array of arguments like title and fields to render
+	 * @todo And then output formatted template
+	 */
+	function action_di_edit_drop_templates() {
 		// Should be implementend in child classes
 	}
 }

@@ -29,4 +29,18 @@ class Search_Box_Drop_It_Drop extends Drop_It_Drop {
 	</script>
 <?php
 	}
+
+	function action_di_edit_drop_templates() {
+?>
+<script type="text/template" id="search_box_drop_template">
+	<div class="widget-inside">
+		<strong> Search Box </strong><br />	
+	</div>
+	<div class="widget-inside-edit">
+	
+	</div>	
+</script>
+
+<?php
+	}
 }

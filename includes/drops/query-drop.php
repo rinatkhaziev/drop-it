@@ -89,4 +89,17 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 </script>
 <?php
 	}
+
+	function action_di_edit_drop_template() {
+?>
+<script type="text/template" id="query_drop_template">
+	<div class="widget-inside">
+		Query
+	</div>
+	<div class="widget-inside-edit">
+	
+	</div>	
+</script>
+<?php
+	}
 }

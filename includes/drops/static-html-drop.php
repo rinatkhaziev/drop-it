@@ -31,4 +31,26 @@ class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 </script>
 <?php
 	}
+
+	function action_di_edit_drop_templates() {
+?>
+<script type="text/template" id="static_html_drop_template">
+		<div class="widget-inside">
+			<p>
+			Title: <strong> <%= title %> </strong><br /><br />
+			<%= data %> <br />
+			</p>
+
+		</div>
+		<div class="widget-inside-edit">
+		<p>Title:</p>
+		<input type="text" class="drop-single-title" name="title" value="<%= title %>" />
+		<p>Text:</p>
+		<textarea name="data" class="drop-single-data"><%= data %></textarea>
+		</p>
+
+		</div>
+</script>
+<?php
+	}
 }

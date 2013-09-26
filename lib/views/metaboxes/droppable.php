@@ -7,8 +7,7 @@
  *
  */
 ?>
-
-<script type="text/template" id="static_html_drop_template">
+<script type="text/template" id="common_drop_template">
 	<div class="di-drop di-drop-collapsed widget">
 		<input type="hidden" name="drop_id" value="<%= drop_id %>" />
 		<input type="hidden" name="column" value="<%= column %>" />
@@ -22,74 +21,16 @@
 				</h4>
 			</div>
 		</div>
-		<div class="widget-inside">
-			<p>
-			 	<% switch( type ) {
-					case 'static_html':
-					%> Title: <strong> <%= title %> </strong><br /><br />
-					 <%= data %> <br />
-					 <button class="button button-primary drop-expand">Edit</button>
-					 <button class="button button-secondary right drop-delete">Delete</button>
-					<%
-					break;
-					case 'single':
-					%> Post title: <strong> <%= post_title %> </strong><br />
-					<button class="button button-secondary right drop-delete">Delete</button>
-					<%
-					break;
-					case 'ad':
-					%><strong> Advertisement </strong><br />
-					<button class="button button-secondary right drop-delete">Delete</button>
-					<%
-					break;
-					case 'search_box':
-					%><strong> Search Box </strong><br />
-					<button class="button button-secondary right drop-delete">Delete</button>
-					<%
-					break;
-				}
-				%>
-			</p>
-
-			</ul>
-		</div>
-		<div class="widget-inside-edit">
-			<p>
-			 	<% if( type=="static_html" ) {
-					%>
-					<p>Title:</p>
-					<input type="text" class="drop-single-title" name="title" value="<%= title %>" />
-					<p>Text:</p>
-					<textarea name="data" class="drop-single-data"><%= data %></textarea>
-					<button class="button button-primary drop-save">Save</button>
-					<button class="button button-secondary right drop-delete">Delete</button>
-					 <%
-					}
-					%>
-			</p>
-			</ul>
-		</div>
+			<%
+			// Pass model to a subtemplate 
+			var html = _.template( jQuery('#' + template + '_drop_template').html(), this.model.toJSON() );
+			%>
+			<%= html %>
+		<button class="button button-primary drop-save">Save</button>
+		<button class="button button-primary drop-expand">Edit</button>
+		<button class="button button-secondary right drop-delete">Delete</button>
 	</div>
 </script>
-
-<script type="text/template" id="ad_drop_template">
-	<strong>2</strong>
-</script>
-
-<script type="text/template" id="search_box_drop_template">
-	<strong>3</strong>
-</script>
-
-<script type="text/template" id="query_drop_template">
-	<strong>4</strong>
-</script>
-
-<script type="text/template" id="single_drop_template">
-	<strong>5</strong>
-</script>
-
-
-
 
 <script type="text/template" id="dropProtoTemplate">
 <div class="drop-input-wrapper">
@@ -111,6 +52,7 @@
 // Instead of hardcoding create drop templates, register the action
 // This should provide necessary flexibility
 do_action( 'di_create_drop_templates' );
+do_action( 'di_edit_drop_templates' );
 ?>
 
 <script type="text/template" id="autocompleteDropTemplate">
