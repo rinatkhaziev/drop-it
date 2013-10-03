@@ -83,7 +83,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		</div>
 
 		<div class="drop-input-wrapper">
-			<button>Add another query argument</button>
+			<button class="button button-add-query-arg">Add another query argument</button>
 		</div>
 
 </script>
