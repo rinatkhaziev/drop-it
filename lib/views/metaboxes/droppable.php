@@ -45,7 +45,7 @@
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
 
-		<button class="button button-primary drop-add">Add It</button>
+		<button class="button button-primary drop-add">Add Drop</button>
 </script>
 
 <?php
