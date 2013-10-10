@@ -3,7 +3,7 @@
 Plugin Name: Drop It
 Plugin URI: http://digitallyconscious.com
 Description: Easy drag and drop layout management for WordPress
-Author: Rinat Khaziev
+Author: Rinat Khaziev, Samantha Geitz, Timur Zaynullin
 Version: 0.1
 Author URI: http://digitallyconscious.com
 
