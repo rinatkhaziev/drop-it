@@ -46,6 +46,16 @@ class Drop_It {
 	function __construct() {
 		// Create custom post types
 		add_action( 'init', array( $this, 'action_init' ) );
+		spl_autoload_register( array( $this, '_autoload_drop_class' ) );
+	}
+
+	private function _autoload_drop_class( $class ) {
+		if ( false === stristr( $class, 'Drop_It_Drop' ) )
+			return;
+
+		$slug = sanitize_title_with_dashes( str_replace( 'Drop_It_Drop', 'Drop', $class ) ) . '.php';
+		$slug = str_replace( '_', '-', $slug );
+		include_once DROP_IT_DROPS_PATH . $slug;
 	}
 
 	/**
@@ -56,43 +66,15 @@ class Drop_It {
 	 */
 	function register_drops() {
 
-		// Try to get the option
-		$class_files = get_option( 'drop_it_class_files' );
+		$bundled = array( 'Ad', 'Query', 'Search_Box', 'Single', 'Static_Html' );
 
-		// Nothing found, run scandir 
-		if ( false === $class_files ) 
-			$class_files = $this->_scan_files();
-
-		foreach ( (array) $class_files as $drop ) {
-			// Full path to class file
-			$class_file = DROP_IT_DROPS_PATH . $drop;
-			include_once $class_file;
-			// Get rid of .php part
-			$class_name = str_replace( '.php' , '', $drop );
-
-			// Follow class naming convention
-			// E.g. class name for static-html-drop.php should be Static_Html_Drop_It_Drop
-			$class_name_arr = array_map( 'ucfirst', explode( '-', $class_name ) );
-			$class_name = implode( '_', $class_name_arr ) . '_It_Drop';
-			if ( is_subclass_of( $class_name, 'Drop_It_Drop' ) )
-				$this->drops[ $class_name::$_id ] = new $class_name;
+		foreach( $bundled as $drop_class ) {
+			$class_name = $drop_class . '_Drop_It_Drop';
+			$this->drops[ strtolower( $drop_class ) ] = new $class_name;
 		}
-
-		// var_dump( $this->drops );
 
 		// Add any additional drop instances with filter
 		$this->drops = apply_filters( 'di_registered_drop_types', $this->drops );
-	}
-
-	/**
-	 * 
-	 * @return [type] [description]
-	 */
-	function _scan_files() {
-		// Scan drops folder for bundled drops and store them as option
-		$class_files = array_diff( scandir( DROP_IT_DROPS_PATH ), array( '..', '.' ) );
-		update_option( 'drop_it_class_files', $class_files );				
-		return $class_files;
 	}
 
 	/**
@@ -157,8 +139,7 @@ class Drop_It {
 		add_shortcode( 'drop-it-zone', array( $this, '_render_shortcode' ) );
 		add_action( 'drop-it-zone', array( $this, '_do_render_action' ) );
 
-		// Must register drops after we register our post type
-		$this->register_drops();
+		add_action( 'admin_init', array( $this, 'register_drops' ) );
 	}
 
 	/**
@@ -288,6 +269,7 @@ class Drop_It {
 			echo json_encode( array( 'error' => 'Security check failed' ) );
 			exit;
 		}
+
 		// Read and decode JSON payload fro
 		$payload = json_decode( file_get_contents( 'php://input' ) );
 
@@ -703,6 +685,7 @@ class Drop_It {
 	 * @return string Processed HTML
 	 */
 	function _render_drops( $drops = array() ) {
+		$this->register_drops();
 		ob_start();
 		foreach ( $drops as $drop ) {
 
