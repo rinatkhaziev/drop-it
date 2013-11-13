@@ -223,12 +223,18 @@ class Drop_It {
 	 * @return [type]          [description]
 	 */
 	function _sanitize_payload( $payload ) {
+		
+		// 
+		$ptype = gettype( $payload );
+
+		// Cast to array for convenience  
+		// Payload is always either array or object
+		$payload = (array) $payload;
 
 		// Iterate over decoded payload
-		foreach( $payload as $key => $value ) {
+		foreach(  $payload as $key => $value ) {
 			// Check current var type
 			$type = gettype( $value );
-
 			switch ( $type ) {
 				// Special case for arrays and objects
 				case 'array':
@@ -239,11 +245,14 @@ class Drop_It {
 				default:
 					$value = wp_filter_post_kses( $value );
 			}
-			// Apply any additional sanitization callback
-			$payload->$key = apply_filters( "di_sanitize_payload_{$type}", $value, $key );
+
+			 // Apply any additional sanitization callback
+			$payload[$key] = apply_filters( "di_sanitize_payload_{$type}", $value, $key );
 		}
 
-		return $payload;
+		// Typecast to original payload type and return
+		settype( $payload, $ptype );
+		return  $payload;
 	}
 
 	/**
@@ -256,9 +265,11 @@ class Drop_It {
 		$return = array();
 		// Cast to array, and iterate over
 		foreach ( (array) $unsanitized as $k => $v ) {
+			$vtype = gettype( $v );
 			// Default sanitize callback is wp_filter_post_kses
-			$return[$k] = wp_filter_post_kses( $v );
+			$return[$k] = in_array( $vtype, array( 'object', 'array' ) ) ? $this->_sanitize_array( $v, $vtype ) : wp_filter_post_kses( $v );
 		}
+
 		return  $type == 'array' ? $return : (object) $return;
 	}
 
