@@ -36,7 +36,7 @@ require_once DROP_IT_ROOT . '/includes/class-drop-it-drop.php';
 
 class Drop_It {
 
-	public $drops;
+	public $drops = null;
 	public $key = 'drop-it';
 	public $manage_cap;
 
@@ -59,13 +59,17 @@ class Drop_It {
 	}
 
 	/**
-	 * Registering available drops
+	 * Registering available drops, runs on: admin_init and gets called from frontend display callback
 	 *
-	 * @param array   $drops [description]
-	 * @return [type]        [description]
 	 */
 	function register_drops() {
 
+		// Bail early if drops have been registered already
+		if ( is_array( $this->drops ) )
+			return;
+
+		// Just hardcode available drops for now and not muck around 
+		// with scanning filesystem/reading-writing options
 		$bundled = array( 'Ad', 'Query', 'Search_Box', 'Single', 'Static_Html' );
 
 		foreach( $bundled as $drop_class ) {
@@ -542,9 +546,20 @@ class Drop_It {
 	 */
 	function _render( $view_slug = '', $pre = '<div class="wrap">', $after = '</div>' ) {
 		ob_start();
+		
+		// Sanitize the slug a bit
+		$a = explode( '/', $view_slug );
+		$a = array_map( function( $i ) {
+			return sanitize_file_name( $i );
+		}, $a );
+
+		$view_slug =  join( '/', $a );
+		
 		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug . '.php';
+
 		if ( file_exists( $file ) )
 			require $file;
+
 		echo $pre  . ob_get_clean() . $after;
 	}
 
