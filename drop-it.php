@@ -281,7 +281,7 @@ class Drop_It {
 	function _route_ajax_actions() {
 
 		if ( !isset( $_GET['drop_it_nonce'] ) || false === $this->_check_perms_and_nonce( $_GET['drop_it_nonce'] ) ) {
-			echo json_encode( array( 'error' => 'Security check failed' ) );
+			echo json_encode( array( 'error' => __( 'Security check failed', 'drop-it' ) ) );
 			exit;
 		}
 
@@ -297,7 +297,7 @@ class Drop_It {
 				$result = $this->create_drop( $payload );
 				if ( ! $result ) {
 					status_header( 701 );
-					$result = "The drop you're trying to save is invalid";
+					$result = __( "The drop you're trying to save is invalid", 'drop-it' );
 				}
 				echo $result;
 				break;

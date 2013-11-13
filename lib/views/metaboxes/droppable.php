@@ -26,15 +26,15 @@
 			var html = _.template( jQuery('#' + template + '_drop_template').html(), this.model.toJSON() );
 			%>
 			<%= html %>
-		<button class="button button-primary drop-save">Save</button>
-		<button class="button button-primary drop-expand">Edit</button>
-		<button class="button button-secondary right drop-delete">Delete</button>
+		<button class="button button-primary drop-save"><?php _e( 'Save', 'drop-it' ) ?></button>
+		<button class="button button-primary drop-expand"><?php _e( 'Edit', 'drop-it' ) ?></button>
+		<button class="button button-secondary right drop-delete"><?php _e( 'Delete', 'drop-it' ) ?></button>
 	</div>
 </script>
 
 <script type="text/template" id="dropProtoTemplate">
 <div class="drop-input-wrapper">
-    <label for="dropSelectTemplate">Drop type:</label>
+    <label for="dropSelectTemplate"><?php _e( 'Drop type', 'drop-it' ) ?>:</label>
     <select id="dropSelectTemplate" name="type">
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
@@ -45,7 +45,7 @@
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />
 	<?php endif; ?>
 
-		<button class="button button-primary drop-add">Add Drop</button>
+		<button class="button button-primary drop-add"><?php _e( 'Add Drop', 'drop-it' ) ?></button>
 </script>
 
 <?php
