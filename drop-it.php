@@ -454,29 +454,22 @@ class Drop_It {
 				'row' => (int) $payload->row
 			);
 
-			switch ( $payload->type ) {
-			case 'static_html':
-			case 'single':
-			case 'ad':
-			case 'search_box':
-				add_post_meta( (int) $payload->post_id, '_drop', $drop );
-				$meta_id = $wpdb->get_var(
-					$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
-				if ( $payload->type == 'single' ) {
-					$post = get_post( $payload->data, 'ARRAY_A' );
-					$extra['post_title'] = $post['post_title'];
-				}
+			add_post_meta( (int) $payload->post_id, '_drop', $drop );
+			$meta_id = $wpdb->get_var(
+				$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
-				// Add any extra data for UI
-				if ( is_callable( array( $this->drops[ $payload->type ], 'add_extra_info_for_ui' ) ) )
-					$extra = (array) $this->drops[ $payload->type ]->add_extra_info_for_ui( $payload );
-
-				return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
-				break;
-			default:
-				return false;
+			if ( $payload->type == 'single' ) {
+				$post = get_post( $payload->data, 'ARRAY_A' );
+				$extra['post_title'] = $post['post_title'];
 			}
+
+			// Add any extra data for UI
+			if ( is_callable( array( $this->drops[ $payload->type ], 'add_extra_info_for_ui' ) ) )
+				$extra = (array) $this->drops[ $payload->type ]->add_extra_info_for_ui( $payload );
+
+			return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
+
 		}
 		return false;
 	}
