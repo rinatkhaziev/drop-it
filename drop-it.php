@@ -600,6 +600,7 @@ class Drop_It {
 
 		// Gridster
 		wp_enqueue_script( 'di-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
+		wp_enqueue_script( 'di-serialize-object', DROP_IT_URL . 'lib/js/vendor/jquery.serialize-object.js', array( 'jquery', 'backbone' ), false, true );
 
 		// Init
 		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
