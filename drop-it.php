@@ -719,7 +719,7 @@ class Drop_It {
 			// Pass prepared data to render the template.
 			// prepare_data should be defined in a child of Drop_It_Drop class
 
-			$this->render( $di->template, $di->prepare_data( $drop ) );
+			$this->render_frontend_drop( $di->template, $di->prepare_data( $drop ) );
 
 		}
 		return ob_get_clean();
@@ -728,10 +728,10 @@ class Drop_It {
 	/**
 	 * v0.1 version of rendering method
 	 * @param  string $template_name [description]
-	 * @param  array  $drop          [description]
+	 * @param  array  $drop_data     [description]
 	 * @return [type]                [description]
 	 */
-	function render( $template_name = '', $drop_data = array() ) {
+	function render_frontend_drop( $template_name = '', $drop_data = array() ) {
 		// Declare global $drop to use in templates
 		global $drop;
 		$drop = $drop_data;
