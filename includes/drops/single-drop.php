@@ -48,6 +48,7 @@ class Single_Drop_It_Drop extends Drop_It_Drop {
 			<label class="di-found-post"></label>
 			<input type="hidden" name="data" class="di-found-data" />
 		</div>
+		<input type="hidden" name='type' value="<%- type %>" />
 		</script>
 <?php
 	}

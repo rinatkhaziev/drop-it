@@ -311,7 +311,7 @@ class Drop_It {
 				break;
 
 			case 'delete_drop':
-				echo $this->delete_drop( $payload->drop_id, $payload->post_id );
+				echo $this->delete_drop( $payload->drop_id );
 				break;
 			}
 
@@ -514,7 +514,7 @@ class Drop_It {
 	 * @param int     $post_id [description]
 	 * @return bool result
 	 */
-	function delete_drop( $drop_id, $post_id ) {
+	function delete_drop( $drop_id ) {
 		$result = (bool) delete_metadata_by_mid( 'post', $drop_id );
 
 		return $result;

@@ -27,6 +27,7 @@ class Ad_Drop_It_Drop extends Drop_It_Drop {
 		<p>Add an advertisement module</p>
 	</div>
 	</script>
+	<input type="hidden" name='type' value="<%- type %>" />
 <?php
 	}
 

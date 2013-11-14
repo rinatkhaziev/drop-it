@@ -26,6 +26,7 @@ class Search_Box_Drop_It_Drop extends Drop_It_Drop {
 	<div class="drop-input-wrapper">
 		<p>Add a search box module</p>
 	</div>
+	<input type="hidden" name='type' value="<%- type %>" />
 	</script>
 <?php
 	}

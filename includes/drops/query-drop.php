@@ -85,7 +85,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		<div class="drop-input-wrapper">
 			<button class="button button-add-query-arg">Add another query argument</button>
 		</div>
-
+		<input type="hidden" name='type' value="<%- type %>" />
 </script>
 <?php
 	}

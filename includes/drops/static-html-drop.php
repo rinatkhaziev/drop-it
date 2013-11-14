@@ -28,6 +28,7 @@ class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 	<input type="text" name="title" id="title" placeholder="Title">
 	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
 </div>
+<input type="hidden" name='type' value="<%- type %>" />
 </script>
 <?php
 	}
