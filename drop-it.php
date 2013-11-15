@@ -672,13 +672,15 @@ class Drop_It {
 		extract( shortcode_atts( array(
 					// Zone slug
 					'zone' => '',
+					'zone_id' => 0
 				), $atts ) );
 
+
 		// Bail if no zone is set
-		if ( empty( $zone ) )
+		if ( empty( $zone ) && 0 === $zone_id = (int) $zone_id )
 			return;
 
-		$zone_id = $this->get_zone_id_by_slug( $zone );
+		$zone_id = $zone_id ? $zone_id : $this->get_zone_id_by_slug( $zone );
 
 		// Bail if there's no zone with this slug
 		if ( ! $zone_id )
