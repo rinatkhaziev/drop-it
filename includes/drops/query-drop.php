@@ -13,11 +13,6 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		'cat' => 'Category ID',
 		'category_name' => 'Category slug',
 		'category__in' => 'Include categories (ids)',
-		'category__not_in' => 'Exclude categories (ids)',		
-		// Category
-		'cat' => 'Category ID',
-		'category_name' => 'Category slug',
-		'category__in' => 'Include categories (ids)',
 		'category__not_in' => 'Exclude categories (ids)',
 		// Tax query
 		'tax_query' => 'Taxonomy Query',
@@ -36,6 +31,10 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 	 */
 	function prepare_data( $drop = array() ) {
 		return $drop;
+	}
+
+	function construct_query( $drop ) {
+
 	}
 
 	// Just for the sake of UI friendliness adding post_title and post_excerpt to returned data;
@@ -72,7 +71,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		<label>Parameters</label>
 
 		<div class="drop-input-wrapper">			
-			<select name="data[key][]" class="drop-query-parameter">
+			<select name="data[key][]" class="drop-query-parameter create-drop-parameter">
 				<?php foreach ( self::$_allowed_query_args as $key => $label ): ?>
 					<option value="<?php echo $key ?>"><?php echo $label ?></option>
 				<?php endforeach ?>
@@ -84,6 +83,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 			<button class="button button-add-query-arg">Add another query argument</button>
 		</div>
 		<input type="hidden" name='type' value="<%- type %>" />
+
 </script>
 <?php
 	}

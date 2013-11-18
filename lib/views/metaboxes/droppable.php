@@ -39,7 +39,7 @@
 	<% _.each( types, function( value, key, types ) { %> <option value="<%= key %>"><%= value %></option><% } ); %>
     </select>
 </div>
-<div id="varyOptionsForProto"></div>
+<fieldset id="varyOptionsForProto"></fieldset>
 
 	<?php if ( isset( $_GET['post'] ) ): ?>
 	<input type="hidden" id="drop_it_post_id" name="post_id" value="<?php echo (int) $_GET['post'] ?>" />

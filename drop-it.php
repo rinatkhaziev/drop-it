@@ -744,13 +744,6 @@ class Drop_It {
 		// Try to include template located in theme first
 		$theme_tpl = locate_template( "drops/templates/{$template_name}.php" );
 
-		if ( isset( $drop['post'] ) ) {
-			// Setup global $post if it's a single
-			global $post;
-			$post = $drop['post'];
-			setup_postdata( $post );
-		}
-
 		if ( !empty( $theme_tpl ) ) {
 			load_template( $theme_tpl, false );
 		// Then try to include the one bundled with plugin
