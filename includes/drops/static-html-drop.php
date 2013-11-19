@@ -19,6 +19,7 @@ class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 
 	/**
 	 * Callback to render admin JS template
+	 * <!-- <textarea name="data" id="data" ></textarea> -->
 	 */
 	function action_di_create_drop_templates() {
 ?>
@@ -26,9 +27,12 @@ class Static_Html_Drop_It_Drop extends Drop_It_Drop {
 <div class="drop-input-wrapper">
 	<label>HTML/Shortcodes</label>
 	<input type="text" name="title" id="title" placeholder="Title">
-	<textarea name="data" id="data" placeholder="Enter Your HTML data"></textarea>
+	<textarea name="data" id="data" ></textarea>
+	<?php //wp_editor( '' , 'data' ); ?>
+	
 </div>
 <input type="hidden" name='type' value="<%- type %>" />
+
 </script>
 <?php
 	}

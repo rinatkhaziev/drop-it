@@ -70,7 +70,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		<input type="hidden" name="data" />
 		<label>Parameters</label>
 
-		<div class="drop-input-wrapper">			
+		<div class="drop-input-wrapper drop-query-param-wrapper">			
 			<select name="data[key][]" class="drop-query-parameter create-drop-parameter">
 				<?php foreach ( self::$_allowed_query_args as $key => $label ): ?>
 					<option value="<?php echo $key ?>"><?php echo $label ?></option>
@@ -80,7 +80,7 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 		</div>
 
 		<div class="drop-input-wrapper">
-			<button class="button button-add-query-arg">Add another query argument</button>
+			<button class="button button-add-query-arg">Add another argument</button>
 		</div>
 		<input type="hidden" name='type' value="<%- type %>" />
 
