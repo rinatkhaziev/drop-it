@@ -533,8 +533,6 @@ class Drop_It {
 	function activation() {
 		// Make sure our post type rewrite is registered
 		flush_rewrite_rules();
-		// Update the option to set default drop files
-		$this->_scan_files();
 	}
 
 	/**
@@ -544,7 +542,6 @@ class Drop_It {
 	 */
 	function deactivation() {
 		flush_rewrite_rules();
-		delete_option( 'drop_it_class_files' );
 	}
 
 	/**
