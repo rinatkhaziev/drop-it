@@ -68,11 +68,11 @@ class Drop_It {
 		if ( is_array( $this->drops ) )
 			return;
 
-		// Just hardcode available drops for now and not muck around 
+		// Just hardcode available drops for now and not muck around
 		// with scanning filesystem/reading-writing options
 		$bundled = array( 'Ad', 'Query', 'Search_Box', 'Single', 'Static_Html' );
 
-		foreach( $bundled as $drop_class ) {
+		foreach ( $bundled as $drop_class ) {
 			$class_name = $drop_class . '_Drop_It_Drop';
 			$this->drops[ strtolower( $drop_class ) ] = new $class_name;
 		}
@@ -164,8 +164,9 @@ class Drop_It {
 
 	/**
 	 * Metabox callback
-	 * @param  [type] $post_id [description]
-	 * @param  [type] $metabox [description]
+	 *
+	 * @param [type]  $post_id [description]
+	 * @param [type]  $metabox [description]
 	 * @return [type]          [description]
 	 */
 	function _metabox( $post_id, $metabox ) {
@@ -175,6 +176,7 @@ class Drop_It {
 
 	/**
 	 * Some global JS vars
+	 *
 	 * @return [type] [description]
 	 */
 	function action_admin_head() {
@@ -199,7 +201,7 @@ class Drop_It {
 		}
 
 		$exclude = json_encode( $exclude );
-		?>
+?>
 
 		<script type="text/javascript">
 			var DropIt = window.DropIt || {};
@@ -219,34 +221,35 @@ class Drop_It {
 
 	/**
 	 * Sanitize payload callback
-	 * @param  [type] $payload [description]
+	 *
+	 * @param [type]  $payload [description]
 	 * @return [type]          [description]
 	 */
 	function _sanitize_payload( $payload ) {
-		
-		// 
+
+		//
 		$ptype = gettype( $payload );
 
-		// Cast to array for convenience  
+		// Cast to array for convenience
 		// Payload is always either array or object
 		$payload = (array) $payload;
 
 		// Iterate over decoded payload
-		foreach(  $payload as $key => $value ) {
+		foreach (  $payload as $key => $value ) {
 			// Check current var type
 			$type = gettype( $value );
 			switch ( $type ) {
 				// Special case for arrays and objects
-				case 'array':
-				case 'object':
-					$value = $this->_sanitize_array( $value, $type );
-					break;
+			case 'array':
+			case 'object':
+				$value = $this->_sanitize_array( $value, $type );
+				break;
 				// Treat everything else as a string
-				default:
-					$value = wp_filter_post_kses( $value );
+			default:
+				$value = wp_filter_post_kses( $value );
 			}
 
-			 // Apply any additional sanitization callback
+			// Apply any additional sanitization callback
 			$payload[$key] = apply_filters( "di_sanitize_payload_{$type}", $value, $key );
 		}
 
@@ -257,8 +260,9 @@ class Drop_It {
 
 	/**
 	 * Sanitize array callback
-	 * @param  array  $unsanitized [description]
-	 * @param  string $type        [description]
+	 *
+	 * @param array   $unsanitized [description]
+	 * @param string  $type        [description]
 	 * @return [type]              [description]
 	 */
 	function _sanitize_array( $unsanitized = array(), $type = 'array' ) {
@@ -362,7 +366,7 @@ class Drop_It {
 	/**
 	 * Handles security checks
 	 *
-	 * @param string nonce
+	 * @param string  nonce
 	 * @return bool
 	 *
 	 */
@@ -412,7 +416,7 @@ class Drop_It {
 	function sort_drops( $drops = array() ) {
 
 		// Bail if we don't have any drops
-		if ( empty($drops ) )
+		if ( empty( $drops ) )
 			return $drops;
 
 		$prepared = array();
@@ -499,7 +503,8 @@ class Drop_It {
 
 	/**
 	 * Update a collection of drops
-	 * @param  array  $drops [description]
+	 *
+	 * @param array   $drops [description]
 	 * @return [type]        [description]
 	 */
 	function update_collection( $drops = array() ) {
@@ -550,15 +555,15 @@ class Drop_It {
 	 */
 	function _render( $view_slug = '', $pre = '<div class="wrap">', $after = '</div>' ) {
 		ob_start();
-		
+
 		// Sanitize the slug a bit
 		$a = explode( '/', $view_slug );
 		$a = array_map( function( $i ) {
-			return sanitize_file_name( $i );
-		}, $a );
+				return sanitize_file_name( $i );
+			}, $a );
 
 		$view_slug =  join( '/', $a );
-		
+
 		$file = DROP_IT_ROOT .'/lib/views/' . $view_slug . '.php';
 
 		if ( file_exists( $file ) )
@@ -626,7 +631,7 @@ class Drop_It {
 	/**
 	 * Get zone id by slug
 	 *
-	 * @param  string $slug zone slug
+	 * @param string  $slug zone slug
 	 * @return (bool|int)    zone id
 	 */
 	function get_zone_id_by_slug( $slug = '' ) {
@@ -635,7 +640,7 @@ class Drop_It {
 		// Check if we have cached zone and return if we do
 		if ( false !== $zone = wp_cache_get( $cache_key, $this->key ) )
 			return $zone->ID;
-		
+
 		// If not, get it
 		$zone = get_page_by_path( $slug, OBJECT, 'di-zone' );
 
@@ -664,7 +669,7 @@ class Drop_It {
 	/**
 	 * Shortcode callback
 	 *
-	 * @param  array  $atts shortcode attributes
+	 * @param array   $atts shortcode attributes
 	 * @return string rendered shortcode
 	 */
 	function _render_shortcode( $atts ) {
@@ -729,8 +734,9 @@ class Drop_It {
 
 	/**
 	 * v0.1 version of rendering method
-	 * @param  string $template_name [description]
-	 * @param  array  $drop_data     [description]
+	 *
+	 * @param string  $template_name [description]
+	 * @param array   $drop_data     [description]
 	 * @return [type]                [description]
 	 */
 	function render_frontend_drop( $template_name = '', $drop_data = array() ) {
@@ -746,7 +752,7 @@ class Drop_It {
 
 		if ( !empty( $theme_tpl ) ) {
 			load_template( $theme_tpl, false );
-		// Then try to include the one bundled with plugin
+			// Then try to include the one bundled with plugin
 		} else {
 			$plugin_tpl = DROP_IT_ROOT . "/lib/views/templates/{$template_name}.php";
 			if ( file_exists( $plugin_tpl ) )
