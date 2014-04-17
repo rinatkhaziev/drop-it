@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Drop It
+Plugin Name: Drop It (Drag and Drop Layout Manager)
 Plugin URI: http://digitallyconscious.com
 Description: Easy drag and drop layout management for WordPress
 Author: Rinat Khaziev, Samantha Geitz, Timur Zaynullin
