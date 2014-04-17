@@ -7,15 +7,12 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 	// Array 
 	static $_allowed_query_args = array(
 		// Author
-		'author' => 'Author',
 		'author_name' => 'Author slug',
 		// Category
 		'cat' => 'Category ID',
 		'category_name' => 'Category slug',
 		'category__in' => 'Include categories (ids)',
 		'category__not_in' => 'Exclude categories (ids)',
-		// Tax query
-		'tax_query' => 'Taxonomy Query',
 	);
 
 
