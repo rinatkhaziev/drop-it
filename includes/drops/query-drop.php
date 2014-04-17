@@ -61,8 +61,6 @@ class Query_Drop_It_Drop extends Drop_It_Drop {
 ?>
 <script type="text/template" id="query_create_drop_template">
 	<p>Most of the parameters accept comma separated values. Check out <a target="_blank" href="http://codex.wordpress.org/Class_Reference/WP_Query#Parameters">WP_Query reference</a></p>
-	<p>For Taxonomy query use special format: taxonomy:taxonomy_slug; field:slug; terms:terms,comma,separated<br/>
-		E.g. : taxonomy:category; field:slug; terms: news,rumors</p>
 		<div class="drop-input-wrapper">
 			<label>Title</label>
 			<input type="text" name="title" id="title" placeholder="Title" />
