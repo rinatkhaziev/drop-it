@@ -463,11 +463,6 @@ class Drop_It {
 			$meta_id = $wpdb->get_var(
 				$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
-			if ( $payload->type == 'single' ) {
-				$post = get_post( $payload->data, 'ARRAY_A' );
-				$extra['post_title'] = $post['post_title'];
-			}
-
 			// Add any extra data for UI
 			if ( is_callable( array( $this->drops[ $payload->type ], 'add_extra_info_for_ui' ) ) )
 				$extra = (array) $this->drops[ $payload->type ]->add_extra_info_for_ui( $payload );
