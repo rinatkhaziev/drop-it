@@ -566,12 +566,6 @@ class Drop_It {
 		if ( $screen->base != 'post' || $screen->post_type != 'di-zone' )
 			return;
 
-		// @todo Test $wp_version < 3.6
-		if ( version_compare( floatval( $wp_version ), 3.6 ) == -1  ) {
-			wp_deregister_script( 'backbone' );
-			wp_register_script( 'backbone', DROP_IT_URL . 'lib/vendor/backbone.js', array( 'jquery', 'underscore' ), false, true );
-		}
-
 		// Models
 		wp_enqueue_script( 'di-drop-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
 		wp_enqueue_script( 'di-drop-dropproto-model', DROP_IT_URL . 'lib/js/models/dropproto.js', array( 'jquery', 'backbone' ), false, true );
