@@ -81,4 +81,13 @@ abstract class Drop_It_Drop {
 		// Cuz why not
 		return (object) array_merge( self::$_props, (array) $payload );
 	}
+
+	/**
+	 * Validation method, returns true by default, should be implemented in each Drop_It_Drop subclass
+	 * @param  object  $payload payload
+	 * @return boolean          true
+	 */
+	function is_drop_valid( $payload ) {
+		return true;
+	}
 }
