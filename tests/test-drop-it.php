@@ -21,7 +21,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function test_available_drops() {
-		$this->assertInternalType( 'array', $this->di->drops, 'message');
+		$this->assertInternalType( 'array', $this->di->drops, 'message' );
 		$this->assertNotEmpty( $this->di->drops );
 	}
 
@@ -34,7 +34,14 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	function test_create_drop() {
 		// Test successful creation of static drop
 		$post_id = $this->factory->post->create( array( 'post_type' => 'di-zone' ) );
-		$payload = (object) array( 'type' => 'static_html', 'data' => 'test', 'post_id' => $post_id );
+		$payload = (object) array(
+			'type' => 'static_html',
+			'data' => 'test',
+			'post_id' => $post_id,
+			'title' => 'Test title',
+			'row' => '',
+			'column' => '',
+			'width' => '' );
 		$drop_result = json_decode( $this->di->create_drop( $payload ) );
 		$this->assertInternalType( 'object', $drop_result );
 		$this->assertGreaterThan( 0, $drop_result->meta_id );
@@ -43,13 +50,20 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	function test_create_drop_failure() {
 		// Test failed creation of static drop
 		$post_id = $this->factory->post->create( array( 'post_type' => 'di-zone' ) );
-		$payload = (object) array( 'type' => 'unexpected', 'data' => 'test', 'post_id' => $post_id );
+		$payload = (object) array(
+			'type' => 'unexpected',
+			'data' => 'test',
+			'post_id' => $post_id,
+			'title' => 'Test title',
+			'row' => '',
+			'column' => '',
+			'width' => '' );
 		$this->assertFalse( $this->di->create_drop( $payload ) );
 	}
 
 	// Check if errors are handled properly
 	function test_error_handling() {
-		$this->assertTrue( true, 'message');
+		$this->assertTrue( true, 'message' );
 	}
 	/**
 	 * [test_ajax_search description]

@@ -444,11 +444,13 @@ class Drop_It {
 	 * @return mixed  int of freshly created drop on success or false on failure
 	 */
 	function create_drop( $payload ) {
+
 		global $wpdb;
 		// Array to hold additional per drop properties
 		$extra = array();
 
 		if ( (int) $payload->post_id != 0 ) {
+
 			$drop = array(
 				'type' => $payload->type,
 				'title' => $payload->title,
@@ -457,9 +459,8 @@ class Drop_It {
 				'column' => (int) $payload->column,
 				'row' => (int) $payload->row
 			);
-
-
 			add_post_meta( (int) $payload->post_id, '_drop', $drop );
+
 			$meta_id = $wpdb->get_var(
 				$wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id=%s AND meta_key='_drop' ORDER BY meta_id DESC LIMIT 1", $payload->post_id ) );
 
@@ -470,6 +471,7 @@ class Drop_It {
 			return json_encode( array( 'meta_id' => (int) $meta_id ) + $extra );
 
 		}
+
 		return false;
 	}
 
