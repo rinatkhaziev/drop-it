@@ -8,10 +8,20 @@
  */
 abstract class Drop_It_Drop {
 	public static $_id = 'drop_it_drop';
+	public static $_props = array(
+		'type' => '',
+		'title' => '',
+		'data' => '',
+		'width' => '',
+		'column' => '',
+		'row' => '',
+	);
+
 	public $id,
 	$label,
 	$template,
 	$options;
+
 	/**
 	 * Constructor
 	 *
@@ -55,7 +65,7 @@ abstract class Drop_It_Drop {
 	 */
 	function action_di_create_drop_templates() {
 		// Should be implementend in child classes
-	}	
+	}
 
 	/**
 	 * Callback to render admin JS template
@@ -65,5 +75,10 @@ abstract class Drop_It_Drop {
 	 */
 	function action_di_edit_drop_templates() {
 		// Should be implementend in child classes
+	}
+
+	static function payload( $payload = stdObj ) {
+		// Cuz why not
+		return (object) array_merge( self::$_props, (array) $payload );
 	}
 }

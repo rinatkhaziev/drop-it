@@ -451,14 +451,7 @@ class Drop_It {
 
 		if ( (int) $payload->post_id != 0 ) {
 
-			$drop = array(
-				'type' => $payload->type,
-				'title' => $payload->title,
-				'data' => $payload->data,
-				'width' => (int) $payload->width,
-				'column' => (int) $payload->column,
-				'row' => (int) $payload->row
-			);
+			$drop = Drop_It_Drop::payload( $payload );
 			add_post_meta( (int) $payload->post_id, '_drop', $drop );
 
 			$meta_id = $wpdb->get_var(
@@ -487,14 +480,8 @@ class Drop_It {
 	 * @return [type]          [description]
 	 */
 	function update_drop( $payload ) {
-		$drop = array(
-			'type' => $payload->type,
-			'title' => $payload->title,
-			'data' => $payload->data,
-			'width' => (int) $payload->width,
-			'column' => (int) $payload->column,
-			'row' => (int) $payload->row
-		);
+		$drop = Drop_It_Drop::payload( $payload );
+
 		update_metadata_by_mid( 'post', $payload->drop_id, $drop, $meta_key = false );
 	}
 
