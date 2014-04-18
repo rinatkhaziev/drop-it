@@ -607,24 +607,24 @@ class Drop_It {
 	 * Get zone id by slug
 	 *
 	 * @param string  $slug zone slug
-	 * @return (bool|int)    zone id
+	 * @return (bool|int)    zone ID or false on failure
 	 */
 	function get_zone_id_by_slug( $slug = '' ) {
 		$cache_key = "zone_{$slug}";
 
-		// Check if we have cached zone and return if we do
-		if ( false !== $zone = wp_cache_get( $cache_key, $this->key ) )
-			return $zone->ID;
+		// Check if we have cached zone ID and return if we do
+		if ( false !== $zone_id = wp_cache_get( $cache_key, $this->key ) )
+			return $zone_id;
 
-		// If not, get it
+		// If not, get the zone post
 		$zone = get_page_by_path( $slug, OBJECT, 'di-zone' );
 
 		// Bail if nothing found
 		if ( !isset( $zone->ID ) )
 			return false;
 
-		// Add zone to cache
-		wp_cache_add( $cache_key, $zone, $this->key );
+		// Add zone ID to cache
+		wp_cache_add( $cache_key, $zone->ID, $this->key );
 
 		// Return Zone ID
 		return $zone->ID;
