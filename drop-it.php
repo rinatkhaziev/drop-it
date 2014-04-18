@@ -147,76 +147,61 @@ class Drop_It {
 	}
 
 	/**
-	 * Add meta boxes for drop it zones
-	 */
-	function action_add_meta_boxes() {
-		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
-		add_meta_box(
-			"drop_it_layout_droppable{$suffix}",
-			__( 'Drop It Here!', 'drop-it' ),
-			array( $this, '_metabox' ),
-			'di-zone',
-			'normal',
-			'default',
-			array( 'view' => "droppable{$suffix}" )
-		);
-	}
-
-	/**
-	 * Metabox callback
-	 *
-	 * @param [type]  $post_id [description]
-	 * @param [type]  $metabox [description]
-	 * @return [type]          [description]
-	 */
-	function _metabox( $post_id, $metabox ) {
-		extract( $metabox['args'] );
-		$this->_render( 'metaboxes/' . $view );
-	}
-
-	/**
-	 * Some global JS vars
+	 * Route AJAX actions to CRUD methods
 	 *
 	 * @return [type] [description]
 	 */
-	function action_admin_head() {
-		$screen = get_current_screen();
-		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-zone' )
-			return;
+	function _route_ajax_actions() {
 
-		// Sanitize post id
-		$zone_id = absint( $_GET['post'] );
-
-		// Get teh drops
-		$drops = $this->get_drops_for_layout( $zone_id );
-
-		// Array of post IDs to exclude from autocomplete search
-		$exclude = array();
-
-		foreach ( $drops as $drop ) {
-			// Add the post id to array of posts that should be excluded in autocomplete search
-			if ( $drop['type'] == 'single' ) {
-				$exclude[] = (int) $drop['data'];
-			}
+		if ( !isset( $_GET['drop_it_nonce'] ) || false === $this->_check_perms_and_nonce( $_GET['drop_it_nonce'] ) ) {
+			echo json_encode( array( 'error' => __( 'Security check failed', 'drop-it' ) ) );
+			exit;
 		}
 
-		$exclude = json_encode( $exclude );
-?>
+		// Read and decode JSON payload fro
+		$payload = json_decode( file_get_contents( 'php://input' ) );
 
-		<script type="text/javascript">
-			var DropIt = window.DropIt || {};
-			DropIt.Admin = {};
-			// All the drops for this layout
-			DropIt.Admin.drops = <?php echo json_encode( $drops ); ?>;
-			// Layout ID
-			DropIt.Admin.layout_id = '<?php echo esc_js( $zone_id ) ?>';
-			// Array of post IDs excluded from autocomplete search
-			DropIt.Admin.autocomplete_exclude = <?php echo $exclude ?>;
-			// Array of registered drop types
-			DropIt.Admin.drop_types = <?php echo json_encode( $this->drops ) ?>;
-			DropIt.Admin.nonce = '<?php echo wp_create_nonce( DROP_IT_FILE_PATH ) ?>';
-		</script>
-		<?php
+		// Sanitize payload
+		$payload = $this->_sanitize_payload( $payload );
+
+		if ( !empty( $payload ) && isset( $payload->action ) ) {
+			switch ( $payload->action ) {
+			case 'create_drop':
+				$result = $this->create_drop( $payload );
+				if ( ! $result ) {
+					status_header( 701 );
+					$result = __( "The drop you're trying to save is invalid", 'drop-it' );
+				}
+				echo $result;
+				break;
+
+			case 'get_drop':
+				echo $this->get_drop( $payload );
+				break;
+
+			case 'update_drop':
+				echo $this->update_drop( $payload );
+				break;
+
+			case 'delete_drop':
+				echo $this->delete_drop( $payload->drop_id );
+				break;
+			}
+
+			exit;
+		}
+
+		/**
+		 * Prototype of handling CRUD actions for collections
+		 */
+		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
+			switch ( $_REQUEST['mode'] ) {
+			case 'update_collection':
+				$this->update_collection( $payload );
+				break;
+			}
+			exit;
+		}
 	}
 
 	/**
@@ -275,64 +260,6 @@ class Drop_It {
 		}
 
 		return  $type == 'array' ? $return : (object) $return;
-	}
-
-	/**
-	 * Route AJAX actions to CRUD methods
-	 *
-	 * @return [type] [description]
-	 */
-	function _route_ajax_actions() {
-
-		if ( !isset( $_GET['drop_it_nonce'] ) || false === $this->_check_perms_and_nonce( $_GET['drop_it_nonce'] ) ) {
-			echo json_encode( array( 'error' => __( 'Security check failed', 'drop-it' ) ) );
-			exit;
-		}
-
-		// Read and decode JSON payload fro
-		$payload = json_decode( file_get_contents( 'php://input' ) );
-
-		// Sanitize payload
-		$payload = $this->_sanitize_payload( $payload );
-
-		if ( !empty( $payload ) && isset( $payload->action ) ) {
-			switch ( $payload->action ) {
-			case 'create_drop':
-				$result = $this->create_drop( $payload );
-				if ( ! $result ) {
-					status_header( 701 );
-					$result = __( "The drop you're trying to save is invalid", 'drop-it' );
-				}
-				echo $result;
-				break;
-
-			case 'get_drop':
-				echo $this->get_drop( $payload );
-				break;
-
-			case 'update_drop':
-				echo $this->update_drop( $payload );
-				break;
-
-			case 'delete_drop':
-				echo $this->delete_drop( $payload->drop_id );
-				break;
-			}
-
-			exit;
-		}
-
-		/**
-		 * Prototype of handling CRUD actions for collections
-		 */
-		if ( isset( $_REQUEST['mode'] ) && !empty( $payload ) ) {
-			switch ( $_REQUEST['mode'] ) {
-			case 'update_collection':
-				$this->update_collection( $payload );
-				break;
-			}
-			exit;
-		}
 	}
 
 	/**
@@ -510,6 +437,49 @@ class Drop_It {
 	}
 
 	/**
+	 * Get drops meta data, format it, and return
+	 *
+	 * @param int     $zone_id Drop It Zone post_id
+	 * @return array
+	 */
+	function get_drops_for_zone( $zone_id ) {
+		// Bail if $zone_id is malformed
+		if ( (int) $zone_id === 0 )
+			return false;
+
+		$drops = get_post_meta( $zone_id, '_drop' );
+
+		return $drops;
+	}
+
+	/**
+	 * Get zone id by slug
+	 *
+	 * @param string  $slug zone slug
+	 * @return (bool|int)    zone ID or false on failure
+	 */
+	function get_zone_id_by_slug( $slug = '' ) {
+		$cache_key = "zone_{$slug}";
+
+		// Check if we have cached zone ID and return if we do
+		if ( false !== $zone_id = wp_cache_get( $cache_key, $this->key ) )
+			return $zone_id;
+
+		// If not, get the zone post
+		$zone = get_page_by_path( $slug, OBJECT, 'di-zone' );
+
+		// Bail if nothing found
+		if ( !isset( $zone->ID ) )
+			return false;
+
+		// Add zone ID to cache
+		wp_cache_add( $cache_key, $zone->ID, $this->key );
+
+		// Return Zone ID
+		return $zone->ID;
+	}
+
+	/**
 	 * Do activation
 	 *
 	 * @return [type] [description]
@@ -551,83 +521,6 @@ class Drop_It {
 			require $file;
 
 		echo $pre  . ob_get_clean() . $after;
-	}
-
-	/**
-	 * Register Admin scripts and styles
-	 *
-	 * @return [type] [description]
-	 */
-	function admin_enqueue_scripts() {
-		global $wp_version;
-		// Bust cache for dev
-		$screen = get_current_screen();
-		// Bail if we're somewhere else besides layout editor
-		if ( $screen->base != 'post' || $screen->post_type != 'di-zone' )
-			return;
-
-		// Models
-		wp_enqueue_script( 'di-drop-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
-		wp_enqueue_script( 'di-drop-dropproto-model', DROP_IT_URL . 'lib/js/models/dropproto.js', array( 'jquery', 'backbone' ), false, true );
-
-		// Collection
-		wp_enqueue_script( 'di-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), false, true );
-
-		// Views
-		wp_enqueue_script( 'di-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), false, true );
-		wp_enqueue_script( 'di-dropproto-view', DROP_IT_URL . 'lib/js/views/dropproto.js', array( 'jquery',  'backbone' ), false, true );
-		wp_enqueue_script( 'di-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), false, true );
-
-		// Gridster
-		wp_enqueue_script( 'di-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
-		wp_enqueue_script( 'di-serialize-object', DROP_IT_URL . 'lib/js/vendor/jquery.serialize-object.js', array( 'jquery', 'backbone' ), false, true );
-
-		// Init
-		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
-		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
-	}
-
-	/**
-	 * Get drops meta data, format it, and return
-	 *
-	 * @param int     $zone_id Drop It Zone post_id
-	 * @return array
-	 */
-	function get_drops_for_zone( $zone_id ) {
-		// Bail if $zone_id is malformed
-		if ( (int) $zone_id === 0 )
-			return false;
-
-		$drops = get_post_meta( $zone_id, '_drop' );
-
-		return $drops;
-	}
-
-	/**
-	 * Get zone id by slug
-	 *
-	 * @param string  $slug zone slug
-	 * @return (bool|int)    zone ID or false on failure
-	 */
-	function get_zone_id_by_slug( $slug = '' ) {
-		$cache_key = "zone_{$slug}";
-
-		// Check if we have cached zone ID and return if we do
-		if ( false !== $zone_id = wp_cache_get( $cache_key, $this->key ) )
-			return $zone_id;
-
-		// If not, get the zone post
-		$zone = get_page_by_path( $slug, OBJECT, 'di-zone' );
-
-		// Bail if nothing found
-		if ( !isset( $zone->ID ) )
-			return false;
-
-		// Add zone ID to cache
-		wp_cache_add( $cache_key, $zone->ID, $this->key );
-
-		// Return Zone ID
-		return $zone->ID;
 	}
 
 	/**
@@ -736,6 +629,115 @@ class Drop_It {
 		wp_reset_postdata();
 		return;
 	}
+
+	/**
+	 * Register Admin scripts and styles
+	 *
+	 * @return [type] [description]
+	 */
+	function admin_enqueue_scripts() {
+		global $wp_version;
+		// Bust cache for dev
+		$screen = get_current_screen();
+		// Bail if we're somewhere else besides layout editor
+		if ( $screen->base != 'post' || $screen->post_type != 'di-zone' )
+			return;
+
+		// Models
+		wp_enqueue_script( 'di-drop-drop-model', DROP_IT_URL . 'lib/js/models/drop.js', array( 'jquery', 'backbone' ), false, true );
+		wp_enqueue_script( 'di-drop-dropproto-model', DROP_IT_URL . 'lib/js/models/dropproto.js', array( 'jquery', 'backbone' ), false, true );
+
+		// Collection
+		wp_enqueue_script( 'di-drop-collection', DROP_IT_URL . 'lib/js/collections/drops.js', array( 'jquery',  'backbone' ), false, true );
+
+		// Views
+		wp_enqueue_script( 'di-drop-view', DROP_IT_URL . 'lib/js/views/drop.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-dropproto-view', DROP_IT_URL . 'lib/js/views/dropproto.js', array( 'jquery',  'backbone' ), false, true );
+		wp_enqueue_script( 'di-drops-view', DROP_IT_URL . 'lib/js/views/drops.js', array( 'jquery',  'backbone' ), false, true );
+
+		// Gridster
+		wp_enqueue_script( 'di-gridster', DROP_IT_URL . 'lib/js/vendor/gridster/jquery.gridster.with-extras.min.js', array( 'jquery', 'backbone', 'jquery-ui-autocomplete' ), false, true );
+		wp_enqueue_script( 'di-serialize-object', DROP_IT_URL . 'lib/js/vendor/jquery.serialize-object.js', array( 'jquery', 'backbone' ), false, true );
+
+		// Init
+		wp_enqueue_script( 'di-ui', DROP_IT_URL . 'lib/js/drop-it.js', array( 'jquery',  'backbone', 'jquery-ui-autocomplete' ), false, true );
+		wp_enqueue_style( 'drop-it', DROP_IT_URL . 'lib/css/drop-it.css' );
+	}
+
+	/**
+	 * Add meta boxes for drop it zones
+	 */
+	function action_add_meta_boxes() {
+		$suffix = !isset( $_GET['post'] ) ? '_new_post' : '';
+		add_meta_box(
+			"drop_it_layout_droppable{$suffix}",
+			__( 'Drop It Here!', 'drop-it' ),
+			array( $this, '_metabox' ),
+			'di-zone',
+			'normal',
+			'default',
+			array( 'view' => "droppable{$suffix}" )
+		);
+	}
+
+	/**
+	 * Metabox callback
+	 *
+	 * @param [type]  $post_id [description]
+	 * @param [type]  $metabox [description]
+	 * @return [type]          [description]
+	 */
+	function _metabox( $post_id, $metabox ) {
+		extract( $metabox['args'] );
+		$this->_render( 'metaboxes/' . $view );
+	}
+
+	/**
+	 * Some global JS vars
+	 *
+	 * @return [type] [description]
+	 */
+	function action_admin_head() {
+		$screen = get_current_screen();
+		if ( !isset( $_GET['post'] ) || $screen->base != 'post' ||  $screen->post_type != 'di-zone' )
+			return;
+
+		// Sanitize post id
+		$zone_id = absint( $_GET['post'] );
+
+		// Get teh drops
+		$drops = $this->get_drops_for_layout( $zone_id );
+
+		// Array of post IDs to exclude from autocomplete search
+		$exclude = array();
+
+		foreach ( $drops as $drop ) {
+			// Add the post id to array of posts that should be excluded in autocomplete search
+			if ( $drop['type'] == 'single' ) {
+				$exclude[] = (int) $drop['data'];
+			}
+		}
+
+		$exclude = json_encode( $exclude );
+?>
+
+		<script type="text/javascript">
+			var DropIt = window.DropIt || {};
+			DropIt.Admin = {};
+			// All the drops for this layout
+			DropIt.Admin.drops = <?php echo json_encode( $drops ); ?>;
+			// Layout ID
+			DropIt.Admin.layout_id = '<?php echo esc_js( $zone_id ) ?>';
+			// Array of post IDs excluded from autocomplete search
+			DropIt.Admin.autocomplete_exclude = <?php echo $exclude ?>;
+			// Array of registered drop types
+			DropIt.Admin.drop_types = <?php echo json_encode( $this->drops ) ?>;
+			DropIt.Admin.nonce = '<?php echo wp_create_nonce( DROP_IT_FILE_PATH ) ?>';
+		</script>
+		<?php
+	}
+
+
 }
 
 /**
