@@ -677,7 +677,7 @@ class Drop_It {
 			return;
 
 		// At last render
-		return $this->_render_drops( $zone_drops );
+		return $this->_render_frontend_drops( $zone_drops );
 	}
 
 	/**
@@ -686,7 +686,7 @@ class Drop_It {
 	 * @param array   $drops Drops to render
 	 * @return string Processed HTML
 	 */
-	function _render_drops( $drops = array() ) {
+	function _render_frontend_drops( $drops = array() ) {
 		$this->register_drops();
 		ob_start();
 		foreach ( $drops as $drop ) {
