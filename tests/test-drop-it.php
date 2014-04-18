@@ -13,19 +13,15 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 	 */
 	function setup() {
 		parent::setup();
-		global $drop_it;
-		$this->di = $drop_it;
+		$this->di = new Drop_It;
+		$this->di->register_drops();
 	}
 
 	function teardown() {
 	}
 
-	// Check if settings get set up on activation
-	function test_default_settings() {
-		$this->assertNotEmpty( $this->di->settings );
-	}
-
 	function test_available_drops() {
+		$this->assertInternalType( 'array', $this->di->drops, 'message');
 		$this->assertNotEmpty( $this->di->drops );
 	}
 
@@ -53,6 +49,7 @@ class Drop_It_UnitTestCase extends WP_UnitTestCase {
 
 	// Check if errors are handled properly
 	function test_error_handling() {
+		$this->assertTrue( true, 'message');
 	}
 	/**
 	 * [test_ajax_search description]
