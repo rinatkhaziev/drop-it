@@ -1,6 +1,7 @@
 Drop It
 ======
-![Build Status](https://magnum-ci.com/status/834724296817537285abf7da3a3c62e9.png)
+
+*THIS IS AN ABANDONED PLUGIN, IT WAS NEVER FINISHED*. Don't bother liking/forking it. Use Gutenberg instead. 
 
 ## Description
 TL;DR: Drag and drop layout management framework for WordPress. Comes with a set of widgets aka "drops".
